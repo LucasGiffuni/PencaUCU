@@ -1,0 +1,26 @@
+.Home-Component-Container {
+    /* background-color: red; */
+
+    height: 97vh;
+    width: 100vw;
+}
+
+.Groups-Component-Container{
+    display: flex;
+    flex-wrap: wrap; /* Permitir que los elementos se envuelvan en múltiples líneas */
+    justify-content: center; /* Alinear horizontalmente los elementos */
+}
+
+.Card-Container{
+    width: calc(100% / 6); /* Establecer el ancho de cada elemento para que haya 6 en una fila */
+    margin:0.5%;
+}
+.Card-Container-Title{
+    margin-left: 5%;
+}
+.Accordion-Groups{
+    position: fixed; /* Posición fija en la ventana del navegador */
+    bottom: 0;
+    width: 100%;
+    border: 1px black;
+}
