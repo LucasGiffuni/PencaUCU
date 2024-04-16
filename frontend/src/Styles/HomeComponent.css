@@ -1,26 +1,65 @@
 .Home-Component-Container {
-    /* background-color: red; */
+  /* background-color: red; */
 
-    height: 97vh;
-    width: 100vw;
-}
-
-.Groups-Component-Container{
-    display: flex;
-    flex-wrap: wrap; /* Permitir que los elementos se envuelvan en múltiples líneas */
-    justify-content: center; /* Alinear horizontalmente los elementos */
+  height: 97vh;
+  width: 100vw;
 }
 
-.Card-Container{
-    width: calc(100% / 6); /* Establecer el ancho de cada elemento para que haya 6 en una fila */
-    margin:0.5%;
+.Groups-Component-Container {
+  display: flex;
+  flex-wrap: wrap; /* Permitir que los elementos se envuelvan en múltiples líneas */
+  justify-content: center; /* Alinear horizontalmente los elementos */
+
 }
-.Card-Container-Title{
-    margin-left: 5%;
+.Accordion-Groups {
+  border: 2px black solid;
+  z-index: 2; /* Adjust this value to change the stacking order */
+
 }
-.Accordion-Groups{
-    position: fixed; /* Posición fija en la ventana del navegador */
-    bottom: 0;
-    width: 100%;
-    border: 1px black;
+.Card-Container {
+  width: calc(
+    100% / 6
+  ); /* Establecer el ancho de cada elemento para que haya 6 en una fila */
+  margin: 0.5%;
+}
+.Card-Container-Title {
+  margin-left: 5%;
+}
+.Accordion-Groups {
+  position: fixed; /* Posición fija en la ventana del navegador */
+  bottom: 0;
+  width: 100%;
+  border: 1px black;
+}
+
+.Card-Container-Item {
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Establishes the containing block for the positioned div */
+}
+
+.Card-Container-Item-CountryName {
+  flex: 95; /* Take up 95% of the available space */
+  display: inline-block; /* or inline-flex, or inline-grid */
+}
+
+.Card-Container-Item-CountryPoints {
+  flex: 5; /* Take up 95% of the available space */
+  right: 0;
+  display: inline-block; /* or inline-flex, or inline-grid */
+  position: absolute; /* Establishes the containing block for the positioned div */
+  margin-right: 10%;
+}
+
+.Home-Component-MatchDisplayComponent {
+  width: 100%;
+  height: 50%;
+  border: 5px black solid;
+  z-index: 1; /* Adjust this value to change the stacking order */
+
+}
+
+.PlaceHolder-Image-Component{
+  height: 375px;
+  width: 100%;
 }
