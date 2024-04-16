@@ -7,26 +7,33 @@
 
 .Groups-Component-Container {
   display: flex;
-  flex-wrap: wrap; /* Permitir que los elementos se envuelvan en múltiples líneas */
-  justify-content: center; /* Alinear horizontalmente los elementos */
+  flex-wrap: wrap;
+  /* Permitir que los elementos se envuelvan en múltiples líneas */
+  justify-content: center;
+  /* Alinear horizontalmente los elementos */
 
 }
+
 .Accordion-Groups {
   border: 2px black solid;
-  z-index: 2; /* Adjust this value to change the stacking order */
+  z-index: 2;
+  /* Adjust this value to change the stacking order */
 
 }
+
 .Card-Container {
-  width: calc(
-    100% / 6
-  ); /* Establecer el ancho de cada elemento para que haya 6 en una fila */
+  width: calc(100% / 6);
+  /* Establecer el ancho de cada elemento para que haya 6 en una fila */
   margin: 0.5%;
 }
+
 .Card-Container-Title {
   margin-left: 5%;
 }
+
 .Accordion-Groups {
-  position: fixed; /* Posición fija en la ventana del navegador */
+  position: fixed;
+  /* Posición fija en la ventana del navegador */
   bottom: 0;
   width: 100%;
   border: 1px black;
@@ -35,31 +42,100 @@
 .Card-Container-Item {
   display: flex;
   flex-direction: column;
-  position: relative; /* Establishes the containing block for the positioned div */
+  position: relative;
+  /* Establishes the containing block for the positioned div */
 }
 
 .Card-Container-Item-CountryName {
-  flex: 95; /* Take up 95% of the available space */
-  display: inline-block; /* or inline-flex, or inline-grid */
+  flex: 80;
+  /* Take up 95% of the available space */
+  display: inline-block;
+  /* or inline-flex, or inline-grid */
+}
+
+.Card-Container-Item-CountryFlag {
+  flex: 15;
+  display: inline-block;
+  width: 20%;
+  height: 75%;
+  margin-right: 10%;
+
+}
+
+.Card-Container-Item-Flag {
+  width: 100%;
+  /* Ancho del cuadrado, el 50% del contenedor padre */
+  position: relative;
+  /* Necesario para el truco de hacer un cuadrado con padding-top */
+  background-size: cover;
+  /* Cubre todo el área del cuadrado */
+  background-position: center;
+  /* Centra la imagen */
 }
 
 .Card-Container-Item-CountryPoints {
-  flex: 5; /* Take up 95% of the available space */
+  flex: 5;
+  /* Take up 95% of the available space */
   right: 0;
-  display: inline-block; /* or inline-flex, or inline-grid */
-  position: absolute; /* Establishes the containing block for the positioned div */
+  display: inline-block;
+  /* or inline-flex, or inline-grid */
+  position: absolute;
+  /* Establishes the containing block for the positioned div */
   margin-right: 10%;
 }
 
 .Home-Component-MatchDisplayComponent {
   width: 100%;
-  height: 50%;
   border: 5px black solid;
-  z-index: 1; /* Adjust this value to change the stacking order */
+  z-index: 1;
+  /* Adjust this value to change the stacking order */
+  display: inline-block;
+
 
 }
 
-.PlaceHolder-Image-Component{
+.PlaceHolder-Image-Component {
   height: 375px;
   width: 100%;
+}
+
+.fi {
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+.Country-Matches-Container {
+  display: flex;
+  width: 100%;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  /* Utilizar flexbox para centrar verticalmente */
+  justify-content: center;
+  /* Centrar horizontalmente */
+  align-items: center;
+  /* Centrar verticalmente */
+}
+
+.right {
+  flex: 1;
+  display: flex;
+  /* Utilizar flexbox para centrar verticalmente */
+  justify-content: center;
+  /* Centrar horizontalmente */
+  align-items: center;
+  /* Centrar verticalmente */
+}
+
+.middle {
+  flex: 0 0 20%;
+  display: flex;
+  /* Utilizar flexbox para centrar verticalmente */
+  justify-content: center;
+  /* Centrar horizontalmente */
+  align-items: center;
+  /* Centrar verticalmente */
 }
