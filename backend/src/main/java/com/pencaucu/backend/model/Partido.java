@@ -5,13 +5,23 @@ import java.time.LocalDateTime;
 public class Partido {
 
     private String id;
+    private String idEquipo1;
+    private String puntajeEquipo1;
+    private String idEquipo2;
+    private String puntajeEquipo2;
+    private String fecha;
     private String etapa;
-    private Equipo equipo1;
-    private int puntajeEquipo1;
-    private Equipo equipo2;
-    private int puntajeEquipo2;
-    private LocalDateTime fecha;
     private String camino;
+    private String idGanador;
+    private String jugado;
+
+    public String getJugado() {
+        return jugado;
+    }
+
+    public void setJugado(String jugado) {
+        this.jugado = jugado;
+    }
 
     public String getId() {
         return id;
@@ -20,36 +30,21 @@ public class Partido {
     public void setId(String id) {
         this.id = id;
     }
-
-    public Equipo getEquipo1() {
-        return equipo1;
-    }
-
-    public void setEquipo1(Equipo equipo1) {
-        this.equipo1 = equipo1;
-    }
-
-    public int getPuntajeEquipo1() {
+    
+    public String getPuntajeEquipo1() {
         return puntajeEquipo1;
     }
 
-    public void setPuntajeEquipo1(int puntajeEquipo1) {
+    public void setPuntajeEquipo1(String puntajeEquipo1) {
         this.puntajeEquipo1 = puntajeEquipo1;
     }
 
-    public Equipo getEquipo2() {
-        return equipo2;
-    }
 
-    public void setEquipo2(Equipo equipo2) {
-        this.equipo2 = equipo2;
-    }
-
-    public int getPuntajeEquipo2() {
+    public String getPuntajeEquipo2() {
         return puntajeEquipo2;
     }
 
-    public void setPuntajeEquipo2(int puntajeEquipo2) {
+    public void setPuntajeEquipo2(String puntajeEquipo2) {
         this.puntajeEquipo2 = puntajeEquipo2;
     }
 
@@ -61,20 +56,44 @@ public class Partido {
         this.camino = camino;
     }
 
-    public LocalDateTime getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
-    }
-
     public String getEtapa() {
         return etapa;
     }
 
     public void setEtapa(String etapa) {
         this.etapa = etapa;
+    }
+
+    public String getIdEquipo1() {
+        return idEquipo1;
+    }
+
+    public void setIdEquipo1(String idEquipo1) {
+        this.idEquipo1 = idEquipo1;
+    }
+
+    public String getIdEquipo2() {
+        return idEquipo2;
+    }
+
+    public void setIdEquipo2(String idEquipo2) {
+        this.idEquipo2 = idEquipo2;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getIdGanador() {
+        return idGanador;
+    }
+
+    public void setIdGanador(String idGanador) {
+        this.idGanador = idGanador;
     }
 
 }

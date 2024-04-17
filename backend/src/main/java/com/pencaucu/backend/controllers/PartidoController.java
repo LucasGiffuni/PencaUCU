@@ -7,6 +7,7 @@ import com.pencaucu.backend.model.Partido;
 import com.pencaucu.backend.model.responses.CrearPartidoResponse;
 import com.pencaucu.backend.services.PartidoService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class PartidoController {
     }
 
     @GetMapping("/getPartidos")
-    public ResponseEntity<List<Partido>> getPartidos() {
+    public ResponseEntity<List<Partido>> getPartidos() throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.getPartidos());
     }
 
