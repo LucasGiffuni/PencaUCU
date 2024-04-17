@@ -43,7 +43,7 @@ export default function MatchDisplayComponent() {
       <Carousel>
         {Matches.map((match, i) => {
           return (
-            <Carousel.Item>
+            <Carousel.Item key={i}>
               <PlaceholderExamplePlaceholder />
               <Carousel.Caption>
                 <h1>{match.stage}</h1>

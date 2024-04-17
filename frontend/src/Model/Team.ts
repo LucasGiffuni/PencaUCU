@@ -1,5 +1,5 @@
 interface ITeam{
-    teamID: Number,
+    teamID: number,
     name: string,
     flagUrl: string,
     groupPoints: number,

@@ -44,6 +44,14 @@
   flex-direction: column;
   position: relative;
   /* Establishes the containing block for the positioned div */
+
+
+}
+
+.Card-Container-Item:hover {
+  background-color: #083c87;
+  cursor: pointer;
+
 }
 
 .Card-Container-Item-CountryName {
@@ -139,3 +147,9 @@
   align-items: center;
   /* Centrar verticalmente */
 }
+
+.NavBar-Avatar-Component {
+  right: 0;
+  margin-right: 2%;
+}
+
