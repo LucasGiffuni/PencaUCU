@@ -1,0 +1,349 @@
+.Home-Component-Container {
+  /* background-color: red; */
+
+  height: 97vh;
+  width: 100vw;
+}
+
+.Groups-Component-Container {
+  display: flex;
+  flex-wrap: wrap;
+  /* Permitir que los elementos se envuelvan en múltiples líneas */
+  justify-content: center;
+  /* Alinear horizontalmente los elementos */
+
+}
+
+.Accordion-Groups {
+  border: 2px black solid;
+  z-index: 2;
+  /* Adjust this value to change the stacking order */
+
+}
+
+.Card-Container {
+  width: calc(100% / 6);
+  /* Establecer el ancho de cada elemento para que haya 6 en una fila */
+  margin: 0.5%;
+}
+
+.Card-Container-Title {
+  margin-left: 5%;
+}
+
+.Accordion-Groups {
+  position: fixed;
+  /* Posición fija en la ventana del navegador */
+  bottom: 0;
+  width: 100%;
+  border: 1px black;
+}
+
+.Card-Container-Item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* Establishes the containing block for the positioned div */
+
+
+}
+
+.Card-Container-Item:hover {
+  background-color: #083c87;
+  cursor: pointer;
+
+}
+
+.Card-Container-Item-CountryName {
+  flex: 80;
+  /* Take up 95% of the available space */
+  display: inline-block;
+  /* or inline-flex, or inline-grid */
+}
+
+.Card-Container-Item-CountryFlag {
+  flex: 15;
+  display: inline-block;
+  width: 20%;
+  height: 75%;
+  margin-right: 10%;
+
+}
+
+.Card-Container-Item-Flag {
+  width: 100%;
+  /* Ancho del cuadrado, el 50% del contenedor padre */
+  position: relative;
+  /* Necesario para el truco de hacer un cuadrado con padding-top */
+  background-size: cover;
+  /* Cubre todo el área del cuadrado */
+  background-position: center;
+  /* Centra la imagen */
+}
+
+.Card-Container-Item-CountryPoints {
+  flex: 5;
+  /* Take up 95% of the available space */
+  right: 0;
+  display: inline-block;
+  /* or inline-flex, or inline-grid */
+  position: absolute;
+  /* Establishes the containing block for the positioned div */
+  margin-right: 10%;
+}
+
+.Home-Component-MatchDisplayComponent {
+  width: 100%;
+  border: 5px black solid;
+  z-index: 1;
+  /* Adjust this value to change the stacking order */
+  display: inline-block;
+
+
+}
+
+.PlaceHolder-Image-Component {
+  height: 375px;
+  width: 100%;
+}
+
+.fi {
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+.Country-Matches-Container {
+  display: flex;
+  width: 100%;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  /* Utilizar flexbox para centrar verticalmente */
+  justify-content: center;
+  /* Centrar horizontalmente */
+  align-items: center;
+  /* Centrar verticalmente */
+}
+
+.right {
+  flex: 1;
+  display: flex;
+  /* Utilizar flexbox para centrar verticalmente */
+  justify-content: center;
+  /* Centrar horizontalmente */
+  align-items: center;
+  /* Centrar verticalmente */
+}
+
+.middle {
+  flex: 0 0 20%;
+  display: flex;
+  /* Utilizar flexbox para centrar verticalmente */
+  justify-content: center;
+  /* Centrar horizontalmente */
+  align-items: center;
+  /* Centrar verticalmente */
+}
+
+.NavBar-Avatar-Component {
+  right: 0;
+  margin-right: 2%;
+}
+
+.NavBar-Component-Dropdown {
+  margin-right: 7.5%;
+  cursor: pointer
+}
+
+
+body {
+  background-color: #080710;
+}
+
+.Register-Component-Form {
+  width: 430px;
+  height: 75%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  background-color: #1f262a;
+
+}
+
+.background {
+  width: 430px;
+  height: 520px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  background-color: #1f262a;
+}
+
+.background .shape {
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.shape:first-child {
+  background: linear-gradient(#1845ad,
+      #23a2f6);
+  left: -80px;
+  top: -80px;
+}
+
+.shape:last-child {
+  background: linear-gradient(to right,
+      #ff512f,
+      #f09819);
+  right: -30px;
+  bottom: -80px;
+}
+
+form {
+  height: 520px;
+  width: 400px;
+  background-color: rgba(255, 255, 255, 0.13);
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+  padding: 50px 35px;
+}
+
+form * {
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  outline: none;
+  border: none;
+}
+
+form h3 {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 42px;
+  text-align: center;
+}
+
+label {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.login-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 30px;
+}
+
+
+input {
+  display: block;
+  height: 35px;
+  width: 100%;
+  background-color: rgba(49, 59, 65, .6);
+  border-radius: 3px;
+  padding: 0 10px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.login-input {
+  display: block;
+  height: 50px;
+  width: 100%;
+  background-color: rgba(49, 59, 65, .6);
+  border-radius: 3px;
+  padding: 0 10px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+::placeholder {
+  color: #e5e5e5;
+}
+
+button {
+  margin-top: 50px;
+  width: 100%;
+  background-color: #267fff;
+  color: #080710;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #083c87
+}
+
+.social {
+  margin-top: 30px;
+  display: flex;
+}
+
+.social div {
+  background: red;
+  width: 150px;
+  border-radius: 3px;
+  padding: 5px 10px 10px 5px;
+  background-color: rgba(255, 255, 255, 0.27);
+  color: #eaf0fb;
+  text-align: center;
+}
+
+.social div:hover {
+  background-color: rgba(255, 255, 255, 0.47);
+}
+
+.social .fb {
+  margin-left: 25px;
+}
+
+.social i {
+  margin-right: 4px;
+}
+
+.Login-Component-Title {
+  color: #fff;
+  font-style: bold;
+}
+
+.Login-Component-Button {
+  margin-top: 10%;
+  border-radius: 15px;
+}
+
+.Login-Component-Text {
+  margin-top: 5%;
+  right: 0;
+  text-align: right;
+}
+
+.Login-Component-RegisterText {
+  right: 0;
+  text-align: right;
+  margin-top: -5%;
+  cursor: pointer;
+  color: #267fff;
+
+}
+
+.Login-Component-RegisterText:hover {
+  color: #083c87
+}
