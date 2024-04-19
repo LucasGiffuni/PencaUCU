@@ -5,9 +5,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,31 +46,38 @@ public class PartidoService {
     private void createConection() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         this.con = DriverManager.getConnection(
-           
-        connectionString + databaseName, databaseUser, databasePassword);
-    }
 
+                connectionString + databaseName, databaseUser, databasePassword);
+    }
 
     public List<Partido> partidos = new ArrayList<Partido>();
 
-    public CrearPartidoResponse crearPartido(Equipo e1, Equipo e2) {
+    public CrearPartidoResponse crearPartido(int e1, int e2, String fecha) throws SQLException, ParseException {
         DefaultResponse DR = new DefaultResponse("200", "OK");
-        Partido partido = new Partido();
 
-        partido.setId("A1");
-        partido.setEtapa("Fase de grupos");
-        // partido.setEquipo1(e1);
-        // partido.setEquipo2(e2);
-        // partido.setFecha(LocalDateTime.of(2024, 01, 01, 12, 00, 00));
+        String sql = "INSERT INTO partido(idPartido, idEquipo1, resultadoEquipo1, idEquipo2, resultadoEquipo2, fecha, etapa, idEquipoGanador) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
 
-        partidos.add(partido);
+        preparedStmt.setInt(1, 4);
+        preparedStmt.setInt(2, e1);
+        preparedStmt.setInt(3, 0);
+        preparedStmt.setInt(4, e2);
+        preparedStmt.setInt(5, 0);
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+        Date parsedDate = dateFormat.parse(fecha);
+        Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+        
+        preparedStmt.setTimestamp(6, timestamp);
+    
+        preparedStmt.execute();
 
-        return new CrearPartidoResponse(DR, partido);
+        return new CrearPartidoResponse(DR, new Partido());
     }
 
     public List<Partido> getPartidos() throws ClassNotFoundException, SQLException {
         createConection();
-        
+
         String sql = "SELECT * FROM partido";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         ResultSet rs = preparedStmt.executeQuery();
@@ -89,9 +100,9 @@ public class PartidoService {
     public List<Partido> getProximosPartidos() {
         List<Partido> proximosPartidos = new ArrayList<Partido>();
         // for (Partido partido : this.partidos) {
-            // if (partido.getFecha().isAfter(LocalDateTime.now())) {
-            //     proximosPartidos.add(partido);
-            // }
+        // if (partido.getFecha().isAfter(LocalDateTime.now())) {
+        // proximosPartidos.add(partido);
+        // }
         // }
         return proximosPartidos;
     }
@@ -99,11 +110,12 @@ public class PartidoService {
     public List<Partido> getPartidosJugados() {
         List<Partido> proximosPartidos = new ArrayList<Partido>();
         // for (Partido partido : this.partidos) {
-        //     if (partido.getFecha().isBefore(LocalDateTime.now())) {
-        //         proximosPartidos.add(partido);
-        //     }
+        // if (partido.getFecha().isBefore(LocalDateTime.now())) {
+        // proximosPartidos.add(partido);
         // }
-        // List<Partido> proximosPartidos = this.partidos.stream().filter(p -> p.getFecha().isBefore(LocalDateTime.now())).collect(Collectors.toList());
+        // }
+        // List<Partido> proximosPartidos = this.partidos.stream().filter(p ->
+        // p.getFecha().isBefore(LocalDateTime.now())).collect(Collectors.toList());
         return proximosPartidos;
     }
 

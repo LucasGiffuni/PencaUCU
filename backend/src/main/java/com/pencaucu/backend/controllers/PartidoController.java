@@ -8,6 +8,7 @@ import com.pencaucu.backend.model.responses.CrearPartidoResponse;
 import com.pencaucu.backend.services.PartidoService;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController()
+@RequestMapping("/partido")
 @CrossOrigin(origins = "*")
 public class PartidoController {
     
@@ -28,8 +32,8 @@ public class PartidoController {
     private PartidoService service;
 
     @PostMapping("/crearPartido")
-    public ResponseEntity<CrearPartidoResponse> crearPartido(@RequestBody List<Equipo> equipos) {
-        return ResponseEntity.ok(service.crearPartido(equipos.get(0), equipos.get(1)));
+    public ResponseEntity<CrearPartidoResponse> crearPartido(@RequestParam int idEquipo1, @RequestParam int idEquipo2, @RequestParam String fecha) throws SQLException, ParseException {
+        return ResponseEntity.ok(service.crearPartido(1, 3, "2024-01-01 12:00:00"));
     }
 
     @GetMapping("/getPartidos")

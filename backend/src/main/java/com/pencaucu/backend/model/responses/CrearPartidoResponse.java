@@ -7,6 +7,10 @@ public class CrearPartidoResponse {
     public DefaultResponse defaultResponse;
     public Partido partido;
 
+    public CrearPartidoResponse() {
+        
+    }
+
     public CrearPartidoResponse(DefaultResponse defaultResponse, Partido partido) {
         this.defaultResponse = defaultResponse;
         this.partido = partido;
