@@ -7,9 +7,7 @@ import { getTeamsByGroup } from "../Services/GroupService";
 
 import NavBarComponent from "./NavBarComponent";
 
-import { Route, Routes } from "react-router-dom";
 
-import LoginComponent from "./LoginComponent";
 
 class HomeComponent extends Component {
   render() {

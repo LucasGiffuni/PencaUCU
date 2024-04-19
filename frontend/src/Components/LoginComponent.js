@@ -9,22 +9,32 @@ const LoginComponent = (props) => {
     console.log("navigate to dashboard");
     navigate("/");
   };
+  const moveToRegister = () => {
+    console.log("navigate to dashboard");
+    navigate("/register");
+  };
+
 
   return (
-    
+
     <div>
-   
-      <form class="background" > 
+
+      <form class="background" >
         <h2 className="Login-Component-Title">Login</h2>
 
-        <label for="username">Username</label>
-        <input type="text" placeholder="Email or Phone" id="username" />
+        <label className="login-label" for="username">Username</label>
+        <input className="login-input" type="text" placeholder="Username" id="username" />
 
-        <label for="password">Password</label>
-        <input type="password" placeholder="Password" id="password" />
+        <label className="login-label" for="password">Password</label>
+        <input className="login-input" type="password" placeholder="Password" id="password" />
 
-        <button onClick={onButtonClick}>Log In</button>
-        
+        <button
+          className="Login-Component-Button"
+          onClick={onButtonClick}>Log In</button>
+
+
+        <p className="Login-Component-Text">Not a user?</p>
+        <p className="Login-Component-RegisterText" onClick={moveToRegister}>Register</p>
       </form>
     </div>
   );
