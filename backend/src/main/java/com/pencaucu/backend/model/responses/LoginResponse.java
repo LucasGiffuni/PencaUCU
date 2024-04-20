@@ -1,10 +1,12 @@
 package com.pencaucu.backend.model.responses;
 
+import com.pencaucu.backend.model.Alumno;
+
 public class LoginResponse {
 
     DefaultResponse Response;
     String JWT;
-    String Cedula;
+    Alumno alumno;
 
     public LoginResponse() {
 
@@ -26,12 +28,12 @@ public class LoginResponse {
         JWT = jWT;
     }
 
-    public String getCedula() {
-        return Cedula;
+    public Alumno getAlumno() {
+        return alumno;
     }
 
-    public void setCedula(String cedula) {
-        Cedula = cedula;
+    public void setAlumno(Alumno alumno) {
+        this.alumno = alumno;
     }
 
 }

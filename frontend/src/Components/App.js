@@ -5,7 +5,6 @@ import HomeComponent from "./HomeComponent";
 
 import { useEffect, useState } from "react";
 import LoginComponent from "./LoginComponent";
-import RegisterComponent from "./RegisterComponent";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -22,12 +21,7 @@ function App() {
             }
           />
 
-          <Route
-            path="/register"
-            element={
-              <RegisterComponent setLoggedIn={setLoggedIn} setEmail={setEmail} />
-            }
-          />
+          
           <Route
             path="/"
             element={

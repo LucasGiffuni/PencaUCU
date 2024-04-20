@@ -33,10 +33,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.google.common.hash.Hashing;
 import com.pencaucu.backend.BackendApplication;
 import com.pencaucu.backend.model.Alumno;
+import com.pencaucu.backend.model.Carrera;
 import com.pencaucu.backend.model.DatabaseUser;
 import com.pencaucu.backend.model.responses.CreateAlumnoResponse;
 import com.pencaucu.backend.model.responses.DefaultResponse;
 import com.pencaucu.backend.model.responses.LoginResponse;
+import com.pencaucu.backend.model.responses.ObtenerCarrerasResponse;
 import com.pencaucu.backend.model.responses.RegisterResponse;
 import com.pencaucu.backend.security.JwtUtilService;
 
@@ -125,15 +127,21 @@ public class UserServiceImpl {
 
             if (resultSet.getString(1).equals(encryptedpassword)) {
 
-                sql = "Select cedulaIdentidad from ALUMNO f where f.userId = ?";
+                Alumno a = new Alumno();
+                sql = "Select * from ALUMNO f where f.userId = ?";
 
                 PreparedStatement preparedStmt2 = con.prepareStatement(sql);
                 preparedStmt2.setString(1, username);
-                ResultSet resultSet2 = preparedStmt2.executeQuery();
-                resultSet2.absolute(1); // Go directly to 2nd row
 
-                System.out.println("DATA: " + resultSet.getString(1));
-                String CI = resultSet2.getString(1);
+                ResultSet resultSet2 = preparedStmt2.executeQuery();
+                while (resultSet2.next()) {
+                    a.setCedulaIdentidad(String.valueOf(resultSet2.getInt(1)));
+                    a.setNombre(resultSet2.getString(2));
+                    a.setApellido(resultSet2.getString(3));
+                    a.setFechaNacimiento(resultSet2.getDate(4).toString());
+                    a.setEmail(resultSet2.getString(5));
+                    a.setIdCarrera(String.valueOf(resultSet2.getInt(6)));
+                }
 
                 final String token = jwtUtilService
                         .generateToken(new User(username, encryptedpassword, new ArrayList<>()));
@@ -141,7 +149,7 @@ public class UserServiceImpl {
                 DefaultResponse dR = new DefaultResponse("200", "OK");
                 response.setResponse(dR);
                 response.setJWT(token);
-                response.setCedula(CI);
+                response.setAlumno(a);
                 return response;
             }
 
@@ -239,6 +247,25 @@ public class UserServiceImpl {
             return response;
 
         }
+    }
+
+    public ObtenerCarrerasResponse obtenerCarreras() throws SQLException, ClassNotFoundException {
+        createConection();
+        DefaultResponse defaultResponse = new DefaultResponse("200", "Alumno creado Correctamente");
+        List<Carrera> carreras = new ArrayList<>();
+
+        String sql = "select * from CARRERA";
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        ResultSet rs = preparedStmt.executeQuery();
+        while (rs.next()) {
+            Carrera c = new Carrera(rs.getString(1), rs.getString(2));
+            carreras.add(c);
+
+        }
+        ObtenerCarrerasResponse response = new ObtenerCarrerasResponse(defaultResponse,
+                carreras.toArray(new Carrera[0]));
+
+        return response;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.pencaucu.backend.controllers;
 
-
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 
 import javax.xml.crypto.Data;
 
@@ -37,6 +37,7 @@ import com.pencaucu.backend.BackendApplication;
 import com.pencaucu.backend.model.Alumno;
 import com.pencaucu.backend.model.responses.CreateAlumnoResponse;
 import com.pencaucu.backend.model.responses.LoginResponse;
+import com.pencaucu.backend.model.responses.ObtenerCarrerasResponse;
 import com.pencaucu.backend.model.responses.RegisterResponse;
 import com.pencaucu.backend.service.impl.UserServiceImpl;
 
@@ -53,20 +54,32 @@ public class UserController {
     public ResponseEntity<LoginResponse> validateUser(@RequestParam String user, @RequestParam String clave)
             throws NoSuchAlgorithmException {
 
-        return ResponseEntity.ok(userService.login(user, clave));
+        LoginResponse response = userService.login(user, clave);
+
+        return ResponseEntity.ok(response);
+
     }
 
     @PostMapping("/public/register")
     public ResponseEntity<RegisterResponse> createUser(@RequestParam String user, @RequestParam String clave)
             throws NoSuchAlgorithmException {
-
+        System.out.println(user);
+        System.out.println(clave);
         return ResponseEntity.ok(userService.register(user, clave));
     }
+
     @PostMapping("/alumno/crearAlumno")
     public ResponseEntity<CreateAlumnoResponse> createAlumno(@RequestBody Alumno alumno)
             throws NoSuchAlgorithmException {
 
         return ResponseEntity.ok(userService.createAlumno(alumno));
+    }
+
+    @GetMapping("/public/obtenerCarreras")
+    public ResponseEntity<ObtenerCarrerasResponse> obtenerCarreras()
+            throws NoSuchAlgorithmException, ClassNotFoundException, SQLException {
+
+        return ResponseEntity.ok(userService.obtenerCarreras());
     }
 
 }
