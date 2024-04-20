@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
@@ -40,7 +41,7 @@ function stringAvatar(name) {
   };
 }
 
-const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+const CustomToggle = React.forwardRef(({ children, onClick, name }, ref) => (
   <a
     ref={ref}
     onClick={(e) => {
@@ -51,7 +52,7 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     {children}
     <Avatar
       className="NavBar-Avatar-Component"
-      {...stringAvatar("Lucas Giffuni")}
+      {...stringAvatar(name)}
     />
   </a>
 ));
@@ -59,9 +60,19 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
 function NavBarComponent(props) {
   const navigate = useNavigate();
 
+  let alumno = JSON.parse(localStorage.getItem("alumno"));
+
   const logout = () => {
     navigate("/login");
   };
+
+
+  useEffect(() => {
+
+    let newObject = localStorage.getItem("alumno");
+    alumno = newObject;
+    console.log(alumno)
+  }, []);
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -89,7 +100,7 @@ function NavBarComponent(props) {
       </Container>
 
       <Dropdown className="NavBar-Component-Dropdown">
-        <Dropdown.Toggle as={CustomToggle} id={`dropdown-button-drop-start`} />
+        <Dropdown.Toggle as={CustomToggle} id={`dropdown-button-drop-start`} name={alumno.nombre + " " + alumno.apellido} />
         <Dropdown.Menu>
           <Dropdown.Item>Perfil</Dropdown.Item>
           <Dropdown.Item>Mis Apuestas</Dropdown.Item>

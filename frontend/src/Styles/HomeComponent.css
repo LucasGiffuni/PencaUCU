@@ -165,7 +165,7 @@ body {
 
 .Register-Component-Form {
   width: 430px;
-  height: 75%;
+  height: 85%;
   position: absolute;
   transform: translate(-50%, -50%);
   left: 50%;
@@ -246,7 +246,6 @@ label {
   display: block;
   font-size: 16px;
   font-weight: 500;
-  margin-top: 30px;
 }
 
 
@@ -346,4 +345,10 @@ button:hover {
 
 .Login-Component-RegisterText:hover {
   color: #083c87
+}
+
+.Login-Component-Alert{
+  position: relative;
+  /* Posición fija en la ventana del navegador */
+  bottom: 0;
 }
