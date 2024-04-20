@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pencaucu.backend.model.Equipo;
 import com.pencaucu.backend.model.Partido;
 import com.pencaucu.backend.model.responses.CrearPartidoResponse;
-import com.pencaucu.backend.services.PartidoService;
+import com.pencaucu.backend.service.impl.PartidoService;
 
 import java.sql.SQLException;
 import java.text.ParseException;

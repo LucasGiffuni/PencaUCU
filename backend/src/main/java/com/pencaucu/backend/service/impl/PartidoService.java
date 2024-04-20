@@ -1,4 +1,4 @@
-package com.pencaucu.backend.services;
+package com.pencaucu.backend.service.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,33 +28,11 @@ import com.pencaucu.backend.model.responses.CrearPartidoResponse;
 import com.pencaucu.backend.model.responses.DefaultResponse;
 
 @Service
-public class PartidoService {
+public class PartidoService extends AbstractService {
 
-    private Connection con;
-
-    @Value("${spring.datasource.connectionString}")
-    private String connectionString;
-    @Value("${spring.datasource.databaseName}")
-    private String databaseName;
-    @Value("${spring.datasource.databaseUsername}")
-    private String databaseUser;
-    @Value("${spring.datasource.databasePassword}")
-    private String databasePassword;
-
-    private final Logger logger = LoggerFactory.getLogger(BackendApplication.class);
-
-    private void createConection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        this.con = DriverManager.getConnection(
-
-                connectionString + databaseName, databaseUser, databasePassword);
-    }
-
-    public List<Partido> partidos = new ArrayList<Partido>();
-
+    
     public CrearPartidoResponse crearPartido(int e1, int e2, String fecha) throws SQLException, ParseException {
-        DefaultResponse DR = new DefaultResponse("200", "OK");
-
+        
         String sql = "INSERT INTO partido(idPartido, idEquipo1, resultadoEquipo1, idEquipo2, resultadoEquipo2, fecha, etapa, idEquipoGanador) values (?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
 
@@ -69,9 +47,10 @@ public class PartidoService {
         Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
         
         preparedStmt.setTimestamp(6, timestamp);
-    
+        
         preparedStmt.execute();
-
+        
+        DefaultResponse DR = new DefaultResponse("200", "OK");
         return new CrearPartidoResponse(DR, new Partido());
     }
 
@@ -81,6 +60,9 @@ public class PartidoService {
         String sql = "SELECT * FROM partido";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         ResultSet rs = preparedStmt.executeQuery();
+
+        List<Partido> partidos = new ArrayList<Partido>();
+
         while (rs.next()) {
             Partido p = new Partido();
             p.setId(Integer.toString(rs.getInt(1)));
@@ -120,7 +102,8 @@ public class PartidoService {
     }
 
     public CrearPartidoResponse cargarResultadoPartido(String id, int puntajeEquipo1, int puntajeEquipo2) {
-        Partido partido = this.partidos.stream().filter(p -> p.getId().equals(id)).findFirst().get();
+        List<Partido> partidos = new ArrayList<Partido>();
+        Partido partido = partidos.stream().filter(p -> p.getId().equals(id)).findFirst().get();
         // partido.setPuntajeEquipo1(puntajeEquipo1);
         // partido.setPuntajeEquipo2(puntajeEquipo2);
 
