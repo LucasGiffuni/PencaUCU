@@ -6,7 +6,7 @@ CREATE TABLE LOGIN
 (
     userId  varchar(20) PRIMARY KEY NOT NULL,
     password VARCHAR(50) NOT NULL,
-    rol ENUM('ADMIN', 'ALUMNO')
+    rol ENUM('ADMIN', 'USER')
 );
 
 create Table EQUIPO 
