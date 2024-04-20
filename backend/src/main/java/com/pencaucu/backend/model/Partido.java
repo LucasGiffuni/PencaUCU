@@ -1,5 +1,7 @@
 package com.pencaucu.backend.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class Partido {
@@ -14,6 +16,21 @@ public class Partido {
     private String camino;
     private String idGanador;
     private String jugado;
+
+    public Partido() {
+    }
+
+    public Partido(ResultSet rs) throws SQLException {
+        setId(Integer.toString(rs.getInt(1)));
+        setIdEquipo1(Integer.toString(rs.getInt(2)));
+        setPuntajeEquipo1(Integer.toString(rs.getInt(3)));
+        setIdEquipo2(Integer.toString(rs.getInt(4)));
+        setPuntajeEquipo2(Integer.toString(rs.getInt(5)));
+        setFecha(rs.getTimestamp(6).toString());
+        setEtapa(rs.getString(7));
+        setIdGanador(Integer.toString(rs.getInt(8)));
+        setJugado(Boolean.toString(rs.getBoolean(9)));
+    }
 
     public String getJugado() {
         return jugado;

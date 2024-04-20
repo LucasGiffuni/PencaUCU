@@ -15,24 +15,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @RestController()
 @RequestMapping("/partido")
 @CrossOrigin(origins = "*")
 public class PartidoController {
-    
+
     @Autowired
     private PartidoService service;
 
     @PostMapping("/crearPartido")
-    public ResponseEntity<CrearPartidoResponse> crearPartido(@RequestParam int idEquipo1, @RequestParam int idEquipo2, @RequestParam String fecha) throws SQLException, ParseException, ClassNotFoundException {
-        return ResponseEntity.ok(service.crearPartido(idEquipo1, idEquipo2, fecha));
+    public ResponseEntity<CrearPartidoResponse> crearPartido(@RequestParam int idEquipo1, @RequestParam int idEquipo2,
+            @RequestParam String fecha, @RequestParam String etapa)
+            throws SQLException, ParseException, ClassNotFoundException {
+        return ResponseEntity.ok(service.crearPartido(idEquipo1, idEquipo2, fecha, etapa));
+    }
+
+    @GetMapping("/{idPartido}/getPartido")
+    public ResponseEntity<Partido> getPartido(@PathVariable int idPartido) throws ClassNotFoundException, SQLException {
+        return ResponseEntity.ok(service.getPartidoById(idPartido));
     }
 
     @GetMapping("/getPartidos")
@@ -41,17 +48,20 @@ public class PartidoController {
     }
 
     @GetMapping("/getProximosPartidos")
-    public ResponseEntity<List<Partido>> getProximosPartidos() {
+    public ResponseEntity<List<Partido>> getProximosPartidos() throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.getProximosPartidos());
     }
 
     @GetMapping("/getPartidosJugados")
-    public ResponseEntity<List<Partido>> getPartidosJugados() {
+    public ResponseEntity<List<Partido>> getPartidosJugados() throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.getPartidosJugados());
     }
 
-    @PutMapping("partido/{id}/cargarResultadoPartido")
-    public ResponseEntity<CrearPartidoResponse> cargarResultadoPartido(String idPartido, int puntajeEquipo1, int puntajeEquipo2) {
+    @PutMapping("/{idPartido}/cargarResultadoPartido")
+    public ResponseEntity<CrearPartidoResponse> cargarResultadoPartido(@PathVariable int idPartido,
+            @RequestParam int puntajeEquipo1, @RequestParam int puntajeEquipo2)
+            throws SQLException, ClassNotFoundException {
         return ResponseEntity.ok(service.cargarResultadoPartido(idPartido, puntajeEquipo1, puntajeEquipo2));
     }
+
 }

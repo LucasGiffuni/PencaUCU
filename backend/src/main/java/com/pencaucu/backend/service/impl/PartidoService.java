@@ -30,33 +30,34 @@ import com.pencaucu.backend.model.responses.DefaultResponse;
 @Service
 public class PartidoService extends AbstractService {
 
-    
-    public CrearPartidoResponse crearPartido(int e1, int e2, String fecha) throws SQLException, ParseException, ClassNotFoundException {
-        
+    public CrearPartidoResponse crearPartido(int idEquipo1, int idEquipo2, String fecha, String etapa)
+            throws SQLException, ParseException, ClassNotFoundException {
+
         createConection();
 
         String sql = "INSERT INTO partido(idEquipo1, resultadoEquipo1, idEquipo2, resultadoEquipo2, fecha, etapa) values (?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
 
-        preparedStmt.setInt(1, e1);
+        preparedStmt.setInt(1, idEquipo1);
         preparedStmt.setInt(2, 0);
-        preparedStmt.setInt(3, e2);
+        preparedStmt.setInt(3, idEquipo2);
         preparedStmt.setInt(4, 0);
-        
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date parsedDate = dateFormat.parse(fecha);
         Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-        
+
         preparedStmt.setTimestamp(5, timestamp);
-        preparedStmt.setString(6, "FASE DE GRUPOS");
-        
+        preparedStmt.setString(6, etapa);
+
         try {
             preparedStmt.execute();
-            DefaultResponse DR = new DefaultResponse("200", "OK");
-            return new CrearPartidoResponse(DR, new Partido());
+            Partido p = getPartido(idEquipo1, idEquipo2, etapa);
+            DefaultResponse DR = new DefaultResponse("200", "Partido creado correctamente");
+            return new CrearPartidoResponse(DR, p);
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
-            DefaultResponse DR = new DefaultResponse("400", "El equipo no existe");
+            DefaultResponse DR = new DefaultResponse("400", "Parametros invalidos");
             return new CrearPartidoResponse(DR, null);
         }
     }
@@ -71,51 +72,68 @@ public class PartidoService extends AbstractService {
         List<Partido> partidos = new ArrayList<Partido>();
 
         while (rs.next()) {
-            Partido p = new Partido();
-            p.setId(Integer.toString(rs.getInt(1)));
-            p.setIdEquipo1(Integer.toString(rs.getInt(2)));
-            p.setPuntajeEquipo1(Integer.toString(rs.getInt(3)));
-            p.setIdEquipo2(Integer.toString(rs.getInt(4)));
-            p.setPuntajeEquipo2(Integer.toString(rs.getInt(5)));
-            p.setFecha(rs.getTimestamp(6).toString());
-            p.setEtapa(rs.getString(7));
-            p.setIdGanador(Integer.toString(rs.getInt(8)));
-            p.setJugado(Boolean.toString(rs.getBoolean(9)));
+            Partido p = new Partido(rs);
             partidos.add(p);
         }
         return partidos;
     }
 
-    public List<Partido> getProximosPartidos() {
-        List<Partido> proximosPartidos = new ArrayList<Partido>();
-        // for (Partido partido : this.partidos) {
-        // if (partido.getFecha().isAfter(LocalDateTime.now())) {
-        // proximosPartidos.add(partido);
-        // }
-        // }
-        return proximosPartidos;
+    public List<Partido> getProximosPartidos() throws ClassNotFoundException, SQLException {
+        return getPartidos().stream()
+                .filter(p -> Timestamp.valueOf(p.getFecha()).after(Timestamp.valueOf(LocalDateTime.now())))
+                .collect(Collectors.toList());
     }
 
-    public List<Partido> getPartidosJugados() {
-        List<Partido> proximosPartidos = new ArrayList<Partido>();
-        // for (Partido partido : this.partidos) {
-        // if (partido.getFecha().isBefore(LocalDateTime.now())) {
-        // proximosPartidos.add(partido);
-        // }
-        // }
-        // List<Partido> proximosPartidos = this.partidos.stream().filter(p ->
-        // p.getFecha().isBefore(LocalDateTime.now())).collect(Collectors.toList());
-        return proximosPartidos;
+    public List<Partido> getPartidosJugados() throws ClassNotFoundException, SQLException {
+        return getPartidos().stream()
+                .filter(p -> Boolean.getBoolean(p.getJugado()) == true)
+                .collect(Collectors.toList());
     }
 
-    public CrearPartidoResponse cargarResultadoPartido(String id, int puntajeEquipo1, int puntajeEquipo2) {
-        List<Partido> partidos = new ArrayList<Partido>();
-        Partido partido = partidos.stream().filter(p -> p.getId().equals(id)).findFirst().get();
-        // partido.setPuntajeEquipo1(puntajeEquipo1);
-        // partido.setPuntajeEquipo2(puntajeEquipo2);
+    public CrearPartidoResponse cargarResultadoPartido(int id, int resultadoEquipo1, int resultadoEquipo2) throws SQLException, ClassNotFoundException {
+        createConection();
+        // String idEquipoGanador = (resultadoEquipo1 > resultadoEquipo2) ? 
 
-        DefaultResponse DR = new DefaultResponse("200", "OK");
 
-        return new CrearPartidoResponse(DR, partido);
+
+
+
+        String sql = "UPDATE partido SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true  WHERE idPartido = ?";
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setInt(1, resultadoEquipo1);
+        preparedStmt.setInt(2, resultadoEquipo2);
+        preparedStmt.setInt(3, id);
+        preparedStmt.execute();
+        DefaultResponse DR = new DefaultResponse("200", "Resultado cargado correctamente");
+        return new CrearPartidoResponse(DR, getPartidoById(id));
     }
+
+    public Partido getPartidoById(int idPartido) throws SQLException, ClassNotFoundException {
+        createConection();
+        String sql = "SELECT * FROM partido WHERE idPartido = ?";
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setInt(1, idPartido);
+        ResultSet rs = preparedStmt.executeQuery();
+        rs.absolute(1);
+        return new Partido(rs);
+    }
+
+    private Partido getPartido(int idEquipo1, int idEquipo2, String etapa) throws SQLException {
+
+        String sql = "SELECT * FROM partido WHERE idEquipo1 = ? AND idEquipo2 = ? AND etapa = ?";
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setInt(1, idEquipo1);
+        preparedStmt.setInt(2, idEquipo2);
+        preparedStmt.setString(3, etapa);
+
+        ResultSet rs = preparedStmt.executeQuery();
+        rs.absolute(1);
+
+        Partido p = new Partido(rs);
+        return p;
+    }
+
 }
