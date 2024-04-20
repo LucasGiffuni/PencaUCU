@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pencaucu.backend.model.responses.GetGrupoResponse;
-import com.pencaucu.backend.services.GrupoService;
+import com.pencaucu.backend.service.impl.GrupoService;
 
 @RestController()
 @CrossOrigin(origins = "*")
