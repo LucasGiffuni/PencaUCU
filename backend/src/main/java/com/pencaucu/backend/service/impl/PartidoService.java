@@ -31,27 +31,34 @@ import com.pencaucu.backend.model.responses.DefaultResponse;
 public class PartidoService extends AbstractService {
 
     
-    public CrearPartidoResponse crearPartido(int e1, int e2, String fecha) throws SQLException, ParseException {
+    public CrearPartidoResponse crearPartido(int e1, int e2, String fecha) throws SQLException, ParseException, ClassNotFoundException {
         
-        String sql = "INSERT INTO partido(idPartido, idEquipo1, resultadoEquipo1, idEquipo2, resultadoEquipo2, fecha, etapa, idEquipoGanador) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        createConection();
+
+        String sql = "INSERT INTO partido(idEquipo1, resultadoEquipo1, idEquipo2, resultadoEquipo2, fecha, etapa) values (?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
 
-        preparedStmt.setInt(1, 4);
-        preparedStmt.setInt(2, e1);
-        preparedStmt.setInt(3, 0);
-        preparedStmt.setInt(4, e2);
-        preparedStmt.setInt(5, 0);
+        preparedStmt.setInt(1, e1);
+        preparedStmt.setInt(2, 0);
+        preparedStmt.setInt(3, e2);
+        preparedStmt.setInt(4, 0);
         
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date parsedDate = dateFormat.parse(fecha);
         Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
         
-        preparedStmt.setTimestamp(6, timestamp);
+        preparedStmt.setTimestamp(5, timestamp);
+        preparedStmt.setString(6, "FASE DE GRUPOS");
         
-        preparedStmt.execute();
-        
-        DefaultResponse DR = new DefaultResponse("200", "OK");
-        return new CrearPartidoResponse(DR, new Partido());
+        try {
+            preparedStmt.execute();
+            DefaultResponse DR = new DefaultResponse("200", "OK");
+            return new CrearPartidoResponse(DR, new Partido());
+        } catch (java.sql.SQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+            DefaultResponse DR = new DefaultResponse("400", "El equipo no existe");
+            return new CrearPartidoResponse(DR, null);
+        }
     }
 
     public List<Partido> getPartidos() throws ClassNotFoundException, SQLException {

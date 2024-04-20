@@ -31,8 +31,8 @@ public class PartidoController {
     private PartidoService service;
 
     @PostMapping("/crearPartido")
-    public ResponseEntity<CrearPartidoResponse> crearPartido(@RequestParam int idEquipo1, @RequestParam int idEquipo2, @RequestParam String fecha) throws SQLException, ParseException {
-        return ResponseEntity.ok(service.crearPartido(1, 3, "2024-01-01 12:00:00"));
+    public ResponseEntity<CrearPartidoResponse> crearPartido(@RequestParam int idEquipo1, @RequestParam int idEquipo2, @RequestParam String fecha) throws SQLException, ParseException, ClassNotFoundException {
+        return ResponseEntity.ok(service.crearPartido(idEquipo1, idEquipo2, fecha));
     }
 
     @GetMapping("/getPartidos")
