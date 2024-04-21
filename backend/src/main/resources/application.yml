@@ -10,5 +10,5 @@ spring:
     databaseName: "PencaUCU"
     connectionString: "jdbc:mysql://localhost:3306/"
     databaseUsername: "root"
-    databasePassword: "root"
+    databasePassword: "1234"
 
