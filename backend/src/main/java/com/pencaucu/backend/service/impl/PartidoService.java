@@ -96,18 +96,12 @@ public class PartidoService extends AbstractService {
             throws SQLException, ClassNotFoundException {
         createConection();
 
-        String columnaGanador = (resultadoEquipo1 > resultadoEquipo2) ? "idEquipo1" : "idEquipo2";
-
-        String sql = "SELECT " + columnaGanador + " FROM partido WHERE idPartido = ?";
-        PreparedStatement preparedStmt = con.prepareStatement(sql);
-        preparedStmt.setInt(1, idPartido);
-        ResultSet rs = preparedStmt.executeQuery();
-        rs.absolute(1); // hay que controlar cuando no se encuentra el partido
+        int idGanador = calcularGanador(idPartido, resultadoEquipo1, resultadoEquipo2);
         
-        sql = "UPDATE partido SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true, idEquipoGanador = "
-                + rs.getInt(1) + "  WHERE idPartido = ?";
+        String sql = "UPDATE partido SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true, idEquipoGanador = "
+                + idGanador + "  WHERE idPartido = ?";
 
-        preparedStmt = con.prepareStatement(sql);
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
         preparedStmt.setInt(1, resultadoEquipo1);
         preparedStmt.setInt(2, resultadoEquipo2);
         preparedStmt.setInt(3, idPartido);
@@ -146,4 +140,15 @@ public class PartidoService extends AbstractService {
         return p;
     }
 
+    public int calcularGanador(int idPartido, int resultadoEquipo1, int resultadoEquipo2) throws ClassNotFoundException, SQLException {
+        createConection();
+        String columnaGanador = (resultadoEquipo1 > resultadoEquipo2) ? "idEquipo1" : "idEquipo2";
+
+        String sql = "SELECT " + columnaGanador + " FROM partido WHERE idPartido = ?";
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setInt(1, idPartido);
+        ResultSet rs = preparedStmt.executeQuery();
+        rs.absolute(1); // hay que controlar cuando no se encuentra el partido
+        return rs.getInt(1);
+    }
 }
