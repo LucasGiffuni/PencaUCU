@@ -1,37 +1,37 @@
 package com.pencaucu.backend.service.impl;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 
+import com.mysql.cj.xdevapi.PreparableStatement;
 import com.pencaucu.backend.model.Equipo;
+import com.pencaucu.backend.model.EquipoConPuntaje;
 import com.pencaucu.backend.model.Grupo;
 import com.pencaucu.backend.model.responses.DefaultResponse;
+import com.pencaucu.backend.model.responses.GetEquipoResponse;
 import com.pencaucu.backend.model.responses.GetGrupoResponse;
 
 @Service
-public class GrupoService {
+public class GrupoService extends AbstractService {
 
-    public GetGrupoResponse getGrupoById(String id) {
-
-        DefaultResponse DR = new DefaultResponse("200", "OK");
-        Equipo e1 = new Equipo("1", "Uruguay", 10);
-        Equipo e2 = new Equipo("2", "Francia", 2);
-        Equipo e3 = new Equipo("3", "Venezuela", 0);
-        Equipo e4 = new Equipo("4", "Colombia", 4);
-
+    public GetGrupoResponse getGrupoById(String id) throws ClassNotFoundException, SQLException {
+        createConection();
+        String sql = "SELECT g.idEquipo, e.nombre, e.urlBandera, e.status, g.puntos FROM equipogrupo g JOIN equipo e ON g.idEquipo = e.idequipo WHERE g.grupo = ?";
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setString(1, id);
+        ResultSet rs = preparedStmt.executeQuery();
         Grupo g = new Grupo();
-
-        Equipo[] e = new Equipo[4];
-        e[0] = e1;
-        e[1] = e2;
-        e[2] = e3;
-        e[3] = e4;
-        g.setId("A");
-        g.setEquipos(e);
-
-        GetGrupoResponse response = new GetGrupoResponse();
-        response.setDefaultResponse(DR);
-        response.setGrupo(g);
-
-        return response;
+        g.setId(id);
+        ArrayList<EquipoConPuntaje> equipos = new ArrayList<>();
+        while (rs.next()) {
+            equipos.add(new EquipoConPuntaje(rs));
+        }
+        g.setEquipos(equipos);
+        DefaultResponse defaultResponse = new DefaultResponse("200", "Grupo encontrado correctamente");
+        return new GetGrupoResponse(defaultResponse, g);
     }
 }

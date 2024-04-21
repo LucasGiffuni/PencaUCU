@@ -12,19 +12,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pencaucu.backend.model.responses.GetEquipoResponse;
 import com.pencaucu.backend.model.responses.GetGrupoResponse;
+import com.pencaucu.backend.service.impl.EquipoService;
 import com.pencaucu.backend.service.impl.GrupoService;
 
 @RestController()
-@RequestMapping("/grupo")
+@RequestMapping("/equipo")
 @CrossOrigin(origins = "*")
-public class GrupoController {
+public class EquipoController {
 
     @Autowired
-    private GrupoService service;
+    private EquipoService service;
 
-    @GetMapping("/{groupId}/getGrupo")
-    public ResponseEntity<GetGrupoResponse> getGrupo(@PathVariable String groupId) throws ClassNotFoundException, SQLException {
-        return ResponseEntity.ok(service.getGrupoById(groupId));
-    }   
+    @GetMapping("/{idEquipo}/getEquipo")
+    public ResponseEntity<GetEquipoResponse> getEquipo(@PathVariable String idEquipo) throws ClassNotFoundException, SQLException {
+        return ResponseEntity.ok(service.getEquipoById(idEquipo));
+    }
 
 }

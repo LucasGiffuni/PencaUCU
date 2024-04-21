@@ -7,6 +7,11 @@ public class GetGrupoResponse {
     public DefaultResponse defaultResponse;
     public Grupo grupo;
 
+    public GetGrupoResponse(DefaultResponse defaultResponse, Grupo grupo) {
+        this.defaultResponse = defaultResponse;
+        this.grupo = grupo;
+    }
+
     public DefaultResponse getDefaultResponse() {
         return defaultResponse;
     }
