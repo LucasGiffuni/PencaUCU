@@ -1,12 +1,14 @@
 package com.pencaucu.backend.model;
 
+import java.util.ArrayList;
+
 public class Grupo {
 
     private String id;
-    private Equipo[] equipos;
+    private ArrayList<EquipoConPuntaje> equipos;
     
     public Grupo() {
-        equipos = new Equipo[4];
+        equipos = new ArrayList<>(4);
     }
 
     public String getId() {
@@ -15,10 +17,10 @@ public class Grupo {
     public void setId(String id) {
         this.id = id;
     }
-    public Equipo[] getEquipos() {
+    public ArrayList<EquipoConPuntaje> getEquipos() {
         return equipos;
     }
-    public void setEquipos(Equipo[] equipos) {
+    public void setEquipos(ArrayList<EquipoConPuntaje> equipos) {
         this.equipos = equipos;
     }
 
