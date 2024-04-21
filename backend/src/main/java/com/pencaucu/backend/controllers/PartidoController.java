@@ -38,7 +38,7 @@ public class PartidoController {
     }
 
     @GetMapping("/{idPartido}/getPartido")
-    public ResponseEntity<Partido> getPartido(@PathVariable int idPartido) throws ClassNotFoundException, SQLException {
+    public ResponseEntity<CrearPartidoResponse> getPartido(@PathVariable int idPartido) throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.getPartidoById(idPartido));
     }
 

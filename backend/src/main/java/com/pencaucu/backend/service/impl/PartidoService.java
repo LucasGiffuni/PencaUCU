@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import org.apache.el.stream.Optional;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,7 @@ import com.pencaucu.backend.model.responses.DefaultResponse;
 
 @Service
 public class PartidoService extends AbstractService {
+
 
     public CrearPartidoResponse crearPartido(int idEquipo1, int idEquipo2, String fecha, String etapa)
             throws SQLException, ParseException, ClassNotFoundException {
@@ -90,26 +92,32 @@ public class PartidoService extends AbstractService {
                 .collect(Collectors.toList());
     }
 
-    public CrearPartidoResponse cargarResultadoPartido(int id, int resultadoEquipo1, int resultadoEquipo2) throws SQLException, ClassNotFoundException {
+    public CrearPartidoResponse cargarResultadoPartido(int idPartido, int resultadoEquipo1, int resultadoEquipo2)
+            throws SQLException, ClassNotFoundException {
         createConection();
-        // String idEquipoGanador = (resultadoEquipo1 > resultadoEquipo2) ? 
 
+        String columnaGanador = (resultadoEquipo1 > resultadoEquipo2) ? "idEquipo1" : "idEquipo2";
 
-
-
-
-        String sql = "UPDATE partido SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true  WHERE idPartido = ?";
+        String sql = "SELECT " + columnaGanador + " FROM partido WHERE idPartido = ?";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setInt(1, idPartido);
+        ResultSet rs = preparedStmt.executeQuery();
+        rs.absolute(1); // hay que controlar cuando no se encuentra el partido
+        
+        sql = "UPDATE partido SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true, idEquipoGanador = "
+                + rs.getInt(1) + "  WHERE idPartido = ?";
+
         preparedStmt = con.prepareStatement(sql);
         preparedStmt.setInt(1, resultadoEquipo1);
         preparedStmt.setInt(2, resultadoEquipo2);
-        preparedStmt.setInt(3, id);
+        preparedStmt.setInt(3, idPartido);
         preparedStmt.execute();
+        Partido p = getPartidoById(idPartido).getPartido();
         DefaultResponse DR = new DefaultResponse("200", "Resultado cargado correctamente");
-        return new CrearPartidoResponse(DR, getPartidoById(id));
+        return new CrearPartidoResponse(DR, p);
     }
 
-    public Partido getPartidoById(int idPartido) throws SQLException, ClassNotFoundException {
+    public CrearPartidoResponse getPartidoById(int idPartido) throws SQLException, ClassNotFoundException {
         createConection();
         String sql = "SELECT * FROM partido WHERE idPartido = ?";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
@@ -117,7 +125,9 @@ public class PartidoService extends AbstractService {
         preparedStmt.setInt(1, idPartido);
         ResultSet rs = preparedStmt.executeQuery();
         rs.absolute(1);
-        return new Partido(rs);
+        Partido p = new Partido(rs);
+        DefaultResponse DR = new DefaultResponse("200", "Partido obtenido correctamente");
+        return new CrearPartidoResponse(DR, p);
     }
 
     private Partido getPartido(int idEquipo1, int idEquipo2, String etapa) throws SQLException {
