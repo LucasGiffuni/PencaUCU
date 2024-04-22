@@ -21,15 +21,15 @@ public class Partido {
     }
 
     public Partido(ResultSet rs) throws SQLException {
-        setId(Integer.toString(rs.getInt(1)));
-        setIdEquipo1(Integer.toString(rs.getInt(2)));
-        setPuntajeEquipo1(Integer.toString(rs.getInt(3)));
-        setIdEquipo2(Integer.toString(rs.getInt(4)));
-        setPuntajeEquipo2(Integer.toString(rs.getInt(5)));
-        setFecha(rs.getTimestamp(6).toString());
-        setEtapa(rs.getString(7));
-        setIdGanador(Integer.toString(rs.getInt(8)));
-        setJugado(Boolean.toString(rs.getBoolean(9)));
+        this.id = Integer.toString(rs.getInt(1));
+        this.idEquipo1 = Integer.toString(rs.getInt(2));
+        this.puntajeEquipo1 = Integer.toString(rs.getInt(3));
+        this.idEquipo2 = Integer.toString(rs.getInt(4));
+        this.puntajeEquipo2 = Integer.toString(rs.getInt(5));
+        this.fecha = rs.getTimestamp(6).toString();
+        this.etapa = rs.getString(7);
+        this.idGanador = Integer.toString(rs.getInt(8));
+        this.jugado = Boolean.toString(rs.getBoolean(9));
     }
 
     public String getJugado() {
