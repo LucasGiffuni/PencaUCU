@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-export async function getTeamDetailByID(teamID: string) {
+export async function getTeamsByGroup(groupID) {
   const instance = axios.create({
     baseURL: 'http://127.0.0.1:8080',
     headers: {
@@ -10,11 +10,11 @@ export async function getTeamDetailByID(teamID: string) {
       "Authorization": `Bearer ${localStorage.getItem("jwt")}`
     },
   });
-  let res = instance.get("http://127.0.0.1:8080/equipo/" + teamID + "/getEquipo")
+  let res = instance.get("http://127.0.0.1:8080/grupo/" + groupID + "/getGrupo")
     .then(response => {
       let serviceResponse = [];
       serviceResponse[0] = response.data.defaultResponse;
-      serviceResponse[1] = response.data.equipo;
+      serviceResponse[1] = response.data.grupo;
 
       return serviceResponse
     })

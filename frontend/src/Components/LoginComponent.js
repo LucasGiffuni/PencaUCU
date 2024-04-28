@@ -5,6 +5,7 @@ import { getCarreras, createUser, createAlumno, login } from "../Services/UserSe
 import { useNavigate } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
 
+
 const LoginComponent = (props) => {
   const { loggedIn, email } = props;
 
@@ -18,6 +19,15 @@ const LoginComponent = (props) => {
   const [successfulRegister, setSuccessfulRegister] = useState(false)
   const [failedRegister, setFailedRegister] = useState(false)
   const [registerResponseData, setRegisterResponseData] = useState(false)
+
+  const data = [
+    {
+      "id": "1",
+      "name": "Uruguay",
+      "imageUrl":
+        "https://www.worldometers.info/img/flags/uy-flag.gif"
+    }
+  ];
 
 
 
@@ -44,7 +54,9 @@ const LoginComponent = (props) => {
   };
 
 
-
+  const handleSelect = (id) => {
+    console.log(`Selected item with id ${id}`);
+  };
 
 
   useEffect(() => {
@@ -113,10 +125,10 @@ const LoginComponent = (props) => {
                 <form class="background" >
                   <h2 className="Login-Component-Title">Login</h2>
 
-                  <label className="login-label" for="username">Username</label>
+                  <label className="login-label" htmlFor="username">Username</label>
                   <input className="login-input" type="text" placeholder="Username" id="username" onChange={(event) => setUsername(event.target.value)} />
 
-                  <label className="login-label" for="password">Password</label>
+                  <label className="login-label" htmlFor="password">Password</label>
                   <input className="login-input" type="password" placeholder="Password" id="password" onChange={(event) => setPassword(event.target.value)} />
 
                   <button
@@ -135,29 +147,29 @@ const LoginComponent = (props) => {
               <form class="Register-Component-Form" >
                 <h2 className="Login-Component-Title">Register</h2>
 
-                <label for="username">Username</label>
+                <label htmlFor="username">Username</label>
                 <input type="text" placeholder="Username" id="username" onChange={(event) => setUsername(event.target.value)} />
 
-                <label for="password">Password</label>
+                <label htmlFor="password">Password</label>
                 <input type="password" placeholder="Password" id="password" onChange={(event) => setPassword(event.target.value)} />
                 <hr />
                 <p>Datos Alumno:</p>
-                <label for="nombre">Nombre</label>
+                <label htmlFor="nombre">Nombre</label>
                 <input type="Text" placeholder="Nombre" id="nombre" onChange={(event) => setName(event.target.value)} />
 
-                <label for="apellido">Apellido</label>
+                <label htmlFor="apellido">Apellido</label>
                 <input type="Text" placeholder="Apellido" id="apellido" onChange={(event) => setSurename(event.target.value)} />
 
-                <label for="cedulaIdentidad">Cedula Identidad</label>
+                <label htmlFor="cedulaIdentidad">Cedula Identidad</label>
                 <input type="Text" placeholder="Cedula Identidad" id="CI" onChange={(event) => setCedulaIdentidad(event.target.value)} />
 
-                <label for="email">Email</label>
+                <label htmlFor="email">Email</label>
                 <input type="Text" placeholder="Email" id="email" onChange={(event) => setMail(event.target.value)} />
 
-                <label for="fnac">Fecha Nacimiento</label>
+                <label htmlFor="fnac">Fecha Nacimiento</label>
                 <input type="Date" placeholder="Date" id="date" data-date-format="YYYY DD MM" onChange={(event) => setBirthDate(event.target.value)} />
 
-                <label for="carrera">Carrera</label>
+                <label htmlFor="carrera">Carrera</label>
                 <select id="carrera" name="Carrera" onChange={(event) => setCarrera(event.target.value)}>
                   {carreras.map((carrera, i) => {
                     return (

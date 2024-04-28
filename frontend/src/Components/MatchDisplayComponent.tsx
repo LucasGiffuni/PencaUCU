@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Carousel from "react-bootstrap/Carousel";
 import PlaceholderExamplePlaceholder from "./PlaceholderImageComponent";
 import IMatch from "../Model/Match";
 

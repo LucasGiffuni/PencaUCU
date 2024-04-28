@@ -4,7 +4,6 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import IGroup from "../Model/Group";
 
 import { getTeamsByGroup } from "../Services/GroupService";
 
@@ -14,8 +13,7 @@ function GroupComponent(props) {
 
 
   const [group, setGroup] = useState(null);
-  const groupId = group ? group.groupId : null;
-  const teams = group ? group.teams : null;
+  const groupId = props.groupID;
 
 
   const [selectedCountry, setSelectedCountry] = useState(0)
@@ -28,10 +26,13 @@ function GroupComponent(props) {
   }, [selectedCountry]);
 
   const fetchDatos = () => {
-    setGroup(getTeamsByGroup("A"))
+    getTeamsByGroup(props.groupID).then((response) => {
+      setGroup(response[1])
+    })
   };
 
   const showModal = (teamId) => {
+    console.log(teamId)
     setClicks(clicks + 1);
     setSelectedCountry(teamId);
     setModalShow(true);
@@ -42,19 +43,20 @@ function GroupComponent(props) {
   return (
     <>
       <Card className="Card-Container" border="dark">
-        <Card.Title className="Card-Container-Title">{groupId}</Card.Title>
+        <Card.Title className="Card-Container-Title">{group && group.id}</Card.Title>
         <ListGroup variant="flush">
-          {teams?.map((team, i) => {
+          {group && group.equipos?.map((team, i) => {
             return (
-              <ListGroup.Item className="Card-Container-Item" onClick={() => showModal(team.teamID)} key={i}>
+              <ListGroup.Item className="Card-Container-Item" onClick={() => { showModal(team.id);
+              }} key={i}>
                 <div className="Card-Container-Item-CountryFlag">
-                  <img className="Card-Container-Item-Flag" src={team.flagUrl}></img>
+                  <img className="Card-Container-Item-Flag" src={team.urlBandera}></img>
                 </div>
                 <div className="Card-Container-Item-CountryName">
-                  {team.name}
+                  {team.nombre}
                 </div>
                 <div className="Card-Container-Item-CountryPoints">
-                  <p> {team.groupPoints}</p>
+                  <p> {team.puntaje}</p>
                 </div>
               </ListGroup.Item>
             );

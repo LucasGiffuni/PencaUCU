@@ -5,10 +5,10 @@ import HomeComponent from "./HomeComponent";
 
 import { useEffect, useState } from "react";
 import LoginComponent from "./LoginComponent";
+import TournamentDashboard from "./TournametDashboard";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [email, setEmail] = useState("");
+
 
   return (
     <div>
@@ -17,19 +17,22 @@ function App() {
           <Route
             path="/login"
             element={
-              <LoginComponent setLoggedIn={setLoggedIn} setEmail={setEmail} />
+              <LoginComponent />
             }
           />
 
-          
+
           <Route
             path="/"
             element={
-              <HomeComponent
-                email={email}
-                loggedIn={loggedIn}
-                setLoggedIn={setLoggedIn}
-              />
+              <HomeComponent />
+            }
+          />
+
+          <Route
+            path="/Tournament"
+            element={
+              <TournamentDashboard />
             }
           />
         </Routes>

@@ -1,9 +1,8 @@
 import React, { useEffect, useState, } from "react";
-import ITeam from "../Model/Team";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-import { getTeamDataByID } from "../Services/TeamService";
+import { getTeamDetailByID } from "../Services/TeamService";
 import { propTypes } from "react-bootstrap/esm/Image";
 
 
@@ -11,7 +10,6 @@ import { propTypes } from "react-bootstrap/esm/Image";
 function TeamDetailsComponent(props) {
 
     const [team, setTeam] = useState(null);
-    const [teamId, setTeamId] = useState(props.teamId);
 
     const [show, setShow] = useState(props.setShow);
 
@@ -19,12 +17,18 @@ function TeamDetailsComponent(props) {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        fetchDatos();
         setShow(props.setShow)
+        if (props.setShow) {
+            fetchDatos();
+        }
     }, [props.clicks]);
 
     const fetchDatos = () => {
-        setTeam(getTeamDataByID(props.teamId))
+        getTeamDetailByID(props.teamId).then((response) => {
+            console.log(response)
+            setTeam(response[1])
+
+        })
     };
 
 
@@ -34,7 +38,7 @@ function TeamDetailsComponent(props) {
 
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>{team.name}</Modal.Title>
+                        <Modal.Title>{team && team.nombre}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
                     <Modal.Footer>

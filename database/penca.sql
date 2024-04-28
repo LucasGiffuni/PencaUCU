@@ -1,7 +1,8 @@
 
-DROP DATABASE IF exists pencaucu;
+DROP DATABASE IF exists PencaUCU;
 
 CREATE DATABASE PencaUCU;
+
 USE PencaUCU;
 
 CREATE TABLE LOGIN
@@ -11,7 +12,7 @@ CREATE TABLE LOGIN
     rol ENUM('ADMIN', 'ALUMNO')
 );
 
-create table GRUPO (
+CREATE table GRUPO (
 	ID char primary key,
 	descripcion varchar(20)
 );
@@ -115,14 +116,28 @@ insert into ETAPA values ('FINAL');
 
 insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("Estadio bernabeu", "Florida", "Miami", "LaCalle","123", 100);
 
-insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Uruguay", "https://www.worldometers.info/img/flags/uy-flag.gif", 'A');
-insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Venezuela", "https://www.worldometers.info/img/flags/ar-flag.gif", 'A');
-insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Argentina", "https://www.worldometers.info/img/flags/it-flag.gif", 'A');
-insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Colombia", "https://www.worldometers.info/img/flags/fr-flag.gif", 'A');
-insert into EQUIPO(nombre, urlBandera, idGrupo) values ("México", "https://www.worldometers.info/img/flags/po-flag.gif", 'B');
-insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Chile", "https://www.worldometers.info/img/flags/gh-flag.gif", 'B');
-insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Estados Unidos", "https://www.worldometers.info/img/flags/ks-flag.gif", 'B');
-insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Canadá", "https://www.worldometers.info/img/flags/ks-flag.gif", 'B');
+
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Argentina", "https://www.worldometers.info/img/flags/ar-flag.gif", 'A');
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Perú", "https://www.worldometers.info/img/flags/pe-flag.gif", 'A');
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Chile", "https://www.worldometers.info/img/flags/ci-flag.gif", 'A');
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Canadá", "https://www.worldometers.info/img/flags/ca-flag.gif", 'A');
+
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("México", "https://www.worldometers.info/img/flags/mx-flag.gif", 'B');
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Ecuador", "https://www.worldometers.info/img/flags/ec-flag.gif", 'B');
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Venezuela", "https://www.worldometers.info/img/flags/ve-flag.gif", 'B');
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Jamaica", "https://www.worldometers.info/img/flags/jm-flag.gif", 'B');
+
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Estados Unidos", "https://www.worldometers.info/img/flags/us-flag.gif", 'C');
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Uruguay", "https://www.worldometers.info/img/flags/uy-flag.gif", 'C');
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Panamá", "https://www.worldometers.info/img/flags/pm-flag.gif", 'C');
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Bolivia", "https://www.worldometers.info/img/flags/bl-flag.gif", 'C');
+
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Brasil", "https://www.worldometers.info/img/flags/br-flag.gif", 'D');
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Colombia", "https://www.worldometers.info/img/flags/co-flag.gif", 'D');
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Paraguay", "https://www.worldometers.info/img/flags/pa-flag.gif", 'D');
+insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Costa Rica", "https://www.worldometers.info/img/flags/cs-flag.gif", 'D');
+
+
 
 insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (1, 7, "2024-11-22 20:00:00", "FASE DE GRUPOS", 1);
 insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (1, 6, "2024-11-22 20:00:00", "FASE DE GRUPOS", 1);

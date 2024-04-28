@@ -13,7 +13,7 @@ class HomeComponent extends Component {
   render() {
     return (
       <>
-     
+
         <div className="Home-Component-Container">
           <NavBarComponent />
 
@@ -26,9 +26,11 @@ class HomeComponent extends Component {
               <Accordion.Header>Group Phase</Accordion.Header>
               <Accordion.Body>
                 <div className="Groups-Component-Container">
-                  <GroupComponent group={getTeamsByGroup("A")} />
-                  <GroupComponent group={getTeamsByGroup("A")} />
-                  <GroupComponent group={getTeamsByGroup("A")} />
+                  <GroupComponent groupID={"A"} />
+                  <GroupComponent groupID={"B"} />
+                  <GroupComponent groupID={"C"} />
+                  <GroupComponent groupID={"D"} />
+
                 </div>
               </Accordion.Body>
             </Accordion.Item>
