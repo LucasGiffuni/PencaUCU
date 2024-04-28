@@ -37,13 +37,16 @@ public class PartidoService extends AbstractService {
     @Autowired
     PrediccionService prediccionService;
 
-    public CrearPartidoResponse crearPartido(int idEquipo1, int idEquipo2, String fecha, String etapa, int idEstadio)
+    public CrearPartidoResponse crearPartido(Partido partido)
             throws SQLException, ParseException, ClassNotFoundException {
 
         createConection();
 
         // Verificar que ambos equipos esten en la misma etapa y habilitados, y
         // actualizarles la etapa
+        int idEquipo1 = Integer.parseInt(partido.getIdEquipo1());
+        int idEquipo2 = Integer.parseInt(partido.getIdEquipo2());
+        String etapa = partido.getEtapa();
 
         String statusEquipo1 = equipoService.getEquipoById(idEquipo1).getEquipo().getEtapaActual();
         String statusEquipo2 = equipoService.getEquipoById(idEquipo2).getEquipo().getEtapaActual();
@@ -66,12 +69,12 @@ public class PartidoService extends AbstractService {
         preparedStmt.setInt(2, idEquipo2);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        Date parsedDate = dateFormat.parse(fecha);
+        Date parsedDate = dateFormat.parse(partido.getFecha());
         Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
 
         preparedStmt.setTimestamp(3, timestamp);
         preparedStmt.setString(4, etapa);
-        preparedStmt.setInt(5, idEstadio);
+        preparedStmt.setInt(5, Integer.parseInt(partido.getIdEstadio()));
 
         try {
             preparedStmt.execute();
