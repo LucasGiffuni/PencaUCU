@@ -189,7 +189,7 @@ public class UserServiceImpl {
             PreparedStatement preparedStmt = con.prepareStatement(sql);
             preparedStmt.setString(1, username);
             preparedStmt.setString(2, encryptedpassword);
-            preparedStmt.setString(3, "USER");
+            preparedStmt.setString(3, "ALUMNO");
 
             preparedStmt.execute();
 
@@ -221,8 +221,8 @@ public class UserServiceImpl {
     public CreateAlumnoResponse createAlumno(Alumno alumno) {
         try {
             createConection();
-            String sql = " insert into ALUMNO (cedulaIdentidad, nombre, apellido, fechaNacimiento, email, idCarrera, userId)"
-                    + " values (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "insert into ALUMNO (cedulaIdentidad, nombre, apellido, fechaNacimiento, email, idCarrera, userId, idCampeon, idSubcampeon)"
+                    + " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement preparedStmt = con.prepareStatement(sql);
             preparedStmt.setInt(1, Integer.parseInt(alumno.getCedulaIdentidad()));
@@ -232,6 +232,8 @@ public class UserServiceImpl {
             preparedStmt.setString(5, alumno.getEmail());
             preparedStmt.setInt(6, Integer.parseInt(alumno.getIdCarrera()));
             preparedStmt.setString(7, alumno.getUserId());
+            preparedStmt.setInt(8, Integer.parseInt(alumno.getIdCampeon()));
+            preparedStmt.setInt(9, Integer.parseInt(alumno.getIdSubcampeon()));
 
             preparedStmt.execute();
 
@@ -251,7 +253,7 @@ public class UserServiceImpl {
 
     public ObtenerCarrerasResponse obtenerCarreras() throws SQLException, ClassNotFoundException {
         createConection();
-        DefaultResponse defaultResponse = new DefaultResponse("200", "Alumno creado Correctamente");
+        DefaultResponse defaultResponse = new DefaultResponse("200", "Carreras obtenidas correctamente");
         List<Carrera> carreras = new ArrayList<>();
 
         String sql = "select * from CARRERA";

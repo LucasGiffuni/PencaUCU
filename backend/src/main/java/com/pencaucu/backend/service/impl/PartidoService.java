@@ -31,37 +31,63 @@ import com.pencaucu.backend.model.responses.DefaultResponse;
 @Service
 public class PartidoService extends AbstractService {
 
+    @Autowired
+    EquipoService equipoService;
+    
+    @Autowired
+    PrediccionService prediccionService;
 
-    public CrearPartidoResponse crearPartido(int idEquipo1, int idEquipo2, String fecha, String etapa)
+    public CrearPartidoResponse crearPartido(int idEquipo1, int idEquipo2, String fecha, String etapa, int idEstadio)
             throws SQLException, ParseException, ClassNotFoundException {
 
         createConection();
 
-        String sql = "INSERT INTO partido(idEquipo1, resultadoEquipo1, idEquipo2, resultadoEquipo2, fecha, etapa) values (?, ?, ?, ?, ?, ?)";
+        // Verificar que ambos equipos esten en la misma etapa y habilitados, y
+        // actualizarles la etapa
+
+        String statusEquipo1 = equipoService.getEquipoById(idEquipo1).getEquipo().getEtapaActual();
+        String statusEquipo2 = equipoService.getEquipoById(idEquipo2).getEquipo().getEtapaActual();
+
+        if (statusEquipo1.equals("DESCALIFICADO") || statusEquipo2.equals("DESCALIFICADO")) {
+            throw new UnsupportedOperationException("Uno de los equipos está descalificado");
+        }
+
+        String etapaEquipo1 = equipoService.getEquipoById(idEquipo1).getEquipo().getEtapaActual();
+        String etapaEquipo2 = equipoService.getEquipoById(idEquipo2).getEquipo().getEtapaActual();
+
+        if (!etapaEquipo1.equals(etapaEquipo2)) {
+            throw new UnsupportedOperationException("Los equipos no están en la misma etapa");
+        }
+
+        String sql = "INSERT INTO partido(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (?, ?, ?, ?, ?)";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
 
         preparedStmt.setInt(1, idEquipo1);
-        preparedStmt.setInt(2, 0);
-        preparedStmt.setInt(3, idEquipo2);
-        preparedStmt.setInt(4, 0);
+        preparedStmt.setInt(2, idEquipo2);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date parsedDate = dateFormat.parse(fecha);
         Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
 
-        preparedStmt.setTimestamp(5, timestamp);
-        preparedStmt.setString(6, etapa);
+        preparedStmt.setTimestamp(3, timestamp);
+        preparedStmt.setString(4, etapa);
+        preparedStmt.setInt(5, idEstadio);
 
         try {
             preparedStmt.execute();
-            Partido p = getPartido(idEquipo1, idEquipo2, etapa);
-            DefaultResponse DR = new DefaultResponse("200", "Partido creado correctamente");
-            return new CrearPartidoResponse(DR, p);
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
             DefaultResponse DR = new DefaultResponse("400", "Parametros invalidos");
             return new CrearPartidoResponse(DR, null);
         }
+
+        // Actualizo la etapa de los equipos con la nueva etapa en la que se encuentran
+        equipoService.actualizarEtapa(idEquipo1, etapa);
+        equipoService.actualizarEtapa(idEquipo2, etapa);
+        Partido p = getPartido(idEquipo1, idEquipo2, etapa);
+        DefaultResponse DR = new DefaultResponse("200", "Partido creado correctamente");
+        return new CrearPartidoResponse(DR, p);
+
     }
 
     public List<Partido> getPartidos() throws ClassNotFoundException, SQLException {
@@ -96,16 +122,16 @@ public class PartidoService extends AbstractService {
             throws SQLException, ClassNotFoundException {
         createConection();
 
-        int idGanador = calcularGanador(idPartido, resultadoEquipo1, resultadoEquipo2);
-        
-        String sql = "UPDATE partido SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true, idEquipoGanador = "
-                + idGanador + "  WHERE idPartido = ?";
+        // int idGanador = calcularGanador(idPartido, resultadoEquipo1, resultadoEquipo2);
+
+        String sql = "UPDATE partido SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true WHERE idPartido = ?";
 
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         preparedStmt.setInt(1, resultadoEquipo1);
         preparedStmt.setInt(2, resultadoEquipo2);
         preparedStmt.setInt(3, idPartido);
         preparedStmt.execute();
+        prediccionService.actualizarPuntajes(idPartido, resultadoEquipo1, resultadoEquipo2);
         Partido p = getPartidoById(idPartido).getPartido();
         DefaultResponse DR = new DefaultResponse("200", "Resultado cargado correctamente");
         return new CrearPartidoResponse(DR, p);
@@ -140,7 +166,8 @@ public class PartidoService extends AbstractService {
         return p;
     }
 
-    public int calcularGanador(int idPartido, int resultadoEquipo1, int resultadoEquipo2) throws ClassNotFoundException, SQLException {
+    public int calcularGanador(int idPartido, int resultadoEquipo1, int resultadoEquipo2)
+            throws ClassNotFoundException, SQLException {
         createConection();
         String columnaGanador = (resultadoEquipo1 > resultadoEquipo2) ? "idEquipo1" : "idEquipo2";
 

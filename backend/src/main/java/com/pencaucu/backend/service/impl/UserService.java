@@ -45,7 +45,7 @@ public class UserService implements UserDetailsService {
 
     try {
       for (DatabaseUser user : service.getAllUsers()) {
-        usuarios.put(user.getUsername(), "USER");
+        usuarios.put(user.getUsername(), "ALUMNO");
       }
     } catch (ClassNotFoundException | SQLException e) {
       e.printStackTrace();

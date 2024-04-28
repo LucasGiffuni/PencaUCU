@@ -9,9 +9,16 @@ public class Alumno {
     String email;
     String idCarrera;
     String userId;
+    String idCampeon;
+    String puntosPorCampeon;
+    String idSubcampeon;
+    String puntosPorSubcampeon;
+
+    
 
     public Alumno(String cedulaIdentidad, String nombre, String apellido, String fechaNacimiento, String email,
-            String idCarrera, String userId) {
+            String idCarrera, String userId, String idCampeon, String puntosPorCampeon, String idSubcampeon,
+            String puntosPorSubcampeon) {
         this.cedulaIdentidad = cedulaIdentidad;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -19,9 +26,11 @@ public class Alumno {
         this.email = email;
         this.idCarrera = idCarrera;
         this.userId = userId;
+        this.idCampeon = idCampeon;
+        this.puntosPorCampeon = puntosPorCampeon;
+        this.idSubcampeon = idSubcampeon;
+        this.puntosPorSubcampeon = puntosPorSubcampeon;
     }
-
-    
 
     public Alumno() {
     }
@@ -80,6 +89,38 @@ public class Alumno {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getIdCampeon() {
+        return idCampeon;
+    }
+
+    public void setIdCampeon(String idCampeon) {
+        this.idCampeon = idCampeon;
+    }
+
+    public String getPuntosPorCampeon() {
+        return puntosPorCampeon;
+    }
+
+    public void setPuntosPorCampeon(String puntosPorCampeon) {
+        this.puntosPorCampeon = puntosPorCampeon;
+    }
+
+    public String getIdSubcampeon() {
+        return idSubcampeon;
+    }
+
+    public void setIdSubcampeon(String idSubcampeon) {
+        this.idSubcampeon = idSubcampeon;
+    }
+
+    public String getPuntosPorSubcampeon() {
+        return puntosPorSubcampeon;
+    }
+
+    public void setPuntosPorSubcampeon(String puntosPorSubcampeon) {
+        this.puntosPorSubcampeon = puntosPorSubcampeon;
     }
 
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Grupo {
 
     private String id;
-    private ArrayList<EquipoConPuntaje> equipos;
+    private ArrayList<Equipo> equipos;
     
     public Grupo() {
         equipos = new ArrayList<>(4);
@@ -17,10 +17,10 @@ public class Grupo {
     public void setId(String id) {
         this.id = id;
     }
-    public ArrayList<EquipoConPuntaje> getEquipos() {
+    public ArrayList<Equipo> getEquipos() {
         return equipos;
     }
-    public void setEquipos(ArrayList<EquipoConPuntaje> equipos) {
+    public void setEquipos(ArrayList<Equipo> equipos) {
         this.equipos = equipos;
     }
 
