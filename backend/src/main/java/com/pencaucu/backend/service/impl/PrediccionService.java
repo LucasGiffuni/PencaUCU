@@ -21,7 +21,7 @@ public class PrediccionService extends AbstractService {
     public CrearPrediccionResponse cargarPrediccion(int CI, int idPartido, int resultadoEquipo1, int resultadoEquipo2) throws ClassNotFoundException, SQLException {
         createConection();
 
-        String sql = "SELECT fecha FROM partido WHERE idPartido = " + idPartido;
+        String sql = "SELECT fecha FROM PARTIDO WHERE idPartido = " + idPartido;
         ResultSet rs = con.prepareStatement(sql).executeQuery();
         rs.absolute(1);
         long currentTime = Timestamp.valueOf(LocalDateTime.now()).getTime();
@@ -34,7 +34,7 @@ public class PrediccionService extends AbstractService {
             throw new UnsupportedOperationException("No se puede realizar predicción porque falta menos de una hora para el partido");
         }        
 
-        sql = "INSERT INTO prediccion (cedulaIdentidad, idPartido, resultadoEquipo1, resultadoEquipo2) VALUES (?, ?, ?, ?)";
+        sql = "INSERT INTO PREDICCION (cedulaIdentidad, idPartido, resultadoEquipo1, resultadoEquipo2) VALUES (?, ?, ?, ?)";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         preparedStmt.setInt(1, CI);
         preparedStmt.setInt(2, idPartido);
@@ -48,7 +48,7 @@ public class PrediccionService extends AbstractService {
 
     public void actualizarPuntajes(int idPartido, int resultadoEquipo1, int resultadoEquipo2) throws ClassNotFoundException, SQLException {
         createConection();
-        String sql = "SELECT * FROM prediccion WHERE idPartido = " + idPartido;
+        String sql = "SELECT * FROM PREDICCION WHERE idPartido = " + idPartido;
         ResultSet rs = con.prepareStatement(sql).executeQuery();
         while (rs.next()) {
             int ci = rs.getInt(1);
@@ -65,7 +65,7 @@ public class PrediccionService extends AbstractService {
             } else if (prediccionEquipo1 < prediccionEquipo2 && resultadoEquipo1 < resultadoEquipo2) {
                 puntosObtenidos = 2;
             }
-            sql = "UPDATE prediccion SET puntosObtenidos = " + puntosObtenidos + " WHERE cedulaIdentidad = " + ci + " AND idPartido = " + idPartido;
+            sql = "UPDATE PREDICCION SET puntosObtenidos = " + puntosObtenidos + " WHERE cedulaIdentidad = " + ci + " AND idPartido = " + idPartido;
             con.prepareStatement(sql).execute();
             actualizarPuntajeEstAlumno(ci);
         }
@@ -74,13 +74,13 @@ public class PrediccionService extends AbstractService {
 
     public void actualizarPuntajeEstAlumno(int ci) throws SQLException, ClassNotFoundException {
         createConection();
-        String sql = "SELECT puntosObtenidos FROM prediccion WHERE cedulaIdentidad = " + ci;
+        String sql = "SELECT puntosObtenidos FROM PREDICCION WHERE cedulaIdentidad = " + ci;
         ResultSet rs = con.prepareStatement(sql).executeQuery();
         int puntajeTotal = 0;
         while (rs.next()) {
             puntajeTotal += rs.getInt(1);
         }
-        sql = "UPDATE alumno SET puntaje = " + puntajeTotal + " WHERE cedulaIdentidad = " + ci; 
+        sql = "UPDATE ALUMNO SET puntaje = " + puntajeTotal + " WHERE cedulaIdentidad = " + ci; 
         con.prepareStatement(sql).execute();
     }
 
