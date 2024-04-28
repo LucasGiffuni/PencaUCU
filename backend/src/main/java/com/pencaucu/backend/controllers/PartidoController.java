@@ -32,9 +32,9 @@ public class PartidoController {
 
     @PostMapping("/crearPartido")
     public ResponseEntity<CrearPartidoResponse> crearPartido(@RequestParam int idEquipo1, @RequestParam int idEquipo2,
-            @RequestParam String fecha, @RequestParam String etapa)
+            @RequestParam String fecha, @RequestParam String etapa, @RequestParam int idEstadio)
             throws SQLException, ParseException, ClassNotFoundException {
-        return ResponseEntity.ok(service.crearPartido(idEquipo1, idEquipo2, fecha, etapa));
+        return ResponseEntity.ok(service.crearPartido(idEquipo1, idEquipo2, fecha, etapa, idEstadio));
     }
 
     @GetMapping("/{idPartido}/getPartido")

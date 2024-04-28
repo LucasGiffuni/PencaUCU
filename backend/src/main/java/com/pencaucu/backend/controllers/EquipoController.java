@@ -24,7 +24,7 @@ public class EquipoController {
     private EquipoService service;
 
     @GetMapping("/{idEquipo}/getEquipo")
-    public ResponseEntity<GetEquipoResponse> getEquipo(@PathVariable String idEquipo) throws ClassNotFoundException, SQLException {
+    public ResponseEntity<GetEquipoResponse> getEquipo(@PathVariable int idEquipo) throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.getEquipoById(idEquipo));
     }
 

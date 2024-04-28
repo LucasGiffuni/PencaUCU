@@ -12,9 +12,8 @@ public class Partido {
     private String idEquipo2;
     private String puntajeEquipo2;
     private String fecha;
+    private String idEstadio;
     private String etapa;
-    private String camino;
-    private String idGanador;
     private String jugado;
 
     public Partido() {
@@ -27,8 +26,8 @@ public class Partido {
         this.idEquipo2 = Integer.toString(rs.getInt(4));
         this.puntajeEquipo2 = Integer.toString(rs.getInt(5));
         this.fecha = rs.getTimestamp(6).toString();
-        this.etapa = rs.getString(7);
-        this.idGanador = Integer.toString(rs.getInt(8));
+        this.idEstadio = rs.getString(7);
+        this.etapa = rs.getString(8);
         this.jugado = Boolean.toString(rs.getBoolean(9));
     }
 
@@ -65,14 +64,6 @@ public class Partido {
         this.puntajeEquipo2 = puntajeEquipo2;
     }
 
-    public String getCamino() {
-        return camino;
-    }
-
-    public void setCamino(String camino) {
-        this.camino = camino;
-    }
-
     public String getEtapa() {
         return etapa;
     }
@@ -105,12 +96,12 @@ public class Partido {
         this.fecha = fecha;
     }
 
-    public String getIdGanador() {
-        return idGanador;
+    public String getIdEstadio() {
+        return idEstadio;
     }
 
-    public void setIdGanador(String idGanador) {
-        this.idGanador = idGanador;
+    public void setIdEstadio(String idEstadio) {
+        this.idEstadio = idEstadio;
     }
 
 }
