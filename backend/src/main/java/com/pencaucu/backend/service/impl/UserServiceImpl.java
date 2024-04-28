@@ -127,7 +127,7 @@ public class UserServiceImpl {
 
             if (resultSet.getString(1).equals(encryptedpassword)) {
 
-                Alumno a = new Alumno();
+                Alumno a = null;
                 sql = "Select * from ALUMNO f where f.userId = ?";
 
                 PreparedStatement preparedStmt2 = con.prepareStatement(sql);
@@ -135,18 +135,7 @@ public class UserServiceImpl {
 
                 ResultSet resultSet2 = preparedStmt2.executeQuery();
                 while (resultSet2.next()) {
-                    a.setCedulaIdentidad(String.valueOf(resultSet2.getInt(1)));
-                    a.setNombre(resultSet2.getString(2));
-                    a.setApellido(resultSet2.getString(3));
-                    a.setFechaNacimiento(resultSet2.getDate(4).toString());
-                    a.setEmail(resultSet2.getString(5));
-                    a.setIdCarrera(String.valueOf(resultSet2.getInt(6)));
-                    a.setUserId(resultSet2.getString(7));
-                    a.setPuntaje(Integer.toString(resultSet2.getInt(8)));
-                    a.setIdCampeon(Integer.toString(resultSet2.getInt(9)));
-                    a.setPuntosPorCampeon(Integer.toString(resultSet2.getInt(10)));
-                    a.setIdSubcampeon(Integer.toString(resultSet2.getInt(11)));
-                    a.setPuntosPorSubcampeon(Integer.toString(resultSet2.getInt(12)));
+                    a = new Alumno(resultSet2);
                 }
 
                 final String token = jwtUtilService
@@ -255,6 +244,17 @@ public class UserServiceImpl {
             return response;
 
         }
+    }
+
+    public CreateAlumnoResponse obtenerAlumno(int ci) throws SQLException, ClassNotFoundException {
+        createConection();
+        String sql = "SELECT * FROM ALUMNO WHERE cedulaIdentidad = " + ci;
+        ResultSet rs = con.prepareStatement(sql).executeQuery();
+        rs.absolute(1);
+        Alumno alumno = new Alumno(rs);
+        DefaultResponse defaultResponse = new DefaultResponse("200", "Alumno obtenido correctamente");
+        CreateAlumnoResponse response = new CreateAlumnoResponse(defaultResponse, alumno);
+        return response;
     }
 
     public ObtenerCarrerasResponse obtenerCarreras() throws SQLException, ClassNotFoundException {

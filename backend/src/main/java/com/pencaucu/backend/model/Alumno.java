@@ -1,5 +1,8 @@
 package com.pencaucu.backend.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Alumno {
 
     String cedulaIdentidad;
@@ -15,7 +18,20 @@ public class Alumno {
     String idSubcampeon;
     String puntosPorSubcampeon;
 
-    
+    public Alumno(ResultSet rs) throws SQLException {
+        this.cedulaIdentidad = String.valueOf(rs.getInt(1));
+        this.nombre = rs.getString(2);
+        this.apellido = rs.getString(3);
+        this.fechaNacimiento = rs.getDate(4).toString();
+        this.email = rs.getString(5);
+        this.idCarrera = String.valueOf(rs.getInt(6));
+        this.userId = rs.getString(7);
+        this.puntaje = Integer.toString(rs.getInt(8));
+        this.idCampeon = Integer.toString(rs.getInt(9));
+        this.puntosPorCampeon = Integer.toString(rs.getInt(10));
+        this.idSubcampeon = Integer.toString(rs.getInt(11));
+        this.puntosPorSubcampeon = Integer.toString(rs.getInt(12));
+    }
 
     public Alumno(String cedulaIdentidad, String nombre, String apellido, String fechaNacimiento, String email,
             String idCarrera, String userId, String idCampeon, String puntosPorCampeon, String idSubcampeon,
