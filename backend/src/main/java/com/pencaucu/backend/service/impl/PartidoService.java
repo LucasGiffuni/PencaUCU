@@ -62,7 +62,7 @@ public class PartidoService extends AbstractService {
             throw new UnsupportedOperationException("Los equipos no están en la misma etapa");
         }
 
-        String sql = "INSERT INTO partido(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO PARTIDO (idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (?, ?, ?, ?, ?)";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
 
         preparedStmt.setInt(1, idEquipo1);
@@ -96,7 +96,7 @@ public class PartidoService extends AbstractService {
     public List<Partido> getPartidos() throws ClassNotFoundException, SQLException {
         createConection();
 
-        String sql = "SELECT * FROM partido";
+        String sql = "SELECT * FROM PARTIDO";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         ResultSet rs = preparedStmt.executeQuery();
 
@@ -128,7 +128,7 @@ public class PartidoService extends AbstractService {
         // int idGanador = calcularGanador(idPartido, resultadoEquipo1,
         // resultadoEquipo2);
 
-        String sql = "UPDATE partido SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true WHERE idPartido = ?";
+        String sql = "UPDATE PARTIDO SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true WHERE idPartido = ?";
 
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         preparedStmt.setInt(1, resultadoEquipo1);
@@ -143,7 +143,7 @@ public class PartidoService extends AbstractService {
 
     public CrearPartidoResponse getPartidoById(int idPartido) throws SQLException, ClassNotFoundException {
         createConection();
-        String sql = "SELECT * FROM partido WHERE idPartido = " + idPartido;
+        String sql = "SELECT * FROM PARTIDO WHERE idPartido = " + idPartido;
         ResultSet rs = con.prepareStatement(sql).executeQuery();
         rs.absolute(1);
         Partido p = new Partido(rs);
@@ -153,7 +153,7 @@ public class PartidoService extends AbstractService {
 
     private Partido getPartido(int idEquipo1, int idEquipo2, String etapa) throws SQLException {
 
-        String sql = "SELECT * FROM partido WHERE idEquipo1 = ? AND idEquipo2 = ? AND etapa = ?";
+        String sql = "SELECT * FROM PARTIDO WHERE idEquipo1 = ? AND idEquipo2 = ? AND etapa = ?";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         preparedStmt = con.prepareStatement(sql);
         preparedStmt.setInt(1, idEquipo1);
@@ -176,7 +176,7 @@ public class PartidoService extends AbstractService {
 
         String columnaGanador = (resultadoEquipo1 > resultadoEquipo2) ? "idEquipo1" : "idEquipo2";
 
-        String sql = "SELECT " + columnaGanador + " FROM partido WHERE idPartido = ?";
+        String sql = "SELECT " + columnaGanador + " FROM PARTIDO WHERE idPartido = ?";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         preparedStmt.setInt(1, idPartido);
         ResultSet rs = preparedStmt.executeQuery();
