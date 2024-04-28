@@ -82,4 +82,9 @@ public class UserController {
         return ResponseEntity.ok(userService.obtenerCarreras());
     }
 
+    @GetMapping("/alumno/{CI}/obtenerAlumno")
+    public ResponseEntity<CreateAlumnoResponse> obtenerAlumno(@PathVariable int CI) throws ClassNotFoundException, SQLException {
+        return ResponseEntity.ok(userService.obtenerAlumno(CI));
+    }
+
 }
