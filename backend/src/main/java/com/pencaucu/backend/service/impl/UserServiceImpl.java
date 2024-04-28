@@ -141,6 +141,12 @@ public class UserServiceImpl {
                     a.setFechaNacimiento(resultSet2.getDate(4).toString());
                     a.setEmail(resultSet2.getString(5));
                     a.setIdCarrera(String.valueOf(resultSet2.getInt(6)));
+                    a.setUserId(resultSet2.getString(7));
+                    a.setPuntaje(Integer.toString(resultSet2.getInt(8)));
+                    a.setIdCampeon(Integer.toString(resultSet2.getInt(9)));
+                    a.setPuntosPorCampeon(Integer.toString(resultSet2.getInt(10)));
+                    a.setIdSubcampeon(Integer.toString(resultSet2.getInt(11)));
+                    a.setPuntosPorSubcampeon(Integer.toString(resultSet2.getInt(12)));
                 }
 
                 final String token = jwtUtilService

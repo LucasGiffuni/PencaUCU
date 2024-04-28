@@ -139,11 +139,8 @@ public class PartidoService extends AbstractService {
 
     public CrearPartidoResponse getPartidoById(int idPartido) throws SQLException, ClassNotFoundException {
         createConection();
-        String sql = "SELECT * FROM partido WHERE idPartido = ?";
-        PreparedStatement preparedStmt = con.prepareStatement(sql);
-        preparedStmt = con.prepareStatement(sql);
-        preparedStmt.setInt(1, idPartido);
-        ResultSet rs = preparedStmt.executeQuery();
+        String sql = "SELECT * FROM partido WHERE idPartido = " + idPartido;
+        ResultSet rs = con.prepareStatement(sql).executeQuery();
         rs.absolute(1);
         Partido p = new Partido(rs);
         DefaultResponse DR = new DefaultResponse("200", "Partido obtenido correctamente");
@@ -169,6 +166,10 @@ public class PartidoService extends AbstractService {
     public int calcularGanador(int idPartido, int resultadoEquipo1, int resultadoEquipo2)
             throws ClassNotFoundException, SQLException {
         createConection();
+        if (resultadoEquipo1 == resultadoEquipo2) {
+            return 0;
+        }
+
         String columnaGanador = (resultadoEquipo1 > resultadoEquipo2) ? "idEquipo1" : "idEquipo2";
 
         String sql = "SELECT " + columnaGanador + " FROM partido WHERE idPartido = ?";
