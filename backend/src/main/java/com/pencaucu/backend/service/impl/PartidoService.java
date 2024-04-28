@@ -33,7 +33,7 @@ public class PartidoService extends AbstractService {
 
     @Autowired
     EquipoService equipoService;
-    
+
     @Autowired
     PrediccionService prediccionService;
 
@@ -80,7 +80,7 @@ public class PartidoService extends AbstractService {
             preparedStmt.execute();
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
-            DefaultResponse DR = new DefaultResponse("400", "Parametros invalidos");
+            DefaultResponse DR = new DefaultResponse("400", "Ya existe partido ingresado para estos equipos en esta fase");
             return new CrearPartidoResponse(DR, null);
         }
 
@@ -125,7 +125,8 @@ public class PartidoService extends AbstractService {
             throws SQLException, ClassNotFoundException {
         createConection();
 
-        // int idGanador = calcularGanador(idPartido, resultadoEquipo1, resultadoEquipo2);
+        // int idGanador = calcularGanador(idPartido, resultadoEquipo1,
+        // resultadoEquipo2);
 
         String sql = "UPDATE partido SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true WHERE idPartido = ?";
 
