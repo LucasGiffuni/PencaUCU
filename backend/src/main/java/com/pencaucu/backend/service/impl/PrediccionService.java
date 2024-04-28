@@ -1,8 +1,10 @@
 package com.pencaucu.backend.service.impl;
 
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,16 +20,26 @@ public class PrediccionService extends AbstractService {
 
     public CrearPrediccionResponse cargarPrediccion(int CI, int idPartido, int resultadoEquipo1, int resultadoEquipo2) throws ClassNotFoundException, SQLException {
         createConection();
-        String sql = "INSERT INTO prediccion VALUES (?, ?, ?, ?, ?, ?)";
+
+        String sql = "SELECT fecha FROM partido WHERE idPartido = " + idPartido;
+        ResultSet rs = con.prepareStatement(sql).executeQuery();
+        rs.absolute(1);
+        long currentTime = Timestamp.valueOf(LocalDateTime.now()).getTime();
+        long partidoTime = rs.getTimestamp(1).getTime();
+
+        long difference = partidoTime - currentTime;
+        long milisegunosEnUnaHora = 3600 * 1000;
+
+        if (difference < milisegunosEnUnaHora) {
+            throw new UnsupportedOperationException("No se puede realizar predicción porque falta menos de una hora para el partido");
+        }        
+
+        sql = "INSERT INTO prediccion (cedulaIdentidad, idPartido, resultadoEquipo1, resultadoEquipo2) VALUES (?, ?, ?, ?)";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         preparedStmt.setInt(1, CI);
         preparedStmt.setInt(2, idPartido);
-        // HAY QUE CAMBIARLO
-        // int idGanador = partidoService.calcularGanador(idPartido, resultadoEquipo1, resultadoEquipo2);
-        // preparedStmt.setInt(3, idGanador);
-        preparedStmt.setInt(4, resultadoEquipo1);
-        preparedStmt.setInt(5, resultadoEquipo2);
-        preparedStmt.setInt(6, 0);
+        preparedStmt.setInt(3, resultadoEquipo1);
+        preparedStmt.setInt(4, resultadoEquipo2);
         preparedStmt.execute();
 
         DefaultResponse dr = new DefaultResponse("200", "Prediccion cargada correctamente");

@@ -9,6 +9,7 @@ public class Alumno {
     String email;
     String idCarrera;
     String userId;
+    String puntaje;
     String idCampeon;
     String puntosPorCampeon;
     String idSubcampeon;
@@ -26,6 +27,7 @@ public class Alumno {
         this.email = email;
         this.idCarrera = idCarrera;
         this.userId = userId;
+        this.puntaje = "0";
         this.idCampeon = idCampeon;
         this.puntosPorCampeon = puntosPorCampeon;
         this.idSubcampeon = idSubcampeon;
@@ -121,6 +123,14 @@ public class Alumno {
 
     public void setPuntosPorSubcampeon(String puntosPorSubcampeon) {
         this.puntosPorSubcampeon = puntosPorSubcampeon;
+    }
+
+    public String getPuntaje() {
+        return puntaje;
+    }
+
+    public void setPuntaje(String puntaje) {
+        this.puntaje = puntaje;
     }
 
 }
