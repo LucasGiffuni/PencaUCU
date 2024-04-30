@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import "../Styles/HomeComponent.css";
 import GroupComponent from "./GroupComponent";
 import Accordion from "react-bootstrap/Accordion";
-import MatchDisplayComponent from "./MatchDisplayComponent";
 import { getTeamsByGroup } from "../Services/GroupService";
+
+
+import { MatchDisplayComponent } from "./MatchDisplayComponent"
 
 import NavBarComponent from "./NavBarComponent";
 

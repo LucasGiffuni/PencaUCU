@@ -5,16 +5,15 @@ import HomeComponent from "./HomeComponent";
 
 import { useEffect, useState } from "react";
 import LoginComponent from "./LoginComponent";
-import TournamentDashboard from "./TournametDashboard";
-
 function App() {
 
 
   return (
-    <div>
+    <div className="App-Component">
       <BrowserRouter>
         <Routes>
           <Route
+          className={"App-Component"}
             path="/login"
             element={
               <LoginComponent />
@@ -29,12 +28,7 @@ function App() {
             }
           />
 
-          <Route
-            path="/Tournament"
-            element={
-              <TournamentDashboard />
-            }
-          />
+       
         </Routes>
       </BrowserRouter>
     </div>

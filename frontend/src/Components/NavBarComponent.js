@@ -50,10 +50,7 @@ const CustomToggle = React.forwardRef(({ children, onClick, name }, ref) => (
     }}
   >
     {children}
-    <Avatar
-      className="NavBar-Avatar-Component"
-      {...stringAvatar(name)}
-    />
+    <Avatar className="NavBar-Avatar-Component" {...stringAvatar(name)} />
   </a>
 ));
 
@@ -62,13 +59,18 @@ function NavBarComponent(props) {
 
   let alumno = JSON.parse(localStorage.getItem("alumno"));
 
+  if (alumno === null) {
+    alumno = {
+      nombre: "A",
+      apellido: "B",
+    };
+  }
+
   const logout = () => {
     navigate("/login");
   };
 
-
   useEffect(() => {
-
     let newObject = localStorage.getItem("alumno");
     alumno = newObject;
   }, []);
@@ -87,7 +89,11 @@ function NavBarComponent(props) {
       </Container>
 
       <Dropdown className="NavBar-Component-Dropdown">
-        <Dropdown.Toggle as={CustomToggle} id={`dropdown-button-drop-start`} name={alumno.nombre + " " + alumno.apellido} />
+        <Dropdown.Toggle
+          as={CustomToggle}
+          id={`dropdown-button-drop-start`}
+          name={alumno.nombre + " " + alumno.apellido}
+        />
         <Dropdown.Menu>
           <Dropdown.Item>Perfil</Dropdown.Item>
           <Dropdown.Item>Mis Apuestas</Dropdown.Item>

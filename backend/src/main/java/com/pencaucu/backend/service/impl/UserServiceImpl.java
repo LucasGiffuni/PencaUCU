@@ -227,8 +227,13 @@ public class UserServiceImpl {
             preparedStmt.setString(5, alumno.getEmail());
             preparedStmt.setInt(6, Integer.parseInt(alumno.getIdCarrera()));
             preparedStmt.setString(7, alumno.getUserId());
-            preparedStmt.setInt(8, Integer.parseInt(alumno.getIdCampeon()));
-            preparedStmt.setInt(9, Integer.parseInt(alumno.getIdSubcampeon()));
+            if (alumno.getIdCampeon() == "" && alumno.getIdSubcampeon() == "") {
+                preparedStmt.setInt(8, Integer.parseInt(alumno.getIdCampeon()));
+                preparedStmt.setInt(9, Integer.parseInt(alumno.getIdSubcampeon()));
+            }else{
+                preparedStmt.setInt(8, 1);
+                preparedStmt.setInt(9, 1);
+            }
 
             preparedStmt.execute();
 
