@@ -3,6 +3,8 @@ package com.pencaucu.backend.service.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,16 @@ public class EquipoService extends AbstractService {
         return new GetEquipoResponse(dr, e);
     }
 
-
+    public List<Equipo> getEquipos() throws SQLException, ClassNotFoundException {
+        createConection();
+        ArrayList<Equipo> equipos = new ArrayList<>();
+        String sql = "SELECT * FROM EQUIPO";
+        ResultSet rs = con.prepareStatement(sql).executeQuery();
+        while (rs.next()) {
+            equipos.add(new Equipo(rs));
+        }
+        return equipos;
+    }
 
     public GetEquipoResponse actualizarEtapa(int idEquipo, String newEtapa) throws ClassNotFoundException, SQLException {
         createConection();

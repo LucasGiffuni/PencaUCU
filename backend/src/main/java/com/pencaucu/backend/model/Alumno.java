@@ -19,18 +19,18 @@ public class Alumno {
     String puntosPorSubcampeon;
 
     public Alumno(ResultSet rs) throws SQLException {
-        this.cedulaIdentidad = String.valueOf(rs.getInt(1));
-        this.nombre = rs.getString(2);
-        this.apellido = rs.getString(3);
-        this.fechaNacimiento = rs.getDate(4).toString();
-        this.email = rs.getString(5);
-        this.idCarrera = String.valueOf(rs.getInt(6));
-        this.userId = rs.getString(7);
-        this.puntaje = Integer.toString(rs.getInt(8));
-        this.idCampeon = Integer.toString(rs.getInt(9));
-        this.puntosPorCampeon = Integer.toString(rs.getInt(10));
-        this.idSubcampeon = Integer.toString(rs.getInt(11));
-        this.puntosPorSubcampeon = Integer.toString(rs.getInt(12));
+        this.cedulaIdentidad = String.valueOf(rs.getInt(4));
+        this.nombre = rs.getString(5);
+        this.apellido = rs.getString(6);
+        this.fechaNacimiento = String.valueOf(rs.getDate(7));
+        this.email = rs.getString(8);
+        this.idCarrera = String.valueOf(rs.getInt(9));
+        this.userId = rs.getString(1);
+        this.puntaje = Integer.toString(rs.getInt(10));
+        this.idCampeon = Integer.toString(rs.getInt(11));
+        this.puntosPorCampeon = Integer.toString(rs.getInt(12));
+        this.idSubcampeon = Integer.toString(rs.getInt(13));
+        this.puntosPorSubcampeon = Integer.toString(rs.getInt(14));
     }
 
     public Alumno(String cedulaIdentidad, String nombre, String apellido, String fechaNacimiento, String email,
