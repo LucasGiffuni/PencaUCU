@@ -2,15 +2,8 @@
 DROP DATABASE IF exists PencaUCU;
 
 CREATE DATABASE PencaUCU;
-
 USE PencaUCU;
 
-CREATE TABLE LOGIN
-(
-    userId varchar(20) PRIMARY KEY,
-    password VARCHAR(50) NOT NULL,
-    rol ENUM('ADMIN', 'ALUMNO')
-);
 
 CREATE table GRUPO (
 	ID char primary key,
@@ -67,20 +60,21 @@ create Table CARRERA(
 	nombreCarrera varchar(60) not null
 );
 
-create table ALUMNO(
-	cedulaIdentidad INT(9) PRIMARY KEY,
-	nombre varchar(30) not null,
-	apellido varchar(30) not null,
-    fechaNacimiento date not null,
-	email varchar(60) not null,
-    idCarrera INT(8) NOT NULL,
-    userId  varchar(20) not null,
+create table USUARIO (
+	userId varchar(20) primary key,
+    password VARCHAR(50) NOT NULL,
+    rol ENUM('ADMIN', 'ALUMNO'),
+	cedulaIdentidad INT(9),
+	nombre varchar(30),
+	apellido varchar(30),
+    fechaNacimiento date,
+	email varchar(60),
+    idCarrera INT(8),
     puntaje INT(8) default 0,
-    idCampeon INT(8) not null,
+    idCampeon INT(8),
     puntosPorCampeon INT(2) default null,
-    idSubcampeon INT(8) not null,
+    idSubcampeon INT(8),
     puntosPorSubcampeon INT(2) default null,
-	FOREIGN KEY (userId) REFERENCES LOGIN (userId),
 	FOREIGN KEY (idCarrera) REFERENCES CARRERA (idCarrera),
 	FOREIGN KEY (idCampeon) REFERENCES EQUIPO (idEquipo),
 	FOREIGN KEY (idSubcampeon) REFERENCES EQUIPO (idEquipo),
@@ -89,13 +83,13 @@ create table ALUMNO(
 );
 
 create Table PREDICCION(
-	cedulaIdentidad  INT(9) NOT NULL,
-    idPartido INT(8) NOT NULL,
+	userId varchar(20),
+    idPartido INT(8),
     resultadoEquipo1 INT(2) not null,
 	resultadoEquipo2 INT(2) not null,
 	puntosObtenidos INT(2) default null,
-    PRIMARY KEY (cedulaIdentidad, idPartido),
-    foreign key (cedulaIdentidad) references ALUMNO (cedulaIdentidad),
+    PRIMARY KEY (userId, idPartido),
+    foreign key (userId) references USUARIO (userId),
     foreign key (idPartido) references PARTIDO (idPartido)
 );
 
