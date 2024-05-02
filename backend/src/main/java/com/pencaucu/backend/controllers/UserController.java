@@ -48,26 +48,6 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
-    private static final Logger logger = LoggerFactory.getLogger(BackendApplication.class);
-
-    @PostMapping("/public/login")
-    public ResponseEntity<LoginResponse> validateUser(@RequestParam String user, @RequestParam String clave)
-            throws NoSuchAlgorithmException {
-
-        LoginResponse response = userService.login(user, clave);
-
-        return ResponseEntity.ok(response);
-
-    }
-
-    @PostMapping("/public/register")
-    public ResponseEntity<RegisterResponse> createUser(@RequestParam String user, @RequestParam String clave)
-            throws NoSuchAlgorithmException {
-        System.out.println(user);
-        System.out.println(clave);
-        return ResponseEntity.ok(userService.register(user, clave));
-    }
-
     @PostMapping("/alumno/crearAlumno")
     public ResponseEntity<CreateAlumnoResponse> createAlumno(@RequestBody Alumno alumno)
             throws NoSuchAlgorithmException {
@@ -83,7 +63,8 @@ public class UserController {
     }
 
     @GetMapping("/alumno/{CI}/obtenerAlumno")
-    public ResponseEntity<CreateAlumnoResponse> obtenerAlumno(@PathVariable int CI) throws ClassNotFoundException, SQLException {
+    public ResponseEntity<CreateAlumnoResponse> obtenerAlumno(@PathVariable int CI)
+            throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(userService.obtenerAlumno(CI));
     }
 

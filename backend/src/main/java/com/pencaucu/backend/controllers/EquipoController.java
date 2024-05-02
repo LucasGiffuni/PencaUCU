@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pencaucu.backend.model.responses.GetEquipoResponse;
+import com.pencaucu.backend.model.responses.GetEquiposResponse;
 import com.pencaucu.backend.model.responses.GetGrupoResponse;
 import com.pencaucu.backend.service.impl.EquipoService;
 import com.pencaucu.backend.service.impl.GrupoService;
@@ -27,5 +28,7 @@ public class EquipoController {
     public ResponseEntity<GetEquipoResponse> getEquipo(@PathVariable int idEquipo) throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.getEquipoById(idEquipo));
     }
+
+    
 
 }

@@ -14,9 +14,14 @@ const DropDownHeader = styled("div")`
   font-size: 1.3rem;
   color: #3faffa;
   background: #ffffff;
+  
 `;
 
-const DropDownListContainer = styled("div")``;
+const DropDownListContainer = styled("div")`
+
+overflow:scroll;
+width: 200px;
+`;
 
 const DropDownList = styled("ul")`
   padding: 0;
@@ -31,6 +36,7 @@ const DropDownList = styled("ul")`
   &:first-child {
     padding-top: 0.8em;
   }
+  height: 120px
 `;
 
 const ListItem = styled("li")`
@@ -46,6 +52,36 @@ let Teams = [
     idEquipo: 0,
     nombre: "Uruguay",
     urlBandera: "https://www.worldometers.info/img/flags/uy-flag.gif",
+  },
+  {
+    idEquipo: 1,
+    nombre: "Argentina",
+    urlBandera: "https://www.worldometers.info/img/flags/ar-flag.gif",
+  },
+  {
+    idEquipo: 1,
+    nombre: "Argentina",
+    urlBandera: "https://www.worldometers.info/img/flags/ar-flag.gif",
+  },
+  {
+    idEquipo: 1,
+    nombre: "Argentina",
+    urlBandera: "https://www.worldometers.info/img/flags/ar-flag.gif",
+  },
+  {
+    idEquipo: 1,
+    nombre: "Argentina",
+    urlBandera: "https://www.worldometers.info/img/flags/ar-flag.gif",
+  },
+  {
+    idEquipo: 1,
+    nombre: "Argentina",
+    urlBandera: "https://www.worldometers.info/img/flags/ar-flag.gif",
+  },
+  {
+    idEquipo: 1,
+    nombre: "Argentina",
+    urlBandera: "https://www.worldometers.info/img/flags/ar-flag.gif",
   },
   {
     idEquipo: 1,
@@ -80,6 +116,7 @@ export default function CustomDropdown() {
                   onClick={onOptionClicked(option.nombre)}
                   key={Math.random()}
                 >
+                  <h3>{option.nombre}</h3>
                   <img
                     className="Card-Container-Item-Flag"
                     src={option.urlBandera}

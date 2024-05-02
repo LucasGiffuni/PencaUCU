@@ -10,31 +10,42 @@ import {
 import { useNavigate } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 
-import CustomDropdown from "./CustomDropdown";
+import { getTeams } from '../Services/TeamService'
+
+
+
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
 const LoginComponent = (props) => {
-  const { loggedIn, email } = props;
 
   const [loginMode, setMode] = useState(true);
 
   const [successfulLogin, setSuccessfulLogin] = useState(false);
   const [failedLogin, setFailedLogin] = useState(false);
-  const [loginResponseData, loginRegisterResponseData] = useState(false);
 
-  const [successfulRegister, setSuccessfulRegister] = useState(false);
   const [failedRegister, setFailedRegister] = useState(false);
-  const [registerResponseData, setRegisterResponseData] = useState(false);
 
-  const data = [
-    {
-      id: "1",
-      name: "Uruguay",
-      imageUrl: "https://www.worldometers.info/img/flags/uy-flag.gif",
-    },
-  ];
+
+
+
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 600,
+    height: 600,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
   const [carreras, setCarreras] = useState(null);
-  const [carrerasFetched, setCarrerasFetched] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -43,6 +54,39 @@ const LoginComponent = (props) => {
   const [bithDate, setBirthDate] = useState("");
   const [carrera, setCarrera] = useState("");
   const [cedulaIdentidad, setCedulaIdentidad] = useState("");
+  const [idEquipoCampeon, setIdEquipoCampeon] = useState("");
+  const [idEquipoSubCampeon, setIdEquipoSubCampeon] = useState("");
+
+
+  const [equipos, setEquipos] = useState([]);
+
+  const [openEquipoCampeonModal, setOpenEquipoCampeonModal] = React.useState(false);
+  const [openEquipoSubCampeonModal, setOpenEquipoSubCampeonModal] = React.useState(false);
+
+  const abrirModelEquipoCampeon = () => {
+    setOpenEquipoCampeonModal(true)
+  };
+  const abrirModelEquipoSubCampeon = () => {
+    setOpenEquipoSubCampeonModal(true)
+  };
+  const handleClose = () => {
+    setOpenEquipoCampeonModal(false)
+    setOpenEquipoSubCampeonModal(false)
+  };
+
+
+  const setEquipoCampeon = (idEquipoCampeon) => {
+    console.log("ID EQUIPO CAMPEON: " + idEquipoCampeon)
+
+    handleClose()
+    setIdEquipoCampeon(idEquipoCampeon)
+  }
+
+  const setEquipoSubCampeon = (idEquipoSubCampeon) => {
+    console.log("ID EQUIPO SUB CAMPEON: " + idEquipoSubCampeon)
+    handleClose()
+    setIdEquipoSubCampeon(idEquipoSubCampeon)
+  }
 
   const navigate = useNavigate();
 
@@ -55,15 +99,18 @@ const LoginComponent = (props) => {
     setMode(!loginMode);
   };
 
-  const handleSelect = (id) => {
-    console.log(`Selected item with id ${id}`);
-  };
+
 
   useEffect(() => {
     const response2 = getCarreras().then((data) => {
       setCarreras(data[1].carreras);
-      setCarrerasFetched(true);
     });
+
+    const getEquiposResponse = getTeams().then((data) => {
+      setEquipos(data[1])
+      console.log(equipos)
+    })
+
   }, []);
 
   const loginUser = () => {
@@ -108,7 +155,6 @@ const LoginComponent = (props) => {
           successfullLoginOrRegister();
         });
       } else {
-        setRegisterResponseData(createUserResponse[1].response.description);
         setFailedRegister(true);
       }
     });
@@ -241,11 +287,13 @@ const LoginComponent = (props) => {
                 })}
               </select>
 
+              <br />
               <label htmlFor="campeon">Equipo Campeon</label>
-              <CustomDropdown />
+              <Button onClick={abrirModelEquipoCampeon}>Seleccionar Campeon</Button>
 
+              <br />
               <label htmlFor="campeon">Equipo SubCampeon</label>
-              <CustomDropdown />
+              <Button onClick={abrirModelEquipoSubCampeon}>Seleccionar Sub-Campeon</Button>
 
               <button
                 className="Login-Component-Button"
@@ -262,6 +310,65 @@ const LoginComponent = (props) => {
           </div>
         )}
       </div>
+
+
+
+
+      <Modal
+        open={openEquipoCampeonModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Seleccionar Equipo Campeon
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <div class="grid-container">
+              {
+                equipos && equipos.map((team) => {
+                  return (
+                    <div class="grid-item" onClick={() => setEquipoCampeon(team.id)}>
+                      <img className="Login-Component-Flags" src={team.urlBandera} alt={team.nombre} />
+                    </div>
+                  )
+                })
+              }
+
+            </div>
+          </Typography>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={openEquipoSubCampeonModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Seleccionar Equipo Sub Campeon
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <div class="grid-container">
+              {
+                equipos && equipos.map((team) => {
+                  return (
+                    <div class="grid-item" onClick={() => setEquipoSubCampeon(team.id)}>
+                      <img className="Login-Component-Flags" src={team.urlBandera} alt={team.nombre} />
+                    </div>
+                  )
+                })
+              }
+
+            </div>
+          </Typography>
+        </Box>
+      </Modal>
+
+
 
       <Alert key={"success"} variant={"success"} show={successfulLogin}>
         This is a you like.

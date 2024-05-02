@@ -9,7 +9,7 @@
 }
 
 
-.App-Component{
+.App-Component {
   background-color: #242124;
 
   height: 100vh;
@@ -176,7 +176,7 @@ body {
 }
 
 .Register-Component-Form {
-  width: 50%;
+  width: 30%;
   height: 100%;
   position: absolute;
   transform: translate(-50%, -50%);
@@ -187,7 +187,7 @@ body {
 }
 
 .Login-Component {
-  width: 50%;
+  width: 30%;
   height: 60%;
   position: absolute;
   transform: translate(-50%, -50%);
@@ -359,8 +359,60 @@ button:hover {
   color: #083c87
 }
 
-.Login-Component-Alert{
+.Login-Component-Alert {
   position: relative;
   /* Posición fija en la ventana del navegador */
   bottom: 0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  /* 4 columnas */
+  grid-template-rows: repeat(5, auto);
+  /* 5 filas */
+  gap: 10px;
+  /* Espacio entre las imágenes */
+  padding: 10px;
+  /* Espacio alrededor de la grilla */
+
+}
+
+.grid-item:hover img {
+  transform: scale(1.1);
+  /* Aumenta el tamaño de la imagen al 110% */
+  transition: transform 0.3s ease;
+  /* Suaviza la transición */
+  cursor: pointer;
+
+}
+
+.grid-item {
+  overflow: hidden;
+  padding: 10%;
+  height: 100px;
+  width: 100px;
+  border: 1px solid black;
+  border-radius: 10%;
+  /* Oculta partes de la imagen que se desborden */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Esto centrará la imagen verticalmente */
+
+}
+
+.grid-item {
+  width: 100%;
+  /* O ajusta el ancho según tus necesidades */
+}
+
+.grid-item img {
+  width: 100%;
+  /* Las imágenes ocupan todo el espacio del contenedor */
+  height: auto;
+  /* La altura se ajusta automáticamente */
+}
+
+.Login-Component-Flags {
+
 }

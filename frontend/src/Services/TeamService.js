@@ -26,3 +26,28 @@ export async function getTeamDetailByID(teamID) {
   return res;
 
 }
+
+export async function getTeams() {
+  const instance = axios.create({
+    baseURL: 'http://127.0.0.1:8080',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json'
+    },
+  });
+  let res = instance.get("http://127.0.0.1:8080/public/getEquipos")
+    .then(response => {
+      let serviceResponse = [];
+      serviceResponse[0] = response.data.defaultResponse;
+      serviceResponse[1] = response.data.equipo;
+
+      return serviceResponse
+    })
+    .catch(error => {
+      let serviceResponse = [];
+      serviceResponse[0] = error;
+      return serviceResponse
+    });
+  return res;
+
+}
