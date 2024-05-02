@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class Prediccion {
 
-    private String cedulaIdentidad;
+    private String userId;
     private String idPartido;
     private String resultadoEquipo1;
     private String resultadoequipo2;
@@ -20,19 +20,19 @@ public class Prediccion {
     }
 
     public Prediccion(ResultSet rs) throws SQLException {
-        this.cedulaIdentidad = Integer.toString(rs.getInt(1));
+        this.userId = rs.getString(1);
         this.idPartido = Integer.toString(rs.getInt(2));
         this.resultadoEquipo1 = Integer.toString(rs.getInt(3));
         this.resultadoequipo2 = Integer.toString(rs.getInt(4));
         this.puntajeObtenido = Integer.toString(rs.getInt(5));
     }
 
-    public String getCedulaIdentidad() {
-        return cedulaIdentidad;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setCedulaIdentidad(String cedulaIdentidad) {
-        this.cedulaIdentidad = cedulaIdentidad;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getIdPartido() {

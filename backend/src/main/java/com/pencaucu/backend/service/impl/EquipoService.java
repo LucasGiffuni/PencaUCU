@@ -28,8 +28,8 @@ public class EquipoService extends AbstractService {
         return new GetEquipoResponse(dr, e);
     }
 
-    public GetEquipoResponse actualizarEtapa(int idEquipo, String newEtapa)
-            throws ClassNotFoundException, SQLException {
+
+    public GetEquipoResponse actualizarEtapa(int idEquipo, String newEtapa) throws ClassNotFoundException, SQLException {
         createConection();
         String sql = "UPDATE EQUIPO SET etapaActual = ? WHERE idEquipo = " + idEquipo;
         PreparedStatement preparedStmt = con.prepareStatement(sql);

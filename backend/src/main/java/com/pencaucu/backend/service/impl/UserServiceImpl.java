@@ -85,7 +85,7 @@ public class UserServiceImpl {
         createConection();
         List<DatabaseUser> users = new ArrayList<>();
 
-        String sql = "select userId from LOGIN";
+        String sql = "select userId from USUARIO";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         ResultSet rs = preparedStmt.executeQuery();
         while (rs.next()) {
@@ -116,7 +116,7 @@ public class UserServiceImpl {
         }
         try {
             createConection();
-            String sql = "select Password from LOGIN where userId = ?";
+            String sql = "select Password from USUARIO where userId = ?";
 
             PreparedStatement preparedStmt = con.prepareStatement(sql);
             preparedStmt.setString(1, username);
@@ -128,7 +128,7 @@ public class UserServiceImpl {
             if (resultSet.getString(1).equals(encryptedpassword)) {
 
                 Alumno a = null;
-                sql = "Select * from ALUMNO f where f.userId = ?";
+                sql = "Select * from USUARIO f where f.userId = ?";
 
                 PreparedStatement preparedStmt2 = con.prepareStatement(sql);
                 preparedStmt2.setString(1, username);
@@ -178,7 +178,7 @@ public class UserServiceImpl {
         }
         try {
             createConection();
-            String sql = " insert into LOGIN (userId, password, rol)"
+            String sql = " insert into USUARIO (userId, password, rol)"
                     + " values (?, ?, ?)";
 
             PreparedStatement preparedStmt = con.prepareStatement(sql);
@@ -216,8 +216,7 @@ public class UserServiceImpl {
     public CreateAlumnoResponse createAlumno(Alumno alumno) {
         try {
             createConection();
-            String sql = "insert into ALUMNO (cedulaIdentidad, nombre, apellido, fechaNacimiento, email, idCarrera, userId, idCampeon, idSubcampeon)"
-                    + " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "update USUARIO set cedulaIdentidad = ?, nombre = ?, apellido = ?, fechaNacimiento = ?, email = ?, idCarrera = ?, idCampeon = ?, idSubcampeon = ? where userId = ?";
 
             PreparedStatement preparedStmt = con.prepareStatement(sql);
             preparedStmt.setInt(1, Integer.parseInt(alumno.getCedulaIdentidad()));
@@ -226,14 +225,14 @@ public class UserServiceImpl {
             preparedStmt.setDate(4, Date.valueOf(alumno.getFechaNacimiento()));
             preparedStmt.setString(5, alumno.getEmail());
             preparedStmt.setInt(6, Integer.parseInt(alumno.getIdCarrera()));
-            preparedStmt.setString(7, alumno.getUserId());
             if (alumno.getIdCampeon() == "" && alumno.getIdSubcampeon() == "") {
-                preparedStmt.setInt(8, Integer.parseInt(alumno.getIdCampeon()));
-                preparedStmt.setInt(9, Integer.parseInt(alumno.getIdSubcampeon()));
-            }else{
+                preparedStmt.setInt(7, Integer.parseInt(alumno.getIdCampeon()));
+                preparedStmt.setInt(8, Integer.parseInt(alumno.getIdSubcampeon()));
+            } else {
+                preparedStmt.setInt(7, 1);
                 preparedStmt.setInt(8, 1);
-                preparedStmt.setInt(9, 1);
             }
+            preparedStmt.setString(9, alumno.getUserId());
 
             preparedStmt.execute();
 
@@ -253,7 +252,7 @@ public class UserServiceImpl {
 
     public CreateAlumnoResponse obtenerAlumno(int ci) throws SQLException, ClassNotFoundException {
         createConection();
-        String sql = "SELECT * FROM ALUMNO WHERE cedulaIdentidad = " + ci;
+        String sql = "SELECT * FROM USUARIO WHERE cedulaIdentidad = " + ci;
         ResultSet rs = con.prepareStatement(sql).executeQuery();
         rs.absolute(1);
         Alumno alumno = new Alumno(rs);
