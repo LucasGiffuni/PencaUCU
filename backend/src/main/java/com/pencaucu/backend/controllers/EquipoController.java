@@ -16,6 +16,7 @@ import com.pencaucu.backend.model.responses.GetEquipoResponse;
 
 import com.pencaucu.backend.model.responses.GetEquiposResponse;
 import com.pencaucu.backend.model.responses.GetGrupoResponse;
+import com.pencaucu.backend.service.impl.EquipoService;
 
 
 @RestController()
@@ -29,11 +30,6 @@ public class EquipoController {
     @GetMapping("/{idEquipo}/getEquipo")
     public ResponseEntity<GetEquipoResponse> getEquipo(@PathVariable int idEquipo) throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.getEquipoById(idEquipo));
-    }
-
-    @GetMapping("/getEquipos")
-    public ResponseEntity<List<Equipo>> getEquipos() throws ClassNotFoundException, SQLException {
-        return ResponseEntity.ok(service.getEquipos());
     }
 
 }
