@@ -10,17 +10,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 
-import { getTeams } from '../Services/TeamService'
+import { getTeams } from "../Services/TeamService";
 
-
-
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 
 const LoginComponent = (props) => {
-
   const [loginMode, setMode] = useState(true);
 
   const [successfulLogin, setSuccessfulLogin] = useState(false);
@@ -28,19 +25,15 @@ const LoginComponent = (props) => {
 
   const [failedRegister, setFailedRegister] = useState(false);
 
-
-
-
-
   const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 600,
     height: 600,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    bgcolor: "background.paper",
+    border: "2px solid #000",
     boxShadow: 24,
     p: 4,
   };
@@ -54,44 +47,71 @@ const LoginComponent = (props) => {
   const [bithDate, setBirthDate] = useState("");
   const [carrera, setCarrera] = useState("");
   const [cedulaIdentidad, setCedulaIdentidad] = useState("");
-  const [idEquipoCampeon, setIdEquipoCampeon] = useState("");
-  const [idEquipoSubCampeon, setIdEquipoSubCampeon] = useState("");
 
+  const [idEquipoCampeon, setIdEquipoCampeon] = useState("");
+  const [nombreEquipoCampeon, setNombreEquipoCampeon] = useState("");
+
+  const [idEquipoSubCampeon, setIdEquipoSubCampeon] = useState("");
+  const [nombreEquipoSubCampeon, setNombreEquipoSubCampeon] = useState("");
 
   const [equipos, setEquipos] = useState([]);
 
-  const [openEquipoCampeonModal, setOpenEquipoCampeonModal] = React.useState(false);
-  const [openEquipoSubCampeonModal, setOpenEquipoSubCampeonModal] = React.useState(false);
+  const [openEquipoCampeonModal, setOpenEquipoCampeonModal] =
+    React.useState(false);
+  const [openEquipoSubCampeonModal, setOpenEquipoSubCampeonModal] =
+    React.useState(false);
+
+  const [openSelectorEquiposError, setOpenSelectorEquiposError] =
+    React.useState(false);
 
   const abrirModelEquipoCampeon = () => {
-    setOpenEquipoCampeonModal(true)
+    setOpenEquipoCampeonModal(true);
   };
   const abrirModelEquipoSubCampeon = () => {
-    setOpenEquipoSubCampeonModal(true)
+    setOpenEquipoSubCampeonModal(true);
   };
   const handleClose = () => {
-    setOpenEquipoCampeonModal(false)
-    setOpenEquipoSubCampeonModal(false)
+    setOpenEquipoCampeonModal(false);
+    setOpenEquipoSubCampeonModal(false);
   };
 
+  const setEquipoCampeon = (equipo) => {
+    console.log("ID EQUIPO CAMPEON: " + equipo.id);
 
-  const setEquipoCampeon = (idEquipoCampeon) => {
-    console.log("ID EQUIPO CAMPEON: " + idEquipoCampeon)
+    if (idEquipoSubCampeon !== equipo.id) {
+      setIdEquipoCampeon(equipo.id);
+      setNombreEquipoCampeon(equipo.nombre);
+      handleClose();
+    } else {
+      setOpenSelectorEquiposError(true);
 
-    handleClose()
-    setIdEquipoCampeon(idEquipoCampeon)
-  }
+      setTimeout(() => {
+        setOpenSelectorEquiposError(false);
+      }, 2000);
 
-  const setEquipoSubCampeon = (idEquipoSubCampeon) => {
-    console.log("ID EQUIPO SUB CAMPEON: " + idEquipoSubCampeon)
-    handleClose()
-    setIdEquipoSubCampeon(idEquipoSubCampeon)
-  }
+      handleClose();
+    }
+  };
+
+  const setEquipoSubCampeon = (equipo) => {
+    if (idEquipoCampeon !== equipo.id) {
+      console.log("ID EQUIPO SUB CAMPEON: " + equipo.id);
+      setIdEquipoSubCampeon(equipo.id);
+      setNombreEquipoSubCampeon(equipo.nombre);
+      handleClose();
+    } else {
+      setOpenSelectorEquiposError(true);
+      setTimeout(() => {
+        setOpenSelectorEquiposError(false);
+      }, 2000);
+      handleClose();
+    }
+  };
 
   const navigate = useNavigate();
 
   const successfullLoginOrRegister = () => {
-      setSuccessfulLogin(true);
+    setSuccessfulLogin(true);
     navigate("/home");
   };
 
@@ -99,18 +119,15 @@ const LoginComponent = (props) => {
     setMode(!loginMode);
   };
 
-
-
   useEffect(() => {
     const response2 = getCarreras().then((data) => {
       setCarreras(data[1].carreras);
     });
 
     const getEquiposResponse = getTeams().then((data) => {
-      setEquipos(data[1])
-      console.log(equipos)
-    })
-
+      setEquipos(data[1]);
+      console.log(equipos);
+    });
   }, []);
 
   const loginUser = () => {
@@ -127,7 +144,7 @@ const LoginComponent = (props) => {
 
   const createUserInDatabase = () => {
     createUser(username, password).then((createUserResponse) => {
-      if (createUserResponse[1].response.code == "200") {
+      if (createUserResponse[1].response.code === "200") {
         createAlumno(
           createUserResponse[1].jwt,
           cedulaIdentidad,
@@ -136,7 +153,9 @@ const LoginComponent = (props) => {
           bithDate,
           mail,
           carrera,
-          username
+          username,
+          idEquipoCampeon,
+          idEquipoSubCampeon
         ).then((data) => {
           localStorage.setItem("jwt", createUserResponse[1].jwt);
 
@@ -148,7 +167,12 @@ const LoginComponent = (props) => {
             email: mail,
             idCarrera: carrera,
             userId: username,
+            idCampeon: idEquipoCampeon,
+            idSubcampeon: idEquipoSubCampeon
           };
+
+
+
 
           localStorage.setItem("alumno", JSON.stringify(alumno));
 
@@ -288,12 +312,20 @@ const LoginComponent = (props) => {
               </select>
 
               <br />
-              <label htmlFor="campeon">Equipo Campeon</label>
-              <Button onClick={abrirModelEquipoCampeon}>Seleccionar Campeon</Button>
+              <label htmlFor="campeon">
+                Equipo Campeon: {nombreEquipoCampeon}
+              </label>
+              <Button onClick={abrirModelEquipoCampeon}>
+                Seleccionar Campeon
+              </Button>
 
               <br />
-              <label htmlFor="campeon">Equipo SubCampeon</label>
-              <Button onClick={abrirModelEquipoSubCampeon}>Seleccionar Sub-Campeon</Button>
+              <label htmlFor="campeon">
+                Equipo SubCampeon: {nombreEquipoSubCampeon}
+              </label>
+              <Button onClick={abrirModelEquipoSubCampeon}>
+                Seleccionar Sub-Campeon
+              </Button>
 
               <button
                 className="Login-Component-Button"
@@ -311,9 +343,6 @@ const LoginComponent = (props) => {
         )}
       </div>
 
-
-
-
       <Modal
         open={openEquipoCampeonModal}
         onClose={handleClose}
@@ -326,16 +355,21 @@ const LoginComponent = (props) => {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <div class="grid-container">
-              {
-                equipos && equipos.map((team) => {
+              {equipos &&
+                equipos.map((team) => {
                   return (
-                    <div class="grid-item" onClick={() => setEquipoCampeon(team.id)}>
-                      <img className="Login-Component-Flags" src={team.urlBandera} alt={team.nombre} />
+                    <div
+                      class="grid-item"
+                      onClick={() => setEquipoCampeon(team)}
+                    >
+                      <img
+                        className="Login-Component-Flags"
+                        src={team.urlBandera}
+                        alt={team.nombre}
+                      />
                     </div>
-                  )
-                })
-              }
-
+                  );
+                })}
             </div>
           </Typography>
         </Box>
@@ -353,22 +387,27 @@ const LoginComponent = (props) => {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <div class="grid-container">
-              {
-                equipos && equipos.map((team) => {
+              {equipos &&
+                equipos.map((team) => {
                   return (
-                    <div class="grid-item" onClick={() => setEquipoSubCampeon(team.id)}>
-                      <img className="Login-Component-Flags" src={team.urlBandera} alt={team.nombre} />
+                    <div
+                      class="grid-item"
+                      onClick={() => {
+                        setEquipoSubCampeon(team);
+                      }}
+                    >
+                      <img
+                        className="Login-Component-Flags"
+                        src={team.urlBandera}
+                        alt={team.nombre}
+                      />
                     </div>
-                  )
-                })
-              }
-
+                  );
+                })}
             </div>
           </Typography>
         </Box>
       </Modal>
-
-
 
       <Alert key={"success"} variant={"success"} show={successfulLogin}>
         This is a you like.
@@ -394,6 +433,17 @@ const LoginComponent = (props) => {
         onClose={() => setFailedRegister(false)}
       >
         Error during register process
+      </Alert>
+
+      <Alert
+        className="Login-Component-Alert"
+        key={"selectorEquiposFailed"}
+        variant={"danger"}
+        show={openSelectorEquiposError}
+        dismissible
+        onClose={() => setOpenSelectorEquiposError(false)}
+      >
+        Campeon y Sub-Campeon deben ser distintos
       </Alert>
     </>
   );

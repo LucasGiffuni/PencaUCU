@@ -25,7 +25,7 @@ class HomeComponent extends Component {
 
           <Accordion className="Accordion-Groups">
             <Accordion.Item eventKey="1">
-              <Accordion.Header>Group Phase</Accordion.Header>
+              <Accordion.Header>Fase de Grupos</Accordion.Header>
               <Accordion.Body>
                 <div className="Groups-Component-Container">
                   <GroupComponent groupID={"A"} />

@@ -85,7 +85,7 @@ export async function createUser(user, clave) {
 
 
 
-export async function createAlumno(token, cedulaIdentidad, nombre, apellido, fechaNacimiento, email, idCarrera, userId) {
+export async function createAlumno(token, cedulaIdentidad, nombre, apellido, fechaNacimiento, email, idCarrera, userId,idCampeon,idSubcampeon) {
 
     const options = {
         method: 'POST',
@@ -97,6 +97,8 @@ export async function createAlumno(token, cedulaIdentidad, nombre, apellido, fec
             email: email,
             idCarrera: idCarrera,
             userId: userId,
+            idCampeon: idCampeon,
+            idSubcampeon:idSubcampeon
         }),
         headers: {
             'Access-Control-Allow-Origin': '*',

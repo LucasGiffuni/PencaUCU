@@ -1,6 +1,10 @@
 import React from "react";
 import {
-  BrowserRouter, Route, Routes, Navigate,useNavigate 
+  BrowserRouter,
+  Route,
+  Routes,
+  Navigate,
+  useNavigate,
 } from "react-router-dom";
 
 import HomeComponent from "./HomeComponent";
@@ -8,45 +12,35 @@ import HomeComponent from "./HomeComponent";
 import { useEffect, useState } from "react";
 import LoginComponent from "./LoginComponent";
 
-const App = (props) => {
-  const [jwt, setJwt] = useState("");
+import MiddlewareRouteComponent from "./MiddlewareRouteComponent";
 
+const App = (props) => {
 
   return (
     <div className="App-Component">
       <BrowserRouter>
         <Routes>
           <Route
+            className={"App-Component"}
             path="/home"
-            element={
-              <HomeComponent />
-            }
+            element={<HomeComponent />}
           />
+
           <Route
             className={"App-Component"}
             path="/login"
-            element={
-              <LoginComponent />
-            }
+            element={<LoginComponent />}
           />
 
           <Route
             className={"App-Component"}
             path="/"
-            render={() => (
-              localStorage.getItem("jwt") === null ? (
-                <Navigate replace to="/login" />
-              ) : (
-                <Navigate replace to="/home" />
-              )
-            )}
+            element={<MiddlewareRouteComponent />}
           />
-
-
         </Routes>
       </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;
