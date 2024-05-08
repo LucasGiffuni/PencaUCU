@@ -145,10 +145,17 @@ public class UserServiceImpl {
                 response.setResponse(dR);
                 response.setJWT(token);
                 response.setAlumno(a);
+                con.close();
+
+                return response;
+            } else {
+                DefaultResponse dR = new DefaultResponse("404", "ERROR");
+                response.setResponse(dR);
+                con.close();
+
                 return response;
             }
 
-            con.close();
         } catch (Exception e) {
             e.printStackTrace();
             DefaultResponse dR = new DefaultResponse("500", "Error");
@@ -156,7 +163,6 @@ public class UserServiceImpl {
             return response;
         }
 
-        return null;
     }
 
     public RegisterResponse register(String username, String password) throws NoSuchAlgorithmException {

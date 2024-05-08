@@ -8,9 +8,15 @@ public class Partido {
 
     private String id;
     private String idEquipo1;
+    private String nombreEquipo1;
+    private String urlBanderaEquipo1;
     private String puntajeEquipo1;
+
     private String idEquipo2;
+    private String nombreEquipo2;
+    private String urlBanderaEquipo2;
     private String puntajeEquipo2;
+
     private String fecha;
     private String idEstadio;
     private String etapa;
@@ -46,7 +52,7 @@ public class Partido {
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public String getPuntajeEquipo1() {
         return puntajeEquipo1;
     }
@@ -54,7 +60,6 @@ public class Partido {
     public void setPuntajeEquipo1(String puntajeEquipo1) {
         this.puntajeEquipo1 = puntajeEquipo1;
     }
-
 
     public String getPuntajeEquipo2() {
         return puntajeEquipo2;
@@ -102,6 +107,38 @@ public class Partido {
 
     public void setIdEstadio(String idEstadio) {
         this.idEstadio = idEstadio;
+    }
+
+    public String getNombreEquipo1() {
+        return nombreEquipo1;
+    }
+
+    public void setNombreEquipo1(String nombreEquipo1) {
+        this.nombreEquipo1 = nombreEquipo1;
+    }
+
+    public String getUrlBanderaEquipo1() {
+        return urlBanderaEquipo1;
+    }
+
+    public void setUrlBanderaEquipo1(String urlBanderaEquipo1) {
+        this.urlBanderaEquipo1 = urlBanderaEquipo1;
+    }
+
+    public String getNombreEquipo2() {
+        return nombreEquipo2;
+    }
+
+    public void setNombreEquipo2(String nombreEquipo2) {
+        this.nombreEquipo2 = nombreEquipo2;
+    }
+
+    public String getUrlBanderaEquipo2() {
+        return urlBanderaEquipo2;
+    }
+
+    public void setUrlBanderaEquipo2(String urlBanderaEquipo2) {
+        this.urlBanderaEquipo2 = urlBanderaEquipo2;
     }
 
 }

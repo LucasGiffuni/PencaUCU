@@ -1,56 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PlaceholderExamplePlaceholder from "./PlaceholderImageComponent";
 import Carousel from 'react-bootstrap/Carousel';
 
+import { getProximosPartidos } from '../Services/MatchService'
 
-export function MatchDisplayComponent() {
 
-  let Matches = [
-    {
-      matchId: 1,
-      teamId1: 1,
-      teamScore1: 2,
-      teamId2: 2,
-      teamScore2: 0,
-      stage: "FASE DE GRUPOS",
-      date: new Date(2024, 11, 22),
-      played: true,
-    },
-    {
-      matchId: 2,
-      teamId1: 1,
-      teamScore1: 2,
-      teamId2: 3,
-      teamScore2: 1,
-      stage: "FASE DE GRUPOS",
-      date: new Date(2024, 11, 23),
-      played: true,
-    },
-    {
-      matchId: 2,
-      teamId1: 1,
-      teamScore1: 0,
-      teamId2: 4,
-      teamScore2: 0,
-      stage: "FASE DE GRUPOS",
-      date: new Date(2024, 11, 23),
-      played: false,
-    },
-  ];
+const MatchDisplayComponent = (props) => {
+
+  const [partidos, setPartidos] = useState([]);
+
+
+  useEffect(() => {
+
+    const getPartidosResponse = getProximosPartidos().then((data) => {
+      setPartidos(data[1])
+      console.log(setPartidos)
+    })
+
+  }, []);
+
+
 
   return (
-    <div>
-      <Carousel>
-        {Matches.map((match, i) => {
+    <div className="Carousel-Container">
+      <Carousel >
+        {partidos && partidos.map((match, i) => {
           return (
             <Carousel.Item key={i}>
               <PlaceholderExamplePlaceholder />
               <Carousel.Caption>
-                <h1>{match.stage}</h1>
-                <h3>
-                  {match.teamId1} VS {match.teamId2}
-                </h3>
-                <p>{match.date.toString()}</p>
+                <h1>{match.etapa}</h1>
+                <div class="container">
+                  <div class="column">
+                    <div class="Match-Display-FlagContainer">
+                      <img src={match.urlBanderaEquipo1} alt="Imagen 1" />
+                    </div>
+                    <h3 class="name">{match.nombreEquipo1}</h3>
+                  </div>
+
+                  <div class="VS-Column">
+                    <div class="Versus">VS</div>
+                  </div>
+                  <div class="column">
+                    <div class="Match-Display-FlagContainer">
+                      <img src={match.urlBanderaEquipo2} alt="Imagen 2" />
+                    </div>
+                    <h3 class="name">{match.nombreEquipo2}</h3>
+                  </div>
+                </div>
+                <p>{match.fecha.toString()}</p>
               </Carousel.Caption>
             </Carousel.Item>
           );
@@ -59,3 +57,5 @@ export function MatchDisplayComponent() {
     </div>
   );
 }
+
+export default MatchDisplayComponent

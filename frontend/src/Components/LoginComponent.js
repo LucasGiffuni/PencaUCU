@@ -91,8 +91,8 @@ const LoginComponent = (props) => {
   const navigate = useNavigate();
 
   const successfullLoginOrRegister = () => {
-    setSuccessfulLogin(true);
-    navigate("/");
+      setSuccessfulLogin(true);
+    navigate("/home");
   };
 
   const changeMode = () => {

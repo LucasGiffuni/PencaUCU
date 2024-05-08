@@ -5,7 +5,7 @@ import Accordion from "react-bootstrap/Accordion";
 import { getTeamsByGroup } from "../Services/GroupService";
 
 
-import { MatchDisplayComponent } from "./MatchDisplayComponent"
+import MatchDisplayComponent from "./MatchDisplayComponent"
 
 import NavBarComponent from "./NavBarComponent";
 
@@ -32,7 +32,6 @@ class HomeComponent extends Component {
                   <GroupComponent groupID={"B"} />
                   <GroupComponent groupID={"C"} />
                   <GroupComponent groupID={"D"} />
-
                 </div>
               </Accordion.Body>
             </Accordion.Item>
