@@ -142,6 +142,13 @@ public class PartidoService extends AbstractService {
                 .collect(Collectors.toList());
     }
 
+    public List<Partido> getPartidosByEquipo(int idEquipo) throws ClassNotFoundException, SQLException {
+        return getPartidos().stream()
+                .filter(p -> Integer.parseInt(p.getIdEquipo1()) == idEquipo
+                            || Integer.parseInt(p.getIdEquipo2()) == idEquipo)
+                .collect(Collectors.toList());
+    }
+
     public CrearPartidoResponse cargarResultadoPartido(int idPartido, int resultadoEquipo1, int resultadoEquipo2)
             throws SQLException, ClassNotFoundException {
         createConection();
