@@ -17,6 +17,24 @@
 
 }
 
+.Buttons-Register-Form{
+  text-align: center;
+
+}
+
+.Datos-Basicos-Rgister-Form {
+  flex: 1; /* This makes both columns take up equal space */
+  padding: 10px; /* Optional: Add some padding for better appearance */
+}
+
+.Prediccion-Rgister-Form{
+
+  flex: 1; /* This makes both columns take up equal space */
+  padding: 10px; /* Optional: Add some padding for better appearance */
+  margin-right: 0;
+
+}
+
 .Groups-Component-Container {
   display: flex;
   flex-wrap: wrap;
@@ -177,7 +195,9 @@ body {
 }
 
 .Register-Component-Form {
-  width: 30%;
+  display: flex;
+
+  width: 80%;
   height: 100%;
   position: absolute;
   transform: translate(-50%, -50%);
@@ -221,7 +241,7 @@ body {
 
 form {
   height: 520px;
-  width: 400px;
+  width: 500px;
   background-color: rgba(255, 255, 255, 0.13);
   position: absolute;
   transform: translate(-50%, -50%);
@@ -234,6 +254,9 @@ form {
   padding: 50px 35px;
 }
 
+.Register-Component-Selector-Carrera{
+  color: transparent;
+}
 form * {
   font-family: 'Poppins', sans-serif;
   color: #ffffff;
@@ -337,12 +360,12 @@ button:hover {
 }
 
 .Login-Component-Button {
-  margin-top: 10%;
+  margin-top: 5%;
   border-radius: 15px;
 }
 
 .Login-Component-Text {
-  margin-top: 5%;
+  margin-top: 1%;
   right: 0;
   text-align: right;
 }

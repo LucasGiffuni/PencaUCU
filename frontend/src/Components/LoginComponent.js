@@ -168,11 +168,8 @@ const LoginComponent = (props) => {
             idCarrera: carrera,
             userId: username,
             idCampeon: idEquipoCampeon,
-            idSubcampeon: idEquipoSubCampeon
+            idSubcampeon: idEquipoSubCampeon,
           };
-
-
-
 
           localStorage.setItem("alumno", JSON.stringify(alumno));
 
@@ -235,110 +232,123 @@ const LoginComponent = (props) => {
           </div>
         ) : (
           <div>
-            <form class="Register-Component-Form">
-              <h2 className="Login-Component-Title">Register</h2>
+            <div>
+              <form class="Register-Component-Form">
+                <div className="Datos-Basicos-Rgister-Form">
+                  <h2 className="Login-Component-Title">Register</h2>
 
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                placeholder="Username"
-                id="username"
-                onChange={(event) => setUsername(event.target.value)}
-              />
+                  <label htmlFor="username">Username</label>
+                  <input
+                    type="text"
+                    placeholder="Username"
+                    id="username"
+                    onChange={(event) => setUsername(event.target.value)}
+                  />
 
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                placeholder="Password"
-                id="password"
-                onChange={(event) => setPassword(event.target.value)}
-              />
-              <hr />
-              <p>Datos Alumno:</p>
-              <label htmlFor="nombre">Nombre</label>
-              <input
-                type="Text"
-                placeholder="Nombre"
-                id="nombre"
-                onChange={(event) => setName(event.target.value)}
-              />
+                  <label htmlFor="password">Password</label>
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    id="password"
+                    onChange={(event) => setPassword(event.target.value)}
+                  />
+                  <hr />
+                  <p>Datos Alumno:</p>
+                  <label htmlFor="nombre">Nombre</label>
+                  <input
+                    type="Text"
+                    placeholder="Nombre"
+                    id="nombre"
+                    onChange={(event) => setName(event.target.value)}
+                  />
 
-              <label htmlFor="apellido">Apellido</label>
-              <input
-                type="Text"
-                placeholder="Apellido"
-                id="apellido"
-                onChange={(event) => setSurename(event.target.value)}
-              />
+                  <label htmlFor="apellido">Apellido</label>
+                  <input
+                    type="Text"
+                    placeholder="Apellido"
+                    id="apellido"
+                    onChange={(event) => setSurename(event.target.value)}
+                  />
 
-              <label htmlFor="cedulaIdentidad">Cedula Identidad</label>
-              <input
-                type="Text"
-                placeholder="Cedula Identidad"
-                id="CI"
-                onChange={(event) => setCedulaIdentidad(event.target.value)}
-              />
+                  <label htmlFor="cedulaIdentidad">Cedula Identidad</label>
+                  <input
+                    type="Text"
+                    placeholder="Cedula Identidad"
+                    id="CI"
+                    onChange={(event) => setCedulaIdentidad(event.target.value)}
+                  />
 
-              <label htmlFor="email">Email</label>
-              <input
-                type="Text"
-                placeholder="Email"
-                id="email"
-                onChange={(event) => setMail(event.target.value)}
-              />
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="Text"
+                    placeholder="Email"
+                    id="email"
+                    onChange={(event) => setMail(event.target.value)}
+                  />
 
-              <label htmlFor="fnac">Fecha Nacimiento</label>
-              <input
-                type="Date"
-                placeholder="Date"
-                id="date"
-                data-date-format="YYYY DD MM"
-                onChange={(event) => setBirthDate(event.target.value)}
-              />
+                  <label htmlFor="fnac">Fecha Nacimiento</label>
+                  <input
+                    type="Date"
+                    placeholder="Date"
+                    id="date"
+                    data-date-format="YYYY DD MM"
+                    onChange={(event) => setBirthDate(event.target.value)}
+                  />
 
-              <label htmlFor="carrera">Carrera</label>
-              <select
-                id="carrera"
-                name="Carrera"
-                onChange={(event) => setCarrera(event.target.value)}
-              >
-                {carreras.map((carrera, i) => {
-                  return (
-                    <option value={carrera.idCarrera} key={i}>
-                      {carrera.nombreCarrera}
-                    </option>
-                  );
-                })}
-              </select>
+                  <label htmlFor="carrera">Carrera</label>
+                  <select
+                    className="Register-Component-Selector-Carrera"
+                    id="carrera"
+                    name="Carrera"
+                    onChange={(event) => setCarrera(event.target.value)}
+                  >
+                    {carreras.map((carrera, i) => {
+                      return (
+                        <option value={carrera.idCarrera} key={i}>
+                          {carrera.nombreCarrera}
+                        </option>
+                      );
+                    })}
+                  </select>
 
-              <br />
-              <label htmlFor="campeon">
-                Equipo Campeon: {nombreEquipoCampeon}
-              </label>
-              <Button onClick={abrirModelEquipoCampeon}>
-                Seleccionar Campeon
-              </Button>
+                  <div className="Buttons-Register-Form">
+                  <button
+                    className="Login-Component-Button"
+                    type="button"
+                    onClick={createUserInDatabase}
+                  >
+                    Register
+                  </button>
+                  <p className="Login-Component-Text">Back to</p>
+                  <p
+                    className="Login-Component-RegisterText"
+                    onClick={changeMode}
+                  >
+                    Login
+                  </p>
+                </div>
+                </div>
+                <div className="Prediccion-Rgister-Form">
+                  <br />
+                  <label htmlFor="campeon">
+                    Equipo Campeon: {nombreEquipoCampeon}
+                  </label>
+                  <Button onClick={abrirModelEquipoCampeon}>
+                    Seleccionar Campeon
+                  </Button>
 
-              <br />
-              <label htmlFor="campeon">
-                Equipo SubCampeon: {nombreEquipoSubCampeon}
-              </label>
-              <Button onClick={abrirModelEquipoSubCampeon}>
-                Seleccionar Sub-Campeon
-              </Button>
+                  <br />
+                  <label htmlFor="campeon">
+                    Equipo SubCampeon: {nombreEquipoSubCampeon}
+                  </label>
+                  <Button onClick={abrirModelEquipoSubCampeon}>
+                    Seleccionar Sub-Campeon
+                  </Button>
+                </div>
 
-              <button
-                className="Login-Component-Button"
-                type="button"
-                onClick={createUserInDatabase}
-              >
-                Register
-              </button>
-              <p className="Login-Component-Text">Back to</p>
-              <p className="Login-Component-RegisterText" onClick={changeMode}>
-                Login
-              </p>
-            </form>
+                
+              </form>
+            </div>
           </div>
         )}
       </div>
