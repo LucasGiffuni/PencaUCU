@@ -97,20 +97,21 @@ create Table PREDICCION(
 
 #/ DDL SECTION
 
+
+-- Grupos
 insert into GRUPO values ('A', "GRUPO A");
 insert into GRUPO values ('B', "GRUPO B");
 insert into GRUPO values ('C', "GRUPO C");
 insert into GRUPO values ('D', "GRUPO D");
 
+-- Etapas
 insert into ETAPA values ('FASE DE GRUPOS');
 insert into ETAPA values ('CUARTOS DE FINAL');
 insert into ETAPA values ('SEMIFINAL');
 insert into ETAPA values ('TERCER PUESTO');
 insert into ETAPA values ('FINAL');
 
-insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("Estadio bernabeu", "Florida", "Miami", "LaCalle","123", 100);
-
-
+-- Equipos
 insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Argentina", "https://www.worldometers.info/img/flags/ar-flag.gif", 'A');
 insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Perú", "https://www.worldometers.info/img/flags/pe-flag.gif", 'A');
 insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Chile", "https://www.worldometers.info/img/flags/ci-flag.gif", 'A');
@@ -131,15 +132,97 @@ insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Colombia", "https://www
 insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Paraguay", "https://www.worldometers.info/img/flags/pa-flag.gif", 'D');
 insert into EQUIPO(nombre, urlBandera, idGrupo) values ("Costa Rica", "https://www.worldometers.info/img/flags/cs-flag.gif", 'D');
 
+-- Estadios
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("Mercedes-Benz Stadium", "Georgia", "Atlanta", "1 AMB Dr NW","GA 30313", 71000);
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("Levi's Stadium", "California", "Santa Clara", "4900 Marie P DeBartolo Way","CA 95054", 72840);
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("Bank of America Stadium", "Carolina Del Norte", "Charlotte", "800 S Mint St","NC 28202",74479);
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("State Farm Stadium", "Arizona", "Glendale", "1 Cardinals Dr","AZ 85305",63400);
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("SoFi Stadium", "California", "Inglewood", "1001 Stadium Dr","CA 90301",70000);
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("Inter&Co Stadium", "Florida", "Orlando", "655 W Church St,","FL 32805",25400);
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("Estadio NRG", "Texas", "Huston", "NRG Pkwy","TX 77054",72220);
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("Q2 Stadium", "Texas", "Austin", "10414 McKalla Place Austin","TX 78758",20738);
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("AT&T Stadium", "Texas", "Arlington", "1 AT&T Way","TX 76011",80000);
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("MetLife Stadium", "Nueva Jersey", "East Rutherford", "1 MetLife Stadium Dr","NJ 07073",82500);
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("Allegiant Stadium", "Nevada", "Las Vegas", "3333 Al Davis Way","NV 89118",65000);
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("Arrowhead Stadium", "Misuri", "Kansas City", "1 Arrowhead Dr","MO 64129",79451);
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("Children's Mercy Park", "Kansas", "Kansas City", "1 Sporting Way","KS 66111",18467);
+insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("Hard Rock Stadium", "Florida", "Miami", "347 Don Shula Dr Suite 102","FL 33056",75540);
+
+-- Partidos Grupo A
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (1, 4, "2024-06-20 20:00:00", "FASE DE GRUPOS", 1);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (2, 3, "2024-06-21 19:00:00", "FASE DE GRUPOS", 9);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (2, 4, "2024-06-25 17:00:00", "FASE DE GRUPOS", 13);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (3, 1, "2024-06-25 21:00:00", "FASE DE GRUPOS", 10);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (1, 2, "2024-06-29 20:00:00", "FASE DE GRUPOS", 14);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (4, 3, "2024-06-29 20:00:00", "FASE DE GRUPOS", 6);
+
+-- Partidos Grupo B
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (6, 7, "2024-06-22 15:00:00", "FASE DE GRUPOS", 2);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (5, 8, "2024-06-22 20:00:00", "FASE DE GRUPOS", 7);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (6, 8, "2024-06-26 15:00:00", "FASE DE GRUPOS", 11);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (7, 5, "2024-06-26 18:00:00", "FASE DE GRUPOS", 5);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (5, 6, "2024-06-30 17:00:00", "FASE DE GRUPOS", 4);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (8, 7, "2024-06-30 19:00:00", "FASE DE GRUPOS", 8);
+
+-- Partidos Grupo C
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (9, 12, "2024-06-23 17:00:00", "FASE DE GRUPOS", 9);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (10, 11, "2024-06-23 21:00:00", "FASE DE GRUPOS", 14);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (11, 9, "2024-06-27 18:00:00", "FASE DE GRUPOS", 1);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (10, 12, "2024-06-27 21:00:00", "FASE DE GRUPOS", 10);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (9, 10, "2024-07-01 20:00:00", "FASE DE GRUPOS", 12);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (12, 11, "2024-07-01 21:00:00", "FASE DE GRUPOS", 6);
+
+-- Partidos Grupo D
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (14, 15, "2024-06-24 17:00:00", "FASE DE GRUPOS", 7);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (13, 16, "2024-06-24 18:00:00", "FASE DE GRUPOS", 5);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (14, 16, "2024-06-28 15:00:00", "FASE DE GRUPOS", 4);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (15, 13, "2024-06-28 18:00:00", "FASE DE GRUPOS", 11);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (13, 14, "2024-07-02 18:00:00", "FASE DE GRUPOS", 2);
+insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (16, 15, "2024-07-02 20:00:00", "FASE DE GRUPOS", 8);
 
 
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (1, 7, "2024-11-22 20:00:00", "FASE DE GRUPOS", 1);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (1, 6, "2024-11-22 20:00:00", "FASE DE GRUPOS", 1);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (1, 5, "2024-11-22 20:00:00", "FASE DE GRUPOS", 1);
-
-insert into CARRERA (nombreCarrera) values ("Ingeniería en Informática");
-insert into CARRERA (nombreCarrera) values ("Ingeniería en Telecomunicaciones");
-
-
-
-
+-- Carreras
+insert into CARRERA (nombreCarrera) values 
+("Abogacía"),
+("Acompañamiento Terapéutico"),
+("Agronomía"),
+("Analista en Informática"),
+("Arquitectura"),
+("Artes Escénicas"),
+("Artes Visuales"),
+("Business Analytics"),
+("Ciencia Política"),
+("Cine"),
+("Comunicación"),
+("Comunicación y Marketing"),
+("Contador Público"),
+("Datos y Negocios"),
+("Desarrollador de Software"),
+("Dirección de Empresas"),
+("Economía"),
+("Educación Inicial"),
+("Finanzas"),
+("Fisioterapia"),
+("Fonoaudiología"),
+("Gestión Humana"),
+("Ingeniería Ambiental"),
+("Ingeniería en Alimentos"),
+("Ingeniería Electrónica"),
+("Ingeniería en Informática"),
+("Ingeniería Industrial"),
+("Inteligencia Artificial y Ciencia de Datos"),
+("Licenciatura en Enfermería"),
+("Licenciatura en Enfermería (Profesionalización)"),
+("Licenciatura en Informática"),
+("Medicina"),
+("Negocios Internacionales"),
+("Negocios y Economía"),
+("Notariado"),
+("Nutrición"),
+("Odontología"),
+("Psicología"),
+("Psicomotricidad"),
+("Psicopedagogía"),
+("Recreación Educativa"),
+("Sociología"),
+("Trabajo Social");
