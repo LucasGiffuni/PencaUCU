@@ -107,24 +107,6 @@ public class PartidoService extends AbstractService {
 
         while (rs.next()) {
             Partido p = new Partido(rs);
-            partidos.add(p);
-        }
-        return partidos;
-    }
-
-    public GetProximosPartidosResponse getProximosPartidos() throws ClassNotFoundException, SQLException {
-        createConection();
-
-        GetProximosPartidosResponse response = new GetProximosPartidosResponse();
-
-        String sql = "SELECT * FROM PARTIDO";
-        PreparedStatement preparedStmt = con.prepareStatement(sql);
-        ResultSet rs = preparedStmt.executeQuery();
-
-        List<Partido> partidos = new ArrayList<Partido>();
-
-        while (rs.next()) {
-            Partido p = new Partido(rs);
 
             GetEquipoResponse equipo1 = equipoService.getEquipoById(Integer.parseInt(p.getIdEquipo1()));
             p.setNombreEquipo1(equipo1.getEquipo().getNombre());
@@ -136,12 +118,21 @@ public class PartidoService extends AbstractService {
 
             partidos.add(p);
         }
+        return partidos;
+    }
 
+    public GetProximosPartidosResponse getProximosPartidos() throws ClassNotFoundException, SQLException {
+        createConection();
+
+        GetProximosPartidosResponse response = new GetProximosPartidosResponse();
         DefaultResponse DR = new DefaultResponse("200", "OK");
-
         response.setDefaultResponse(DR);
-        response.setPartidos(partidos.toArray(new Partido[0]));
 
+        List<Partido> proximosPartidos = getPartidos().stream()
+                .filter(p -> Timestamp.valueOf(p.getFecha()).after(Timestamp.valueOf(LocalDateTime.now())))
+                .collect(Collectors.toList());
+
+        response.setPartidos(proximosPartidos.toArray(new Partido[0]));
         return response;
     }
 
