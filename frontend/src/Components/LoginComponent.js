@@ -280,7 +280,7 @@ const LoginComponent = (props) => {
               >
                 {carreras.map((carrera, i) => {
                   return (
-                    <option value={carrera.idCarrera} key={i}>
+                    <option className="Carreras-Options" value={carrera.idCarrera} key={i}>
                       {carrera.nombreCarrera}
                     </option>
                   );
