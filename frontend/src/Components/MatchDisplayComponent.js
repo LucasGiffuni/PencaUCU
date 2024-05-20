@@ -10,16 +10,16 @@ const MatchDisplayComponent = (props) => {
   const [partidos, setPartidos] = useState([]);
 
 
-  useEffect(() => {
 
+
+
+  useEffect(() => {
     const getPartidosResponse = getProximosPartidos().then((data) => {
       setPartidos(data[1])
       console.log(setPartidos)
     })
 
   }, []);
-
-
 
   return (
     <div className="Carousel-Container">
@@ -39,14 +39,18 @@ const MatchDisplayComponent = (props) => {
                   </div>
 
                   <div class="VS-Column">
-                    <div class="Versus">VS</div>
+                    <h1>VS</h1>
                   </div>
+
+
                   <div class="column">
                     <div class="Match-Display-FlagContainer">
                       <img src={match.urlBanderaEquipo2} alt="Imagen 2" />
                     </div>
                     <h3 class="name">{match.nombreEquipo2}</h3>
                   </div>
+
+
                 </div>
                 <p>{match.fecha.toString()}</p>
               </Carousel.Caption>

@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import LoginComponent from "./LoginComponent";
 
 import MiddlewareRouteComponent from "./MiddlewareRouteComponent";
+import PredictionComponent from "./PredictionComponent";
 
 const App = (props) => {
 
@@ -31,6 +32,14 @@ const App = (props) => {
             path="/login"
             element={<LoginComponent />}
           />
+
+          <Route
+            className={"App-Component"}
+            path="/predicciones"
+            element={<PredictionComponent />}
+          />
+
+     
 
           <Route
             className={"App-Component"}
