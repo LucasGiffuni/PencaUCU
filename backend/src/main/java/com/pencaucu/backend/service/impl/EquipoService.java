@@ -39,6 +39,22 @@ public class EquipoService extends AbstractService {
         return new GetEquipoResponse(dr, getEquipoById(idEquipo).getEquipo());
     }
 
+    public void habilitarEquipo(int idEquipo) throws SQLException, ClassNotFoundException {
+        createConection();
+        String sql = "UPDATE EQUIPO SET status = ? WHERE idEquipo = " + idEquipo;
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setString(1, "HABILITADO");
+        preparedStmt.execute();
+    }
+
+    public void deshabilitarEquipo(int idEquipo) throws SQLException, ClassNotFoundException {
+        createConection();
+        String sql = "UPDATE EQUIPO SET status = ? WHERE idEquipo = " + idEquipo;
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setString(1, "DESCALIFICADO");
+        preparedStmt.execute();
+    }
+
     public GetEquiposResponse getEquipos() throws ClassNotFoundException, SQLException {
         createConection();
         String sql = "SELECT * FROM EQUIPO";

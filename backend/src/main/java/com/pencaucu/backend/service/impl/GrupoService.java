@@ -19,7 +19,7 @@ public class GrupoService extends AbstractService {
 
     public GetGrupoResponse getGrupoById(String id) throws ClassNotFoundException, SQLException {
         createConection();
-        String sql = "SELECT * FROM EQUIPO e WHERE e.idGrupo = ?";
+        String sql = "SELECT * FROM EQUIPO e WHERE e.idGrupo = ? ORDER BY e.puntaje DESC";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         preparedStmt.setString(1, id);
         ResultSet rs = preparedStmt.executeQuery();

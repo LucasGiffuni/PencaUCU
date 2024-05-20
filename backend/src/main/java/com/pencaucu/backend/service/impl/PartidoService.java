@@ -12,7 +12,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.el.stream.Optional;
@@ -38,6 +40,30 @@ public class PartidoService extends AbstractService {
 
     @Autowired
     PrediccionService prediccionService;
+
+    Map<Integer, Integer> siguientesPartidos = new HashMap<Integer, Integer>() {
+        {
+            put(25, 29);
+            put(26, 29);
+            put(27, 30);
+            put(28, 30);
+            put(29, 32);
+            put(30, 32);
+        }
+    };
+
+    Map<String, Integer> armadoCuartos = new HashMap<String, Integer>() {
+        {
+            put("1A", 25);
+            put("2B", 25);
+            put("1B", 26);
+            put("2A", 26);
+            put("1D", 28);
+            put("2C", 28);
+            put("1C", 27);
+            put("2D", 27);
+        }
+    };
 
     public CrearPartidoResponse crearPartido(Partido partido)
             throws SQLException, ParseException, ClassNotFoundException {
@@ -145,7 +171,7 @@ public class PartidoService extends AbstractService {
     public List<Partido> getPartidosByEquipo(int idEquipo) throws ClassNotFoundException, SQLException {
         return getPartidos().stream()
                 .filter(p -> Integer.parseInt(p.getIdEquipo1()) == idEquipo
-                            || Integer.parseInt(p.getIdEquipo2()) == idEquipo)
+                        || Integer.parseInt(p.getIdEquipo2()) == idEquipo)
                 .collect(Collectors.toList());
     }
 
@@ -153,8 +179,7 @@ public class PartidoService extends AbstractService {
             throws SQLException, ClassNotFoundException {
         createConection();
 
-        // int idGanador = calcularGanador(idPartido, resultadoEquipo1,
-        // resultadoEquipo2);
+        // controlar que si no es fase de grupo, no se pueda cargar empate
 
         String sql = "UPDATE PARTIDO SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true WHERE idPartido = ?";
 
@@ -165,8 +190,84 @@ public class PartidoService extends AbstractService {
         preparedStmt.execute();
         prediccionService.actualizarPuntajes(idPartido, resultadoEquipo1, resultadoEquipo2);
         Partido p = getPartidoById(idPartido).getPartido();
+        if (p.getEtapa().equals("FASE DE GRUPOS")) {
+            actualizarPuntajesGrupos(p);
+            actualizarCuartos(p);
+        } else {
+            actualizarEliminatorias(p);
+        }
         DefaultResponse DR = new DefaultResponse("200", "Resultado cargado correctamente");
         return new CrearPartidoResponse(DR, p);
+    }
+
+    private void actualizarPuntajesGrupos(Partido p) throws NumberFormatException, SQLException {
+        String sql = "UPDATE EQUIPO SET puntaje = puntaje + ? WHERE idEquipo = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        
+        ps.setInt(1, Integer.parseInt(p.getPuntajeEquipo1()));
+        ps.setInt(2, Integer.parseInt(p.getIdEquipo1()));
+        ps.execute();
+
+        ps.setInt(1, Integer.parseInt(p.getPuntajeEquipo2()));
+        ps.setInt(2, Integer.parseInt(p.getIdEquipo2()));
+        ps.execute();
+    }
+
+    private void actualizarCuartos(Partido p) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT idGrupo FROM EQUIPO WHERE idEquipo = ?";
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setInt(1, Integer.parseInt(p.getIdEquipo1()));
+        ResultSet rs = preparedStmt.executeQuery();
+        rs.first();
+
+        String grupo = rs.getString(1);
+
+        sql = "SELECT * FROM PARTIDO p, EQUIPO e1, EQUIPO e2 WHERE p.idEquipo1 = e1.idEquipo AND p.idEquipo2 = e2.idEquipo AND p.jugado = false AND e1.idGrupo = ?";
+        preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setString(1, grupo);
+        rs = preparedStmt.executeQuery();
+        
+        if (rs.first() == true) {
+            return;
+        }
+
+        sql = "SELECT * FROM EQUIPO WHERE idGrupo = ? ORDER BY puntaje DESC";
+        preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setString(1, grupo);
+        rs = preparedStmt.executeQuery();
+
+        for (int i = 1; i <= 4; i++) {
+            rs.next();
+            if (i <= 2) {
+                sql = "UPDATE PARTIDO SET idEquipo" + i + " = ? WHERE idPartido = ?";
+                preparedStmt = con.prepareStatement(sql);
+                preparedStmt.setInt(1, rs.getInt(1));
+                preparedStmt.setInt(2, armadoCuartos.get(Integer.toString(i) + grupo));
+                preparedStmt.execute();
+                
+                equipoService.actualizarEtapa(rs.getInt(1), "CUARTOS DE FINAL");
+                equipoService.habilitarEquipo(rs.getInt(1));
+                
+            } else {
+                equipoService.deshabilitarEquipo(rs.getInt(1));
+            }
+        }
+    }
+
+    private void actualizarEliminatorias(Partido p) throws ClassNotFoundException, SQLException {
+        int partidoSiguiente = siguientesPartidos.get(Integer.parseInt(p.getId()));
+        int idGanador = obtenerIdEquipoGanador(p);
+        String columna = (Integer.parseInt(p.getId()) % 2 != 0) ? "idEquipo1" : "idEquipo2";
+        String sql = "UPDATE PARTIDO SET " + columna + " = ? WHERE idPartido = ?";
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setInt(1, idGanador);
+        preparedStmt.setInt(2, partidoSiguiente);
+        preparedStmt.execute();
+
+        // Hay que actualizar la etapa del equipo
+        equipoService.actualizarEtapa(idGanador, "SEMIFINAL");
+
+        // Controlar que cuando es semifinal, se cargue el tercer puesto
     }
 
     public CrearPartidoResponse getPartidoById(int idPartido) throws SQLException, ClassNotFoundException {
@@ -195,9 +296,13 @@ public class PartidoService extends AbstractService {
         return p;
     }
 
-    public int calcularGanador(int idPartido, int resultadoEquipo1, int resultadoEquipo2)
+    public int obtenerIdEquipoGanador(Partido p)
             throws ClassNotFoundException, SQLException {
         createConection();
+        int idPartido = Integer.parseInt(p.getId());
+        int resultadoEquipo1 = Integer.parseInt(p.getPuntajeEquipo1());
+        int resultadoEquipo2 = Integer.parseInt(p.getPuntajeEquipo2());
+
         if (resultadoEquipo1 == resultadoEquipo2) {
             return 0;
         }
