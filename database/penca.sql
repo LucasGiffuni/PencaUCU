@@ -40,9 +40,9 @@ create Table EQUIPO
 create Table PARTIDO
 (
 	idPartido INT(8) PRIMARY KEY AUTO_INCREMENT, 
-	idEquipo1  INT(8) not null,
+	idEquipo1  INT(8) default null,
     resultadoEquipo1 INT(2) default null,
-    idEquipo2 INT(8) not null,
+    idEquipo2 INT(8) default null,
     resultadoEquipo2 INT(2) default null,
     fecha datetime,
     idEstadio INT(8) not null, 
@@ -93,10 +93,7 @@ create Table PREDICCION(
     foreign key (idPartido) references PARTIDO (idPartido)
 );
 
-
-
 #/ DDL SECTION
-
 
 -- Grupos
 insert into GRUPO values ('A', "GRUPO A");
@@ -149,37 +146,56 @@ insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("
 insert into ESTADIO (nombre, estado, ciudad, calle, numero, capacidad) values ("Hard Rock Stadium", "Florida", "Miami", "347 Don Shula Dr Suite 102","FL 33056",75540);
 
 -- Partidos Grupo A
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (1, 4, "2024-06-20 20:00:00", "FASE DE GRUPOS", 1);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (2, 3, "2024-06-21 19:00:00", "FASE DE GRUPOS", 9);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (2, 4, "2024-06-25 17:00:00", "FASE DE GRUPOS", 13);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (3, 1, "2024-06-25 21:00:00", "FASE DE GRUPOS", 10);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (1, 2, "2024-06-29 20:00:00", "FASE DE GRUPOS", 14);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (4, 3, "2024-06-29 20:00:00", "FASE DE GRUPOS", 6);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (1, 1, 4, "2024-06-20 20:00:00", "FASE DE GRUPOS", 1);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (2, 2, 3, "2024-06-21 19:00:00", "FASE DE GRUPOS", 9);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (10, 2, 4, "2024-06-25 17:00:00", "FASE DE GRUPOS", 13);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (9, 3, 1, "2024-06-25 21:00:00", "FASE DE GRUPOS", 10);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (17, 1, 2, "2024-06-29 20:00:00", "FASE DE GRUPOS", 14);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (18, 4, 3, "2024-06-29 20:00:00", "FASE DE GRUPOS", 6);
 
 -- Partidos Grupo B
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (6, 7, "2024-06-22 15:00:00", "FASE DE GRUPOS", 2);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (5, 8, "2024-06-22 20:00:00", "FASE DE GRUPOS", 7);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (6, 8, "2024-06-26 15:00:00", "FASE DE GRUPOS", 11);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (7, 5, "2024-06-26 18:00:00", "FASE DE GRUPOS", 5);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (5, 6, "2024-06-30 17:00:00", "FASE DE GRUPOS", 4);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (8, 7, "2024-06-30 19:00:00", "FASE DE GRUPOS", 8);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (4, 6, 7, "2024-06-22 15:00:00", "FASE DE GRUPOS", 2);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (3, 5, 8, "2024-06-22 20:00:00", "FASE DE GRUPOS", 7);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (12, 6, 8, "2024-06-26 15:00:00", "FASE DE GRUPOS", 11);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (11, 7, 5, "2024-06-26 18:00:00", "FASE DE GRUPOS", 5);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (19, 5, 6, "2024-06-30 17:00:00", "FASE DE GRUPOS", 4);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (20, 8, 7, "2024-06-30 19:00:00", "FASE DE GRUPOS", 8);
 
 -- Partidos Grupo C
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (9, 12, "2024-06-23 17:00:00", "FASE DE GRUPOS", 9);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (10, 11, "2024-06-23 21:00:00", "FASE DE GRUPOS", 14);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (11, 9, "2024-06-27 18:00:00", "FASE DE GRUPOS", 1);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (10, 12, "2024-06-27 21:00:00", "FASE DE GRUPOS", 10);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (9, 10, "2024-07-01 20:00:00", "FASE DE GRUPOS", 12);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (12, 11, "2024-07-01 21:00:00", "FASE DE GRUPOS", 6);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (5, 9, 12, "2024-06-23 17:00:00", "FASE DE GRUPOS", 9);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (6, 10, 11, "2024-06-23 21:00:00", "FASE DE GRUPOS", 14);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (13, 11, 9, "2024-06-27 18:00:00", "FASE DE GRUPOS", 1);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (14, 10, 12, "2024-06-27 21:00:00", "FASE DE GRUPOS", 10);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (21, 9, 10, "2024-07-01 20:00:00", "FASE DE GRUPOS", 12);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (22, 12, 11, "2024-07-01 21:00:00", "FASE DE GRUPOS", 6);
 
 -- Partidos Grupo D
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (14, 15, "2024-06-24 17:00:00", "FASE DE GRUPOS", 7);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (13, 16, "2024-06-24 18:00:00", "FASE DE GRUPOS", 5);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (14, 16, "2024-06-28 15:00:00", "FASE DE GRUPOS", 4);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (15, 13, "2024-06-28 18:00:00", "FASE DE GRUPOS", 11);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (13, 14, "2024-07-02 18:00:00", "FASE DE GRUPOS", 2);
-insert into PARTIDO(idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (16, 15, "2024-07-02 20:00:00", "FASE DE GRUPOS", 8);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (8, 14, 15, "2024-06-24 17:00:00", "FASE DE GRUPOS", 7);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (7, 13, 16, "2024-06-24 18:00:00", "FASE DE GRUPOS", 5);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (16, 14, 16, "2024-06-28 15:00:00", "FASE DE GRUPOS", 4);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (15, 15, 13, "2024-06-28 18:00:00", "FASE DE GRUPOS", 11);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (23, 13, 14, "2024-07-02 18:00:00", "FASE DE GRUPOS", 2);
+insert into PARTIDO(idPartido, idEquipo1, idEquipo2, fecha, etapa, idEstadio) values (24, 16, 15, "2024-07-02 20:00:00", "FASE DE GRUPOS", 8);
 
+-- Partidos Cuartos de Final
+insert into PARTIDO(idPartido, fecha, etapa, idEstadio) values 
+(25, "2024-07-04 20:00:00", "CUARTOS DE FINAL", 7),
+(26, "2024-07-05 20:00:00", "CUARTOS DE FINAL", 9),
+(27, "2024-07-06 15:00:00", "CUARTOS DE FINAL", 4),
+(28, "2024-07-06 18:00:00", "CUARTOS DE FINAL", 11);
+
+-- Partidos Semifinal
+insert into PARTIDO(idPartido, fecha, etapa, idEstadio) values 
+(29, "2024-07-09 20:00:00", "SEMIFINAL", 10),
+(30, "2024-07-10 20:00:00", "SEMIFINAL", 3);
+
+-- Partido tercer puesto
+insert into PARTIDO(idPartido, fecha, etapa, idEstadio) values
+(31, "2024-07-13 20:00:00", "TERCER PUESTO", 3);
+
+-- Partido Final
+insert into PARTIDO(idPartido, fecha, etapa, idEstadio) values
+(32, "2024-07-14 20:00:00", "FINAL", 14);
 
 -- Carreras
 insert into CARRERA (nombreCarrera) values 
