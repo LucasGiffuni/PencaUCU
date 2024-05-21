@@ -15,4 +15,7 @@ public class PredictionController {
         System.out.println("PruebaController");
         return new ResponseEntity("1", HttpStatus.OK);
     }
+
+  
+
 }

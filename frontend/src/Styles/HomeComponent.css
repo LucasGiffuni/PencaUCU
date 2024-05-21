@@ -496,6 +496,9 @@ button:hover {
 }
 .Prediction-Component-Matchs {
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Espacio entre los elementos */
 }
 
 
@@ -507,13 +510,27 @@ button:hover {
   grid-column-gap: 0px;
   grid-row-gap: 0px;
 
-  width: 25%;
-  height: 200px;
+ 
   margin: 2%;
 
   border-radius: 10px;
   border: white solid 1px;
   padding: 10px;
+
+  flex: 1 1 calc(25% - 10px); /* Ajusta el ancho de los elementos */
+  box-sizing: border-box;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+.Prediction-Match-Component:hover{
+  -webkit-transform: scale(1.05);
+-ms-transform: scale(1.05);
+transform: scale(1.05);
+transition: 0.5s ease;
+cursor: pointer;
+
 }
 
 .Prediction-Match-Component-TeamImage {

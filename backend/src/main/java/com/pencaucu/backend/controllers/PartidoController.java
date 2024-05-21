@@ -57,6 +57,11 @@ public class PartidoController {
         return ResponseEntity.ok(service.getPartidosJugados());
     }
 
+    @GetMapping("/getPartidosNoJugados")
+    public ResponseEntity<List<Partido>> getPartidosNoJugados() throws ClassNotFoundException, SQLException {
+        return ResponseEntity.ok(service.getPartidosNoJugados());
+    }
+
     @GetMapping("/{idEquipo}/getPartidosByEquipo")
     public ResponseEntity<List<Partido>> getPartidosByEquipo(@PathVariable int idEquipo) throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.getPartidosByEquipo(idEquipo));

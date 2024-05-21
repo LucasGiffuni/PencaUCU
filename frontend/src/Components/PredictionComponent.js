@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from "react";
 import NavBarComponent from "./NavBarComponent";
 import PredictionMatchComponent from "./PredictionMatchComponent";
+import { getPartidosNoJugados } from "../Services/MatchService";
 
-function PredictionComponent(props) {
+const PredictionComponent = (props) => {
+    const [partidos, setPartidos] = useState([]);
 
+  useEffect(() => {
+    const getPartidosResponse = getPartidosNoJugados().then((data) => {
+      setPartidos(data[1]);
+      console.log(setPartidos);
+    });
+  }, []);
 
+  return (
+    <div className="Home-Component-Container">
+      <NavBarComponent />
 
-
-    return (
-        <div className="Home-Component-Container">
-            <NavBarComponent />
-
-
-
-            <div className="Prediction-Component-Matchs">
-                <PredictionMatchComponent />
-            </div>
-
-
-        </div>
-    );
+      <div className="Prediction-Component-Matchs">
+        {partidos &&
+          partidos.map((partido, i) => {
+            return <PredictionMatchComponent match={partido} />;
+          })}
+      </div>
+    </div>
+  );
 }
-
 
 export default PredictionComponent;

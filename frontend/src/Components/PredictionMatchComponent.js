@@ -32,6 +32,7 @@ const PredictionMatchComponent = (props) => {
     return (
         <div className="Prediction-Match-Component">
 
+          
             <div className="Prediction-Match-Component-Team1">
                 <img className="Prediction-Match-Component-TeamImage" src="https://www.worldometers.info/img/flags/uy-flag.gif"></img>
             </div>
