@@ -581,3 +581,25 @@ cursor: pointer;
   display: inline-block;
   position: absolute;
 }
+
+.Ranking-Header {
+  text-align: center;
+  color: white;
+}
+
+.User-Container {
+  height: 12%;
+  width: 50%;
+  border-radius: 20px;
+  margin: 0 auto;
+  background-color: rgb(99, 99, 99);
+  color: white;
+  display: flex;
+  justify-content: space-between; /* Distribuye los elementos al borde izquierdo y derecho */
+  align-items: center; /* Centra verticalmente los elementos */
+  padding: 10px;
+}
+
+.User-Container h2 {
+  margin: 0;
+}

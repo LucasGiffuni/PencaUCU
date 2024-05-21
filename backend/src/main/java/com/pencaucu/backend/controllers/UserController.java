@@ -2,6 +2,7 @@ package com.pencaucu.backend.controllers;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.xml.crypto.Data;
 
@@ -66,6 +67,12 @@ public class UserController {
     public ResponseEntity<CreateAlumnoResponse> obtenerAlumno(@PathVariable int CI)
             throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(userService.obtenerAlumno(CI));
+    }
+
+    @GetMapping("/alumno/getRankingAlumnos")
+    public ResponseEntity<List<Alumno>> getRankingAlumnos()
+            throws ClassNotFoundException, SQLException {
+        return ResponseEntity.ok(userService.getRankingAlumnos());
     }
 
 }

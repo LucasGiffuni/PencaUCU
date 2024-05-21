@@ -110,3 +110,27 @@ export async function createAlumno(token, cedulaIdentidad, nombre, apellido, fec
     fetch("http://127.0.0.1:8080/alumno/crearAlumno", options)
 
 }
+
+
+export async function getRankingAlumnos() {
+    const instance = axios.create({
+        baseURL: 'http://127.0.0.1:8080',
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+        }
+    });
+    let res = instance.get(`/alumno/getRankingAlumno`)
+        .then(response => {
+            let serviceResponse = [];
+            serviceResponse[0] = response.data;
+            return serviceResponse
+        })
+        .catch(error => {
+            let serviceResponse = [];
+            serviceResponse[0] = error.code;
+            return serviceResponse
+        });
+    return res;
+
+}

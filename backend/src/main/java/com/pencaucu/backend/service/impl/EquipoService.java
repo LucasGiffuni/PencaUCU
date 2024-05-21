@@ -19,8 +19,9 @@ public class EquipoService extends AbstractService {
 
     public GetEquipoResponse getEquipoById(int idEquipo) throws ClassNotFoundException, SQLException {
         createConection();
-        String sql = "SELECT * FROM EQUIPO WHERE idEquipo = " + idEquipo;
+        String sql = "SELECT * FROM EQUIPO WHERE idEquipo = ?";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setInt(1, idEquipo);
         ResultSet rs = preparedStmt.executeQuery();
         rs.absolute(1);
         Equipo e = new Equipo(rs);

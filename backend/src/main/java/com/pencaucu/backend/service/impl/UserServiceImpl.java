@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -265,6 +266,18 @@ public class UserServiceImpl {
         DefaultResponse defaultResponse = new DefaultResponse("200", "Alumno obtenido correctamente");
         CreateAlumnoResponse response = new CreateAlumnoResponse(defaultResponse, alumno);
         return response;
+    }
+
+    public List<Alumno> getRankingAlumnos() throws SQLException, ClassNotFoundException {
+        createConection();
+        String sql = "SELECT * FROM USUARIO WHERE rol = \"ALUMNO\" ORDER BY puntaje DESC";
+        ResultSet rs = con.prepareStatement(sql).executeQuery();
+        List<Alumno> alumnos = new LinkedList<>(); 
+        while (rs.next()) {
+            Alumno alumno = new Alumno(rs);
+            alumnos.add(alumno);
+        }
+        return alumnos;
     }
 
     public ObtenerCarrerasResponse obtenerCarreras() throws SQLException, ClassNotFoundException {

@@ -125,26 +125,33 @@ public class PartidoService extends AbstractService {
     public List<Partido> getPartidos() throws ClassNotFoundException, SQLException {
         createConection();
 
-        String sql = "SELECT * FROM PARTIDO";
+        String sql = "SELECT * FROM PARTIDO ORDER BY fecha ASC";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         ResultSet rs = preparedStmt.executeQuery();
 
         List<Partido> partidos = new ArrayList<Partido>();
 
         while (rs.next()) {
-            Partido p = new Partido(rs);
-
-            GetEquipoResponse equipo1 = equipoService.getEquipoById(Integer.parseInt(p.getIdEquipo1()));
-            p.setNombreEquipo1(equipo1.getEquipo().getNombre());
-            p.setUrlBanderaEquipo1(equipo1.getEquipo().getUrlBandera());
-
-            GetEquipoResponse equipo2 = equipoService.getEquipoById(Integer.parseInt(p.getIdEquipo2()));
-            p.setNombreEquipo2(equipo2.getEquipo().getNombre());
-            p.setUrlBanderaEquipo2(equipo2.getEquipo().getUrlBandera());
-
+            Partido p = armarJSONPartido(rs);
             partidos.add(p);
         }
         return partidos;
+    }
+
+    private Partido armarJSONPartido(ResultSet rs) throws SQLException, ClassNotFoundException {
+        Partido p = new Partido(rs);
+
+        if (!p.getIdEquipo1().equals("0")) {
+            GetEquipoResponse equipo1 = equipoService.getEquipoById(Integer.parseInt(p.getIdEquipo1()));
+            p.setNombreEquipo1(equipo1.getEquipo().getNombre());
+            p.setUrlBanderaEquipo1(equipo1.getEquipo().getUrlBandera());
+        }
+        if (!p.getIdEquipo2().equals("0")) {
+            GetEquipoResponse equipo2 = equipoService.getEquipoById(Integer.parseInt(p.getIdEquipo2()));
+            p.setNombreEquipo2(equipo2.getEquipo().getNombre());
+            p.setUrlBanderaEquipo2(equipo2.getEquipo().getUrlBandera());
+        }
+        return p;
     }
 
     public GetProximosPartidosResponse getProximosPartidos() throws ClassNotFoundException, SQLException {
@@ -209,7 +216,7 @@ public class PartidoService extends AbstractService {
     private void actualizarPuntajesGrupos(Partido p) throws NumberFormatException, SQLException {
         String sql = "UPDATE EQUIPO SET puntaje = puntaje + ? WHERE idEquipo = ?";
         PreparedStatement ps = con.prepareStatement(sql);
-        
+
         ps.setInt(1, Integer.parseInt(p.getPuntajeEquipo1()));
         ps.setInt(2, Integer.parseInt(p.getIdEquipo1()));
         ps.execute();
@@ -232,7 +239,7 @@ public class PartidoService extends AbstractService {
         preparedStmt = con.prepareStatement(sql);
         preparedStmt.setString(1, grupo);
         rs = preparedStmt.executeQuery();
-        
+
         if (rs.first() == true) {
             return;
         }
@@ -250,10 +257,10 @@ public class PartidoService extends AbstractService {
                 preparedStmt.setInt(1, rs.getInt(1));
                 preparedStmt.setInt(2, armadoCuartos.get(Integer.toString(i) + grupo));
                 preparedStmt.execute();
-                
+
                 equipoService.actualizarEtapa(rs.getInt(1), "CUARTOS DE FINAL");
                 equipoService.habilitarEquipo(rs.getInt(1));
-                
+
             } else {
                 equipoService.deshabilitarEquipo(rs.getInt(1));
             }
@@ -281,12 +288,12 @@ public class PartidoService extends AbstractService {
         String sql = "SELECT * FROM PARTIDO WHERE idPartido = " + idPartido;
         ResultSet rs = con.prepareStatement(sql).executeQuery();
         rs.absolute(1);
-        Partido p = new Partido(rs);
+        Partido p = armarJSONPartido(rs);
         DefaultResponse DR = new DefaultResponse("200", "Partido obtenido correctamente");
         return new CrearPartidoResponse(DR, p);
     }
 
-    private Partido getPartido(int idEquipo1, int idEquipo2, String etapa) throws SQLException {
+    private Partido getPartido(int idEquipo1, int idEquipo2, String etapa) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM PARTIDO WHERE idEquipo1 = ? AND idEquipo2 = ? AND etapa = ?";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
@@ -298,7 +305,7 @@ public class PartidoService extends AbstractService {
         ResultSet rs = preparedStmt.executeQuery();
         rs.absolute(1);
 
-        Partido p = new Partido(rs);
+        Partido p = armarJSONPartido(rs);
         return p;
     }
 
