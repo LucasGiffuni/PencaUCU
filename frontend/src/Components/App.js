@@ -14,6 +14,7 @@ import LoginComponent from "./LoginComponent";
 
 import MiddlewareRouteComponent from "./MiddlewareRouteComponent";
 import PredictionComponent from "./PredictionComponent";
+import RankingComponent from "./RankingComponent";
 
 const App = (props) => {
 
@@ -37,6 +38,12 @@ const App = (props) => {
             className={"App-Component"}
             path="/predicciones"
             element={<PredictionComponent />}
+          />
+
+          <Route
+            className={"App-Component"}
+            path="/ranking"
+            element={<RankingComponent />}
           />
 
      

@@ -83,6 +83,7 @@ function NavBarComponent(props) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/predicciones">Predicciones</Nav.Link>
+            <Nav.Link href="/ranking">Ranking</Nav.Link>
 
           </Nav>
         </Navbar.Collapse>
