@@ -11,8 +11,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -41,17 +43,6 @@ public class PartidoService extends AbstractService {
     @Autowired
     PrediccionService prediccionService;
 
-    Map<Integer, Integer> siguientesPartidos = new HashMap<Integer, Integer>() {
-        {
-            put(25, 29);
-            put(26, 29);
-            put(27, 30);
-            put(28, 30);
-            put(29, 32);
-            put(30, 32);
-        }
-    };
-
     Map<String, Integer> armadoCuartos = new HashMap<String, Integer>() {
         {
             put("1A", 25);
@@ -64,6 +55,18 @@ public class PartidoService extends AbstractService {
             put("2D", 27);
         }
     };
+
+    Map<Integer, Integer> siguientesPartidos = new HashMap<Integer, Integer>() {
+        {
+            put(25, 29);
+            put(26, 29);
+            put(27, 30);
+            put(28, 30);
+            put(29, 32);
+            put(30, 32);
+        }
+    };
+
 
     public CrearPartidoResponse crearPartido(Partido partido)
             throws SQLException, ParseException, ClassNotFoundException {
@@ -192,6 +195,12 @@ public class PartidoService extends AbstractService {
             throws SQLException, ClassNotFoundException {
         createConection();
 
+        // Validar que no se hayan cargado los resultados del partido ya
+        Partido p = getPartidoById(idPartido).getPartido();
+        if (Boolean.valueOf(p.getJugado())) {
+            throw new UnsupportedOperationException("Los resultados del partido ya han sido cargados");
+        }
+        
         // controlar que si no es fase de grupo, no se pueda cargar empate
 
         String sql = "UPDATE PARTIDO SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true WHERE idPartido = ?";
@@ -202,13 +211,16 @@ public class PartidoService extends AbstractService {
         preparedStmt.setInt(3, idPartido);
         preparedStmt.execute();
         prediccionService.actualizarPuntajes(idPartido, resultadoEquipo1, resultadoEquipo2);
-        Partido p = getPartidoById(idPartido).getPartido();
+
         if (p.getEtapa().equals("FASE DE GRUPOS")) {
             actualizarPuntajesGrupos(p);
             actualizarCuartos(p);
-        } else {
+        } else if (!p.getEtapa().equals("FINAL")) {
             actualizarEliminatorias(p);
+        } else { // Es final
+            // Actualizar puntos por predicciones de campeon y sub campeon
         }
+        p = getPartidoById(idPartido).getPartido(); // traigo de nuevo el partido con los datos actualizados
         DefaultResponse DR = new DefaultResponse("200", "Resultado cargado correctamente");
         return new CrearPartidoResponse(DR, p);
     }
@@ -277,10 +289,17 @@ public class PartidoService extends AbstractService {
         preparedStmt.setInt(2, partidoSiguiente);
         preparedStmt.execute();
 
-        // Hay que actualizar la etapa del equipo
-        equipoService.actualizarEtapa(idGanador, "SEMIFINAL");
-
-        // Controlar que cuando es semifinal, se cargue el tercer puesto
+        // Actualizar la etapa del equipo
+        if (p.getEtapa().equals("CUARTOS DE FINAL")) {
+            equipoService.actualizarEtapa(idGanador, "SEMIFINAL");
+        } else if (p.getEtapa().equals("SEMIFINAL")) {
+            equipoService.actualizarEtapa(idGanador, "FINAL");
+            int idPerdedor = obtenerIdEquipoPerdedor(p);    
+            preparedStmt.setInt(1, idPerdedor);
+            preparedStmt.setInt(2, 31); // 31 es el partido de tercer puesto
+            preparedStmt.execute();
+            equipoService.actualizarEtapa(idPerdedor, "TERCER PUESTO");
+        }
     }
 
     public CrearPartidoResponse getPartidoById(int idPartido) throws SQLException, ClassNotFoundException {
@@ -297,7 +316,6 @@ public class PartidoService extends AbstractService {
 
         String sql = "SELECT * FROM PARTIDO WHERE idEquipo1 = ? AND idEquipo2 = ? AND etapa = ?";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
-        preparedStmt = con.prepareStatement(sql);
         preparedStmt.setInt(1, idEquipo1);
         preparedStmt.setInt(2, idEquipo2);
         preparedStmt.setString(3, etapa);
@@ -309,8 +327,7 @@ public class PartidoService extends AbstractService {
         return p;
     }
 
-    public int obtenerIdEquipoGanador(Partido p)
-            throws ClassNotFoundException, SQLException {
+    private int obtenerIdEquipoGanador(Partido p) throws ClassNotFoundException, SQLException {
         createConection();
         int idPartido = Integer.parseInt(p.getId());
         int resultadoEquipo1 = Integer.parseInt(p.getPuntajeEquipo1());
@@ -327,6 +344,26 @@ public class PartidoService extends AbstractService {
         preparedStmt.setInt(1, idPartido);
         ResultSet rs = preparedStmt.executeQuery();
         rs.absolute(1); // hay que controlar cuando no se encuentra el partido
+        return rs.getInt(1);
+    }
+
+    private int obtenerIdEquipoPerdedor(Partido p) throws ClassNotFoundException, SQLException {
+        createConection();
+        int idPartido = Integer.parseInt(p.getId());
+        int resultadoEquipo1 = Integer.parseInt(p.getPuntajeEquipo1());
+        int resultadoEquipo2 = Integer.parseInt(p.getPuntajeEquipo2());
+
+        if (resultadoEquipo1 == resultadoEquipo2) {
+            return 0;
+        }
+
+        String columnaPerdedor = (resultadoEquipo1 < resultadoEquipo2) ? "idEquipo1" : "idEquipo2";
+
+        String sql = "SELECT " + columnaPerdedor + " FROM PARTIDO WHERE idPartido = ?";
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        preparedStmt.setInt(1, idPartido);
+        ResultSet rs = preparedStmt.executeQuery();
+        rs.absolute(1);
         return rs.getInt(1);
     }
 }

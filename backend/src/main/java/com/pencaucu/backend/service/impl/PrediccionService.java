@@ -23,10 +23,7 @@ public class PrediccionService extends AbstractService {
             throws ClassNotFoundException, SQLException {
         createConection();
 
-        if (verificarHora(idPartido)) {
-            throw new UnsupportedOperationException(
-                    "No se puede realizar predicción porque falta menos de una hora para el partido");
-        }
+        verificarPartido(idPartido);
 
         String sql = "INSERT INTO PREDICCION (userId, idPartido, resultadoEquipo1, resultadoEquipo2) VALUES (?, ?, ?, ?)";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
@@ -46,10 +43,7 @@ public class PrediccionService extends AbstractService {
             int resultadoEquipo2) throws SQLException, ClassNotFoundException {
         createConection();
 
-        if (verificarHora(idPartido)) {
-            throw new UnsupportedOperationException(
-                    "No se puede modificar predicción porque falta menos de una hora para el partido");
-        }
+        verificarPartido(idPartido);        
 
         String sql = "UPDATE PREDICCION SET resultadoEquipo1 = ?, resultadoEquipo2 = ? WHERE userId = ? AND idPartido = ?";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
@@ -63,6 +57,47 @@ public class PrediccionService extends AbstractService {
 
         DefaultResponse dr = new DefaultResponse("200", "Prediccion actualizada correctamente");
         return new CrearPrediccionResponse(dr, p);
+    }
+
+    private void verificarPartido(int idPartido) throws SQLException, ClassNotFoundException {
+        if (verificarJugado(idPartido)) {
+            throw new UnsupportedOperationException(
+                    "No se puede realizar predicción porque el partido ya se jugó");
+        }
+        
+        if (verificarHora(idPartido)) {
+            throw new UnsupportedOperationException(
+                    "No se puede realizar predicción porque falta menos de una hora para el partido");
+        }
+    }
+
+    /*
+     * Devuelve true si falta menos de una hora
+     */
+    private boolean verificarHora(int idPartido) throws ClassNotFoundException, SQLException {
+        createConection();
+
+        String sql = "SELECT fecha FROM PARTIDO WHERE idPartido = " + idPartido;
+        ResultSet rs = con.prepareStatement(sql).executeQuery();
+        rs.absolute(1);
+        long currentTime = Timestamp.valueOf(LocalDateTime.now()).getTime();
+        long partidoTime = rs.getTimestamp(1).getTime();
+
+        long difference = partidoTime - currentTime;
+        long milisegunosEnUnaHora = 3600 * 1000;
+
+        return difference < milisegunosEnUnaHora;
+    }
+
+    /*
+     * Devuelve true si el partido ya se jugó
+     */
+    private boolean verificarJugado(int idPartido) throws SQLException {
+        String sql = "SELECT jugado FROM PARTIDO WHERE idPartido = " + idPartido;
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        ResultSet rs = preparedStmt.executeQuery();
+        rs.first();
+        return rs.getBoolean(1);
     }
 
     public CrearPrediccionResponse consultarPrediccion(String userId, int idPartido)
@@ -89,21 +124,6 @@ public class PrediccionService extends AbstractService {
             predicciones.add(new Prediccion(rs));
         }
         return predicciones;
-    }
-
-    private boolean verificarHora(int idPartido) throws ClassNotFoundException, SQLException {
-        createConection();
-
-        String sql = "SELECT fecha FROM PARTIDO WHERE idPartido = " + idPartido;
-        ResultSet rs = con.prepareStatement(sql).executeQuery();
-        rs.absolute(1);
-        long currentTime = Timestamp.valueOf(LocalDateTime.now()).getTime();
-        long partidoTime = rs.getTimestamp(1).getTime();
-
-        long difference = partidoTime - currentTime;
-        long milisegunosEnUnaHora = 3600 * 1000;
-
-        return difference < milisegunosEnUnaHora;
     }
 
     public void actualizarPuntajes(int idPartido, int resultadoEquipo1, int resultadoEquipo2)
