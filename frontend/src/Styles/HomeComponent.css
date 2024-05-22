@@ -598,6 +598,7 @@ cursor: pointer;
   justify-content: space-between; /* Distribuye los elementos al borde izquierdo y derecho */
   align-items: center; /* Centra verticalmente los elementos */
   padding: 10px;
+  margin-bottom: 15px;
 }
 
 .User-Container h2 {

@@ -60,7 +60,8 @@ export async function createUser(user, clave) {
         baseURL: 'http://127.0.0.1:8080',
         headers: {
             'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
         }
     });
     let res = instance.post("http://127.0.0.1:8080/public/register?user=" +
@@ -120,15 +121,17 @@ export async function getRankingAlumnos() {
             'Content-Type': 'application/json'
         }
     });
-    let res = instance.get(`/alumno/getRankingAlumno`)
+    let res = instance.get(`/alumno/getRankingAlumnos`)
         .then(response => {
             let serviceResponse = [];
-            serviceResponse[0] = response.data;
+            serviceResponse[0] = response.status;
+            serviceResponse[1] = response.data;
             return serviceResponse
         })
         .catch(error => {
             let serviceResponse = [];
             serviceResponse[0] = error.code;
+            serviceResponse[1] = error.response.status;
             return serviceResponse
         });
     return res;
