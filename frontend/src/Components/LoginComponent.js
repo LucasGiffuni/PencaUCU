@@ -132,7 +132,7 @@ const LoginComponent = (props) => {
 
   const loginUser = () => {
     login(username, password).then((loginResponse) => {
-      if (loginResponse[1].response.code == "200") {
+      if (loginResponse[1].response.code === "200") {
         localStorage.setItem("jwt", loginResponse[1].jwt);
         localStorage.setItem("alumno", JSON.stringify(loginResponse[1].alumno));
         successfullLoginOrRegister();
@@ -145,6 +145,8 @@ const LoginComponent = (props) => {
   const createUserInDatabase = () => {
     createUser(username, password).then((createUserResponse) => {
       if (createUserResponse[1].response.code === "200") {
+
+        console.log(createUserResponse)
         createAlumno(
           createUserResponse[1].jwt,
           cedulaIdentidad,

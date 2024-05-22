@@ -61,7 +61,6 @@ export async function createUser(user, clave) {
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
-            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
         }
     });
     let res = instance.post("http://127.0.0.1:8080/public/register?user=" +
