@@ -81,7 +81,6 @@ export async function createUser(user, clave) {
             return serviceResponse
         });
     return res;
-
 }
 
 
@@ -118,7 +117,8 @@ export async function getRankingAlumnos() {
         baseURL: 'http://127.0.0.1:8080',
         headers: {
             'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
         }
     });
     let res = instance.get(`/alumno/getRankingAlumnos`)

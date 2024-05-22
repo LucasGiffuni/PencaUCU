@@ -8,7 +8,7 @@ public class Prediccion {
     private String userId;
     private String idPartido;
     private String resultadoEquipo1;
-    private String resultadoequipo2;
+    private String resultadoEquipo2;
     private String puntajeObtenido;
 
     public String getPuntajeObtenido() {
@@ -23,7 +23,7 @@ public class Prediccion {
         this.userId = rs.getString(1);
         this.idPartido = Integer.toString(rs.getInt(2));
         this.resultadoEquipo1 = Integer.toString(rs.getInt(3));
-        this.resultadoequipo2 = Integer.toString(rs.getInt(4));
+        this.resultadoEquipo2 = Integer.toString(rs.getInt(4));
         this.puntajeObtenido = Integer.toString(rs.getInt(5));
     }
 
@@ -51,12 +51,12 @@ public class Prediccion {
         this.resultadoEquipo1 = resultadoEquipo1;
     }
 
-    public String getResultadoequipo2() {
-        return resultadoequipo2;
+    public String getResultadoEquipo2() {
+        return resultadoEquipo2;
     }
 
-    public void setResultadoequipo2(String resultadoequipo2) {
-        this.resultadoequipo2 = resultadoequipo2;
+    public void setResultadoEquipo2(String resultadoequipo2) {
+        this.resultadoEquipo2 = resultadoequipo2;
     }
 
 }

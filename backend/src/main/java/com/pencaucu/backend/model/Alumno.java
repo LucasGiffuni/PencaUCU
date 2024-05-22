@@ -149,4 +149,21 @@ public class Alumno {
         this.puntaje = puntaje;
     }
 
+    @Override
+    public String toString() {
+        return "Alumno [cedulaIdentidad=" + cedulaIdentidad + ", nombre=" + nombre + ", apellido=" + apellido
+                + ", fechaNacimiento=" + fechaNacimiento + ", email=" + email + ", idCarrera=" + idCarrera + ", userId="
+                + userId + ", puntaje=" + puntaje + ", idCampeon=" + idCampeon + ", puntosPorCampeon="
+                + puntosPorCampeon + ", idSubcampeon=" + idSubcampeon + ", puntosPorSubcampeon=" + puntosPorSubcampeon
+                + ", getCedulaIdentidad()=" + getCedulaIdentidad() + ", getNombre()=" + getNombre() + ", getApellido()="
+                + getApellido() + ", getFechaNacimiento()=" + getFechaNacimiento() + ", getEmail()=" + getEmail()
+                + ", getIdCarrera()=" + getIdCarrera() + ", getUserId()=" + getUserId() + ", getIdCampeon()="
+                + getIdCampeon() + ", getPuntosPorCampeon()=" + getPuntosPorCampeon() + ", getIdSubcampeon()="
+                + getIdSubcampeon() + ", getPuntosPorSubcampeon()=" + getPuntosPorSubcampeon() + ", getPuntaje()="
+                + getPuntaje() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+                + super.toString() + "]";
+    }
+
+
+    
 }

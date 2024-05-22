@@ -52,9 +52,8 @@ public class UserController {
     @PostMapping("/alumno/crearAlumno")
     public ResponseEntity<CreateAlumnoResponse> createAlumno(@RequestBody Alumno alumno)
             throws NoSuchAlgorithmException {
-
         return ResponseEntity.ok(userService.createAlumno(alumno));
-    }
+        }
 
     @GetMapping("/public/obtenerCarreras")
     public ResponseEntity<ObtenerCarrerasResponse> obtenerCarreras()

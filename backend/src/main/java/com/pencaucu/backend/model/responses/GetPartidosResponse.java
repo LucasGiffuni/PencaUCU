@@ -3,12 +3,12 @@ package com.pencaucu.backend.model.responses;
 import com.pencaucu.backend.model.Grupo;
 import com.pencaucu.backend.model.Partido;
 
-public class GetProximosPartidosResponse {
+public class GetPartidosResponse {
 
     public DefaultResponse defaultResponse;
     public Partido[] partidos;
 
-    public GetProximosPartidosResponse() {
+    public GetPartidosResponse() {
     }
 
     public DefaultResponse getDefaultResponse() {

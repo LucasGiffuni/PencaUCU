@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pencaucu.backend.model.Equipo;
 import com.pencaucu.backend.model.Partido;
 import com.pencaucu.backend.model.responses.CrearPartidoResponse;
-import com.pencaucu.backend.model.responses.GetProximosPartidosResponse;
+import com.pencaucu.backend.model.responses.GetPartidosResponse;
 import com.pencaucu.backend.service.impl.PartidoService;
 
 import java.sql.SQLException;
@@ -48,7 +48,7 @@ public class PartidoController {
     }
 
     @GetMapping("/getProximosPartidos")
-    public ResponseEntity<GetProximosPartidosResponse> getProximosPartidos() throws ClassNotFoundException, SQLException {
+    public ResponseEntity<GetPartidosResponse> getProximosPartidos() throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.getProximosPartidos());
     }
 
@@ -58,7 +58,7 @@ public class PartidoController {
     }
 
     @GetMapping("/getPartidosNoJugados")
-    public ResponseEntity<List<Partido>> getPartidosNoJugados() throws ClassNotFoundException, SQLException {
+    public ResponseEntity<GetPartidosResponse> getPartidosNoJugados() throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.getPartidosNoJugados());
     }
 

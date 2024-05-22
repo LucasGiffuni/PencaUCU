@@ -43,7 +43,7 @@ public class PrediccionService extends AbstractService {
             int resultadoEquipo2) throws SQLException, ClassNotFoundException {
         createConection();
 
-        verificarPartido(idPartido);        
+        verificarPartido(idPartido);
 
         String sql = "UPDATE PREDICCION SET resultadoEquipo1 = ?, resultadoEquipo2 = ? WHERE userId = ? AND idPartido = ?";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
@@ -64,7 +64,7 @@ public class PrediccionService extends AbstractService {
             throw new UnsupportedOperationException(
                     "No se puede realizar predicción porque el partido ya se jugó");
         }
-        
+
         if (verificarHora(idPartido)) {
             throw new UnsupportedOperationException(
                     "No se puede realizar predicción porque falta menos de una hora para el partido");
@@ -103,14 +103,23 @@ public class PrediccionService extends AbstractService {
     public CrearPrediccionResponse consultarPrediccion(String userId, int idPartido)
             throws ClassNotFoundException, SQLException {
         createConection();
+        DefaultResponse dr = new DefaultResponse("200", "OK");
+
         String sql = "SELECT * FROM PREDICCION WHERE userId = ? AND idPartido = ?";
         PreparedStatement p = con.prepareStatement(sql);
         p.setString(1, userId);
         p.setInt(2, idPartido);
-        ResultSet rs = p.executeQuery();
-        rs.absolute(1);
-        DefaultResponse dr = new DefaultResponse("200", "Prediccion cargada correctamente");
-        return new CrearPrediccionResponse(dr, new Prediccion(rs));
+        try {
+
+            ResultSet rs = p.executeQuery();
+
+            rs.absolute(1);
+
+            return new CrearPrediccionResponse(dr, new Prediccion(rs));
+        } catch (Exception e) {
+            return new CrearPrediccionResponse(dr, null);
+        }
+
     }
 
     public List<Prediccion> consultarPredicciones(String userId) throws SQLException, ClassNotFoundException {
