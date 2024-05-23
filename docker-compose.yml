@@ -1,5 +1,35 @@
+version: '3.8'
 
 services:
+  frontend:
+    container_name: front
+    depends_on:
+      - backend
+    build: .
+    restart: on-failure
+    ports:
+      - 80:80
+
+  backend:
+    container_name: backend
+    depends_on:
+      - database
+    build: backend/.
+    restart: on-failure
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.driver-class-name"  : "com.mysql.cj.jdbc.Driver",
+        "spring.datasource.databaseName" : "PencaUCU",
+        "spring.datasource.connectionString" : "jdbc:mysql://database:3306/",
+        "spring.datasource.databaseUsername" : "root",
+        "spring.datasource.databasePassword" : "1234"
+        }'
+    volumes:
+      - .m2:/root/.m2
+    networks:
+      - microservices-network
 
   database:
     container_name: database

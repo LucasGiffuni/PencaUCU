@@ -67,7 +67,6 @@ public class PartidoService extends AbstractService {
         }
     };
 
-
     public CrearPartidoResponse crearPartido(Partido partido)
             throws SQLException, ParseException, ClassNotFoundException {
 
@@ -241,7 +240,7 @@ public class PartidoService extends AbstractService {
         if (Boolean.valueOf(p.getJugado())) {
             throw new UnsupportedOperationException("Los resultados del partido ya han sido cargados");
         }
-        
+
         // controlar que si no es fase de grupo, no se pueda cargar empate
 
         String sql = "UPDATE PARTIDO SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true WHERE idPartido = ?";
@@ -251,33 +250,61 @@ public class PartidoService extends AbstractService {
         preparedStmt.setInt(2, resultadoEquipo2);
         preparedStmt.setInt(3, idPartido);
         preparedStmt.execute();
-        prediccionService.actualizarPuntajes(idPartido, resultadoEquipo1, resultadoEquipo2);
 
+
+        int puntosEquipo1 = 0;
+        int puntosEquipo2 = 0;
+
+
+
+
+        prediccionService.actualizarPuntajes(idPartido, resultadoEquipo1, resultadoEquipo2);
+        p = getPartidoById(idPartido).getPartido(); // traigo de nuevo el partido con los datos actualizados
+
+
+        if (Integer.parseInt(p.getPuntajeEquipo1()) == Integer.parseInt(p.getPuntajeEquipo2())) {
+            puntosEquipo1 = 1;
+            puntosEquipo2 = 1;
+
+        } else if (Integer.parseInt(p.getPuntajeEquipo1()) > Integer.parseInt(p.getPuntajeEquipo2())) {
+            puntosEquipo1 = 3;
+            puntosEquipo2 = 0;
+
+        } else if (Integer.parseInt(p.getPuntajeEquipo2()) > Integer.parseInt(p.getPuntajeEquipo1())) {
+            puntosEquipo1 = 0;
+            puntosEquipo2 = 3;
+
+        }
         if (p.getEtapa().equals("FASE DE GRUPOS")) {
-            actualizarPuntajesGrupos(p);
+            actualizarPuntajesEquipo(p.getIdEquipo1(), puntosEquipo1);
+            actualizarPuntajesEquipo(p.getIdEquipo2(), puntosEquipo2);
+
             actualizarCuartos(p);
         } else if (!p.getEtapa().equals("FINAL")) {
             actualizarEliminatorias(p);
         } else { // Es final
             // Actualizar puntos por predicciones de campeon y sub campeon
         }
-        p = getPartidoById(idPartido).getPartido(); // traigo de nuevo el partido con los datos actualizados
+
         DefaultResponse DR = new DefaultResponse("200", "Resultado cargado correctamente");
         return new CrearPartidoResponse(DR, p);
     }
 
-    private void actualizarPuntajesGrupos(Partido p) throws NumberFormatException, SQLException {
+    private void actualizarPuntajesEquipo(String idEquipo, int puntos)
+            throws NumberFormatException, SQLException, ClassNotFoundException {
+
         String sql = "UPDATE EQUIPO SET puntaje = puntaje + ? WHERE idEquipo = ?";
         PreparedStatement ps = con.prepareStatement(sql);
 
-        ps.setInt(1, Integer.parseInt(p.getPuntajeEquipo1()));
-        ps.setInt(2, Integer.parseInt(p.getIdEquipo1()));
+        ps.setInt(1, puntos);
+        ps.setInt(2, Integer.parseInt(idEquipo));
+
         ps.execute();
 
-        ps.setInt(1, Integer.parseInt(p.getPuntajeEquipo2()));
-        ps.setInt(2, Integer.parseInt(p.getIdEquipo2()));
-        ps.execute();
+        
     }
+
+ 
 
     private void actualizarCuartos(Partido p) throws SQLException, ClassNotFoundException {
         String sql = "SELECT idGrupo FROM EQUIPO WHERE idEquipo = ?";
@@ -335,7 +362,7 @@ public class PartidoService extends AbstractService {
             equipoService.actualizarEtapa(idGanador, "SEMIFINAL");
         } else if (p.getEtapa().equals("SEMIFINAL")) {
             equipoService.actualizarEtapa(idGanador, "FINAL");
-            int idPerdedor = obtenerIdEquipoPerdedor(p);    
+            int idPerdedor = obtenerIdEquipoPerdedor(p);
             preparedStmt.setInt(1, idPerdedor);
             preparedStmt.setInt(2, 31); // 31 es el partido de tercer puesto
             preparedStmt.execute();

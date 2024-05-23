@@ -20,6 +20,7 @@ const MiddlewareRouteComponent = (props) => {
     const jwt = localStorage.getItem("jwt");
 
     jwt == null ? setLogged(false) : setLogged(true);
+    jwt == "" ? setLogged(false) : setLogged(true);
 
     console.log(jwt);
   }, []);

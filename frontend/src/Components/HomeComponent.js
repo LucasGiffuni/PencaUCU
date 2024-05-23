@@ -4,23 +4,21 @@ import GroupComponent from "./GroupComponent";
 import Accordion from "react-bootstrap/Accordion";
 import { getTeamsByGroup } from "../Services/GroupService";
 
-
-import MatchDisplayComponent from "./MatchDisplayComponent"
+import MatchDisplayComponent from "./MatchDisplayComponent";
 
 import NavBarComponent from "./NavBarComponent";
-
-
-
 class HomeComponent extends Component {
   render() {
     return (
       <>
-
         <div className="Home-Component-Container">
           <NavBarComponent />
 
           <div className="Home-Component-MatchDisplayComponent">
             <MatchDisplayComponent />
+          </div>
+
+          <div>
           </div>
 
           <Accordion className="Accordion-Groups">
