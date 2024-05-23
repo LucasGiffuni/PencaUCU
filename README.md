@@ -28,13 +28,10 @@ Para una correcta ejecucion del programa es necesario ejecutar secuencialmente l
 
 7- En este punto la aplicación ya está preparada para utilizar, ahora detallaremos algunos detalles a tener en cuenta:
 
-1- La aplicación cuenta con un usuario ADMINISTRADOR, pero es necesario crearlo. Para ello haremos un registro como un usuario normal pero el USERNAME debera ser "admin".
-Esto habilitará las funcionalidades de cargar periodo y generar reporte.
+1- En caso de fallar los pasos 1 al 3 podemos independientemente lanzar los servicios, pero si es necesario lanzar independiente el docker de la base de datos.
 
-2- En caso de fallar los pasos 1 al 3 podemos independientemente lanzar los servicios, pero si es necesario lanzar independiente el docker de la base de datos.
-
-ejercucion: 
+ejecucion: 
 
 1- Para lanzar el backend simplemente entramos al main " backend\src\main\java\com\pencaucu\backend\BackendApplication.java " y ejecutamos la aplicación.
 
-2- Para lanzar el frontend necesitaremos de un live server, recomendamos el Live Server que provee Visual Studio Code.
+2- Para lanzar el frontend, se debe ejecutar el comando "npm start" desde la carpeta /frontend.
