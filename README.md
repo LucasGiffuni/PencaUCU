@@ -22,7 +22,7 @@ Para una correcta ejecucion del programa es necesario ejecutar secuencialmente l
     password: 1234
     ( EN CASO DE CAMBIAR LOS DATOS EN EL DOCKERFILE DE LA BASE DE DATOS MODIFICAR ACA TAMBIEN)
 
-5- Ejecutar el archivo CLINICA DML.sql dentro de la carpeta BDD (ClinicaSaludUCU/BDD/CLINICA DML.sql).
+5- Ejecutar el archivo penca.sql dentro de la carpeta BDD (database\penca.sql).
 
 6- En este punto la aplicación ya está preparada para utilizar, ahora detallaremos algunos detalles a tener en cuenta:
 
@@ -33,6 +33,6 @@ Esto habilitará las funcionalidades de cargar periodo y generar reporte.
 
 ejercucion: 
 
-1- Para lanzar el backend simplemente entramos al main " Backend\clinica_ucu\src\main\java\com\example\clinica_ucu\ClinicaUcuApplication.java " y ejecutamos la aplicación.
+1- Para lanzar el backend simplemente entramos al main " backend\src\main\java\com\pencaucu\backend\BackendApplication.java " y ejecutamos la aplicación.
 
 2- Para lanzar el frontend necesitaremos de un live server, recomendamos el Live Server que provee Visual Studio Code.
