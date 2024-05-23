@@ -7,7 +7,6 @@ import { getTeamsByGroup } from "../Services/GroupService";
 import MatchDisplayComponent from "./MatchDisplayComponent";
 
 import NavBarComponent from "./NavBarComponent";
-import TournamentDashboard  from "./TournamentDashboard";
 class HomeComponent extends Component {
   render() {
     return (
@@ -20,7 +19,6 @@ class HomeComponent extends Component {
           </div>
 
           <div>
-            <TournamentDashboard />
           </div>
 
           <Accordion className="Accordion-Groups">

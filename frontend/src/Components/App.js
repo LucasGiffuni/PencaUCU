@@ -51,7 +51,7 @@ const App = (props) => {
           <Route
             className={"App-Component"}
             path="/"
-            element={<MiddlewareRouteComponent />}
+            element={<LoginComponent />}
           />
         </Routes>
       </BrowserRouter>
