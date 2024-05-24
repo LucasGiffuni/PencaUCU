@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.common.hash.Hashing;
 import com.pencaucu.backend.BackendApplication;
-import com.pencaucu.backend.model.Alumno;
+import com.pencaucu.backend.model.Usuario;
 import com.pencaucu.backend.model.Carrera;
 import com.pencaucu.backend.model.DatabaseUser;
 import com.pencaucu.backend.model.responses.CreateAlumnoResponse;
@@ -128,7 +128,7 @@ public class UserServiceImpl {
 
             if (resultSet.getString(1).equals(encryptedpassword)) {
 
-                Alumno a = null;
+                Usuario a = null;
                 sql = "Select * from USUARIO f where f.userId = ?";
 
                 PreparedStatement preparedStmt2 = con.prepareStatement(sql);
@@ -136,7 +136,7 @@ public class UserServiceImpl {
 
                 ResultSet resultSet2 = preparedStmt2.executeQuery();
                 while (resultSet2.next()) {
-                    a = new Alumno(resultSet2);
+                    a = new Usuario(resultSet2);
                 }
 
                 final String token = jwtUtilService
@@ -220,7 +220,7 @@ public class UserServiceImpl {
         return response;
     }
 
-    public CreateAlumnoResponse createAlumno(Alumno alumno) {
+    public CreateAlumnoResponse createAlumno(Usuario alumno) {
         try {
             createConection();
             String sql = "update USUARIO set cedulaIdentidad = ?, nombre = ?, apellido = ?, fechaNacimiento = ?, email = ?, idCarrera = ?, idCampeon = ?, idSubcampeon = ? where userId = ?";
@@ -232,26 +232,26 @@ public class UserServiceImpl {
             preparedStmt.setDate(4, Date.valueOf(alumno.getFechaNacimiento()));
             preparedStmt.setString(5, alumno.getEmail());
             preparedStmt.setInt(6, Integer.parseInt(alumno.getIdCarrera()));
-            if (alumno.getIdCampeon() == "" && alumno.getIdSubcampeon() == "") {
-                preparedStmt.setInt(7, Integer.parseInt(alumno.getIdCampeon()));
-                preparedStmt.setInt(8, Integer.parseInt(alumno.getIdSubcampeon()));
-            } else {
-                preparedStmt.setInt(7, 1);
-                preparedStmt.setInt(8, 1);
-            }
+            if (alumno.getIdCampeon() == null || alumno.getIdSubcampeon() == null ||
+                    alumno.getIdCampeon().equals("") || alumno.getIdSubcampeon().equals("")) {
+                throw new UnsupportedOperationException("Se debe ingresar un campeon y sub campeon");
+            } 
+            preparedStmt.setInt(7, Integer.parseInt(alumno.getIdCampeon()));
+            preparedStmt.setInt(8, Integer.parseInt(alumno.getIdSubcampeon()));
+            
             preparedStmt.setString(9, alumno.getUserId());
 
             preparedStmt.execute();
 
             DefaultResponse defaultResponse = new DefaultResponse("200", "Alumno creado Correctamente");
-            CreateAlumnoResponse response = new CreateAlumnoResponse(defaultResponse, alumno);
+            CreateAlumnoResponse response = new CreateAlumnoResponse(defaultResponse, obtenerAlumno(Integer.parseInt(alumno.getCedulaIdentidad())).getAlumno());
             con.close();
             return response;
 
         } catch (Exception e) {
             e.printStackTrace();
-            DefaultResponse defaultResponse = new DefaultResponse("400", "Alumno ya creado");
-            CreateAlumnoResponse response = new CreateAlumnoResponse(defaultResponse, alumno);
+            DefaultResponse defaultResponse = new DefaultResponse("400", e.getMessage());
+            CreateAlumnoResponse response = new CreateAlumnoResponse(defaultResponse, null);
             return response;
 
         }
@@ -262,19 +262,19 @@ public class UserServiceImpl {
         String sql = "SELECT * FROM USUARIO WHERE cedulaIdentidad = " + ci;
         ResultSet rs = con.prepareStatement(sql).executeQuery();
         rs.absolute(1);
-        Alumno alumno = new Alumno(rs);
+        Usuario alumno = new Usuario(rs);
         DefaultResponse defaultResponse = new DefaultResponse("200", "Alumno obtenido correctamente");
         CreateAlumnoResponse response = new CreateAlumnoResponse(defaultResponse, alumno);
         return response;
     }
 
-    public List<Alumno> getRankingAlumnos() throws SQLException, ClassNotFoundException {
+    public List<Usuario> getRankingAlumnos() throws SQLException, ClassNotFoundException {
         createConection();
         String sql = "SELECT * FROM USUARIO WHERE rol = \"ALUMNO\" ORDER BY puntaje DESC";
         ResultSet rs = con.prepareStatement(sql).executeQuery();
-        List<Alumno> alumnos = new LinkedList<>(); 
+        List<Usuario> alumnos = new LinkedList<>(); 
         while (rs.next()) {
-            Alumno alumno = new Alumno(rs);
+            Usuario alumno = new Usuario(rs);
             alumnos.add(alumno);
         }
         return alumnos;

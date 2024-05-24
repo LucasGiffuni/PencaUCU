@@ -76,28 +76,28 @@ function RankingComponent(props) {
           if (i === 2) {
             return (
               <div style={UserContainerBronzePodium(JSON.parse(localStorage.getItem("alumno")).cedulaIdentidad === alumno.cedulaIdentidad)} key={i}>
-                <h2>{alumno.nombre} </h2>
+                <h2>{alumno.nombre} {alumno.apellido}</h2>
                 <h2>{alumno.puntaje} pts.</h2>
               </div>
             );
           } else if (i === 1) {
             return (
                 <div style={UserContainerSilverPodium(JSON.parse(localStorage.getItem("alumno")).cedulaIdentidad === alumno.cedulaIdentidad)} key={i}>
-                <h2>{alumno.nombre} </h2>
+                <h2>{alumno.nombre} {alumno.apellido}</h2>
                 <h2>{alumno.puntaje} pts.</h2>
               </div>
             );
           } else if (i === 0) {
             return (
                 <div style={UserContainerGoldPodium(JSON.parse(localStorage.getItem("alumno")).cedulaIdentidad === alumno.cedulaIdentidad)} key={i}>
-                <h2>{alumno.nombre} </h2>
+                <h2>{alumno.nombre} {alumno.apellido}</h2>
                 <h2>{alumno.puntaje} pts.</h2>
               </div>
             );
           } else {
             return (
               <div className="User-Container" key={i}>
-                <h2>{alumno.nombre} </h2>
+                <h2>{alumno.nombre} {alumno.apellido}</h2>
                 <h2>{alumno.puntaje} pts.</h2>
               </div>
             );

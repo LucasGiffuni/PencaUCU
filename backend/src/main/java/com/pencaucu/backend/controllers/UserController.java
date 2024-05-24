@@ -35,7 +35,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.pencaucu.backend.BackendApplication;
-import com.pencaucu.backend.model.Alumno;
+import com.pencaucu.backend.model.Usuario;
 import com.pencaucu.backend.model.responses.CreateAlumnoResponse;
 import com.pencaucu.backend.model.responses.LoginResponse;
 import com.pencaucu.backend.model.responses.ObtenerCarrerasResponse;
@@ -50,7 +50,7 @@ public class UserController {
     private UserServiceImpl userService;
 
     @PostMapping("/alumno/crearAlumno")
-    public ResponseEntity<CreateAlumnoResponse> createAlumno(@RequestBody Alumno alumno)
+    public ResponseEntity<CreateAlumnoResponse> createAlumno(@RequestBody Usuario alumno)
             throws NoSuchAlgorithmException {
         return ResponseEntity.ok(userService.createAlumno(alumno));
         }
@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @GetMapping("/alumno/getRankingAlumnos")
-    public ResponseEntity<List<Alumno>> getRankingAlumnos()
+    public ResponseEntity<List<Usuario>> getRankingAlumnos()
             throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(userService.getRankingAlumnos());
     }

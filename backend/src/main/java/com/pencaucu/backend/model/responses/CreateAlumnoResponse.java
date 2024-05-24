@@ -1,13 +1,13 @@
 package com.pencaucu.backend.model.responses;
 
-import com.pencaucu.backend.model.Alumno;
+import com.pencaucu.backend.model.Usuario;
 
 public class CreateAlumnoResponse {
 
     public DefaultResponse defaultResponse;
-    public Alumno alumno;
+    public Usuario alumno;
 
-    public CreateAlumnoResponse(DefaultResponse defaultResponse, Alumno alumno) {
+    public CreateAlumnoResponse(DefaultResponse defaultResponse, Usuario alumno) {
         this.defaultResponse = defaultResponse;
         this.alumno = alumno;
     }
@@ -23,11 +23,11 @@ public class CreateAlumnoResponse {
         this.defaultResponse = defaultResponse;
     }
 
-    public Alumno getAlumno() {
+    public Usuario getAlumno() {
         return alumno;
     }
 
-    public void setAlumno(Alumno alumno) {
+    public void setAlumno(Usuario alumno) {
         this.alumno = alumno;
     }
 

@@ -3,11 +3,12 @@ package com.pencaucu.backend.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Alumno {
+public class Usuario {
 
     String cedulaIdentidad;
     String nombre;
     String apellido;
+    String rol;
     String fechaNacimiento;
     String email;
     String idCarrera;
@@ -18,10 +19,11 @@ public class Alumno {
     String idSubcampeon;
     String puntosPorSubcampeon;
 
-    public Alumno(ResultSet rs) throws SQLException {
+    public Usuario(ResultSet rs) throws SQLException {
         this.cedulaIdentidad = String.valueOf(rs.getInt(4));
         this.nombre = rs.getString(5);
         this.apellido = rs.getString(6);
+        this.rol = rs.getString(3);
         this.fechaNacimiento = String.valueOf(rs.getDate(7));
         this.email = rs.getString(8);
         this.idCarrera = String.valueOf(rs.getInt(9));
@@ -33,12 +35,13 @@ public class Alumno {
         this.puntosPorSubcampeon = Integer.toString(rs.getInt(14));
     }
 
-    public Alumno(String cedulaIdentidad, String nombre, String apellido, String fechaNacimiento, String email,
+    public Usuario(String cedulaIdentidad, String nombre, String apellido, String rol, String fechaNacimiento, String email,
             String idCarrera, String userId, String idCampeon, String puntosPorCampeon, String idSubcampeon,
             String puntosPorSubcampeon) {
         this.cedulaIdentidad = cedulaIdentidad;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.rol = rol;
         this.fechaNacimiento = fechaNacimiento;
         this.email = email;
         this.idCarrera = idCarrera;
@@ -50,7 +53,7 @@ public class Alumno {
         this.puntosPorSubcampeon = puntosPorSubcampeon;
     }
 
-    public Alumno() {
+    public Usuario() {
     }
 
     public String getCedulaIdentidad() {
@@ -162,6 +165,14 @@ public class Alumno {
                 + getIdSubcampeon() + ", getPuntosPorSubcampeon()=" + getPuntosPorSubcampeon() + ", getPuntaje()="
                 + getPuntaje() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
                 + super.toString() + "]";
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
 
