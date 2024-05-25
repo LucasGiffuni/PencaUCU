@@ -238,10 +238,19 @@ public class PartidoService extends AbstractService {
         // Validar que no se hayan cargado los resultados del partido ya
         Partido p = getPartidoById(idPartido).getPartido();
         if (Boolean.valueOf(p.getJugado())) {
-            throw new UnsupportedOperationException("Los resultados del partido ya han sido cargados");
+            DefaultResponse DR = new DefaultResponse("405",
+                    "Operación no permitida. Los resultados del partido ya han sido cargados anteriormente");
+            return new CrearPartidoResponse(DR, p);
         }
-
+        if (p.getIdEquipo1().equals("0") || p.getIdEquipo2().equals("0")) {
+            DefaultResponse DR = new DefaultResponse("405", "Los equipos del partido no se han definido");
+            return new CrearPartidoResponse(DR, p);
+        }
         // controlar que si no es fase de grupo, no se pueda cargar empate
+        if (resultadoEquipo1 == resultadoEquipo2 && !p.getEtapa().equals("FASE DE GRUPOS")) {
+            DefaultResponse DR = new DefaultResponse("400", "No se puede cargar empate en partidos de eliminatorias");
+            return new CrearPartidoResponse(DR, p);
+        }
 
         String sql = "UPDATE PARTIDO SET resultadoEquipo1 = ?, resultadoEquipo2 = ?, jugado = true WHERE idPartido = ?";
 
@@ -251,18 +260,15 @@ public class PartidoService extends AbstractService {
         preparedStmt.setInt(3, idPartido);
         preparedStmt.execute();
 
-
         int puntosEquipo1 = 0;
         int puntosEquipo2 = 0;
-
-
-
 
         prediccionService.actualizarPuntajes(idPartido, resultadoEquipo1, resultadoEquipo2);
         p = getPartidoById(idPartido).getPartido(); // traigo de nuevo el partido con los datos actualizados
 
-
-        if (Integer.parseInt(p.getPuntajeEquipo1()) == Integer.parseInt(p.getPuntajeEquipo2())) {
+        if (Integer.parseInt(p.getPuntajeEquipo1()) == Integer.parseInt(p.getPuntajeEquipo2())
+                && Integer.parseInt(p.getPuntajeEquipo1()) != 0
+                && Integer.parseInt(p.getPuntajeEquipo2()) != 0) {
             puntosEquipo1 = 1;
             puntosEquipo2 = 1;
 
@@ -280,10 +286,13 @@ public class PartidoService extends AbstractService {
             actualizarPuntajesEquipo(p.getIdEquipo2(), puntosEquipo2);
 
             actualizarCuartos(p);
-        } else if (!p.getEtapa().equals("FINAL")) {
+        } else if (!p.getEtapa().equals("FINAL") && !p.getEtapa().equals("TERCER PUESTO")) {
             actualizarEliminatorias(p);
         } else { // Es final
             // Actualizar puntos por predicciones de campeon y sub campeon
+            int idPrimerLugar = obtenerIdEquipoGanador(p);
+            int idSegundoLugar = obtenerIdEquipoPerdedor(p);
+            prediccionService.actualizarPuntosPorCampeones(idPrimerLugar, idSegundoLugar);
         }
 
         DefaultResponse DR = new DefaultResponse("200", "Resultado cargado correctamente");
@@ -301,10 +310,7 @@ public class PartidoService extends AbstractService {
 
         ps.execute();
 
-        
     }
-
- 
 
     private void actualizarCuartos(Partido p) throws SQLException, ClassNotFoundException {
         String sql = "SELECT idGrupo FROM EQUIPO WHERE idEquipo = ?";
@@ -315,7 +321,8 @@ public class PartidoService extends AbstractService {
 
         String grupo = rs.getString(1);
 
-        sql = "SELECT * FROM PARTIDO p, EQUIPO e1, EQUIPO e2 WHERE p.idEquipo1 = e1.idEquipo AND p.idEquipo2 = e2.idEquipo AND p.jugado = false AND e1.idGrupo = ?";
+        sql = "SELECT * FROM PARTIDO p, EQUIPO e1, EQUIPO e2 WHERE p.idEquipo1 = e1.idEquipo AND p.idEquipo2 = e2.idEquipo " +
+                "AND p.jugado = false AND e1.idGrupo = ? AND p.etapa = \"FASE DE GRUPOS\"";
         preparedStmt = con.prepareStatement(sql);
         preparedStmt.setString(1, grupo);
         rs = preparedStmt.executeQuery();
@@ -350,6 +357,7 @@ public class PartidoService extends AbstractService {
     private void actualizarEliminatorias(Partido p) throws ClassNotFoundException, SQLException {
         int partidoSiguiente = siguientesPartidos.get(Integer.parseInt(p.getId()));
         int idGanador = obtenerIdEquipoGanador(p);
+        int idPerdedor = obtenerIdEquipoPerdedor(p);
         String columna = (Integer.parseInt(p.getId()) % 2 != 0) ? "idEquipo1" : "idEquipo2";
         String sql = "UPDATE PARTIDO SET " + columna + " = ? WHERE idPartido = ?";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
@@ -360,9 +368,9 @@ public class PartidoService extends AbstractService {
         // Actualizar la etapa del equipo
         if (p.getEtapa().equals("CUARTOS DE FINAL")) {
             equipoService.actualizarEtapa(idGanador, "SEMIFINAL");
+            equipoService.deshabilitarEquipo(idPerdedor);
         } else if (p.getEtapa().equals("SEMIFINAL")) {
             equipoService.actualizarEtapa(idGanador, "FINAL");
-            int idPerdedor = obtenerIdEquipoPerdedor(p);
             preparedStmt.setInt(1, idPerdedor);
             preparedStmt.setInt(2, 31); // 31 es el partido de tercer puesto
             preparedStmt.execute();

@@ -23,7 +23,10 @@ public class PrediccionService extends AbstractService {
             throws ClassNotFoundException, SQLException {
         createConection();
 
-        verificarPartido(idPartido);
+        CrearPrediccionResponse verificarPartido = verificarPartido(idPartido);
+        if (verificarPartido != null) {
+            return verificarPartido;
+        }
 
         String sql = "INSERT INTO PREDICCION (userId, idPartido, resultadoEquipo1, resultadoEquipo2) VALUES (?, ?, ?, ?)";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
@@ -43,7 +46,10 @@ public class PrediccionService extends AbstractService {
             int resultadoEquipo2) throws SQLException, ClassNotFoundException {
         createConection();
 
-        verificarPartido(idPartido);
+        CrearPrediccionResponse verificarPartido = verificarPartido(idPartido);
+        if (verificarPartido != null) {
+            return verificarPartido;
+        }
 
         String sql = "UPDATE PREDICCION SET resultadoEquipo1 = ?, resultadoEquipo2 = ? WHERE userId = ? AND idPartido = ?";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
@@ -59,16 +65,18 @@ public class PrediccionService extends AbstractService {
         return new CrearPrediccionResponse(dr, p);
     }
 
-    private void verificarPartido(int idPartido) throws SQLException, ClassNotFoundException {
+    private CrearPrediccionResponse verificarPartido(int idPartido) throws SQLException, ClassNotFoundException {
         if (verificarJugado(idPartido)) {
-            throw new UnsupportedOperationException(
-                    "No se puede realizar predicción porque el partido ya se jugó");
+            DefaultResponse dr = new DefaultResponse("405", "No se puede cargar predicción debido a que el partido ya se jugó");
+            return new CrearPrediccionResponse(dr, null);
         }
 
         if (verificarHora(idPartido)) {
-            throw new UnsupportedOperationException(
-                    "No se puede realizar predicción porque falta menos de una hora para el partido");
+            DefaultResponse dr = new DefaultResponse("405", "No se puede cargar predicción debido a que falta menos de una hora para el partido");
+            return new CrearPrediccionResponse(dr, null);
         }
+
+        return null;
     }
 
     /*
@@ -181,4 +189,20 @@ public class PrediccionService extends AbstractService {
         p.execute();
     }
 
+    public void actualizarPuntosPorCampeones(int idPrimerLugar, int idSegundoLugar) throws SQLException {
+        String sql = "SELECT * FROM USUARIO WHERE rol = \"ALUMNO\"";
+        ResultSet rs = con.prepareStatement(sql).executeQuery();
+        while (rs.next()) {
+            sql = "UPDATE USUARIO SET puntaje = puntaje + ? where userId = \"" + rs.getString(1) + "\"";
+            PreparedStatement ps = con.prepareStatement(sql);
+            if (rs.getInt(11) == idPrimerLugar) {
+                ps.setInt(1, 10); // acierta campeon, gana 10 puntos
+                ps.execute();
+            }
+            if (rs.getInt(13) == idSegundoLugar) {
+                ps.setInt(1, 5); // acierta campeon, gana 10 puntos
+                ps.execute();
+            }
+        }
+    }
 }
