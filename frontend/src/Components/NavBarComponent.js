@@ -10,6 +10,9 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+
 import Dropdown from "react-bootstrap/Dropdown";
 
 function stringToColor(string) {
@@ -59,6 +62,10 @@ function NavBarComponent(props) {
 
   let alumno = JSON.parse(localStorage.getItem("alumno"));
 
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+
   if (alumno === null) {
     alumno = {
       nombre: "A",
@@ -75,33 +82,54 @@ function NavBarComponent(props) {
     alumno = newObject;
   }, []);
 
+  const showModal = () => {
+    setShow(true);
+  };
+
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
-        <Navbar.Brand href="/">Penca UCU</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/predicciones">Predicciones</Nav.Link>
-            <Nav.Link href="/ranking">Ranking</Nav.Link>
+    <>
+      <Navbar expand="lg" className="bg-body-tertiary">
+        <Container>
+          <Navbar.Brand href="/home">Penca UCU</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="/predicciones">Predicciones</Nav.Link>
+              <Nav.Link href="/ranking">Ranking</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
 
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
+        <Dropdown className="NavBar-Component-Dropdown">
+          <Dropdown.Toggle
+            as={CustomToggle}
+            id={`dropdown-button-drop-start`}
+            name={alumno.nombre + " " + alumno.apellido}
+          />
+          <Dropdown.Menu>
+            <Dropdown.Item>Perfil</Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
+                showModal();
+              }}
+            >
+              Mis Apuestas
+            </Dropdown.Item>
+            <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Navbar>
 
-      <Dropdown className="NavBar-Component-Dropdown">
-        <Dropdown.Toggle
-          as={CustomToggle}
-          id={`dropdown-button-drop-start`}
-          name={alumno.nombre + " " + alumno.apellido}
-        />
-        <Dropdown.Menu>
-          <Dropdown.Item>Perfil</Dropdown.Item>
-          <Dropdown.Item>Mis Apuestas</Dropdown.Item>
-          <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-    </Navbar>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Mis Predicciones</Modal.Title>
+        </Modal.Header>
+        <Modal.Body></Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary">Save Changes</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }
 

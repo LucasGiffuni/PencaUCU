@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pencaucu.backend.model.Prediccion;
+import com.pencaucu.backend.model.responses.ConsultarPrediccionesPorUsuarioResponse;
 import com.pencaucu.backend.model.responses.CrearPrediccionResponse;
 import com.pencaucu.backend.model.responses.DefaultResponse;
+import com.pencaucu.backend.model.responses.DetallePrediccionUsuario;
 
 @Service
 public class PrediccionService extends AbstractService {
@@ -122,17 +124,22 @@ public class PrediccionService extends AbstractService {
 
     }
 
-    public List<Prediccion> consultarPredicciones(String userId) throws SQLException, ClassNotFoundException {
+    public ConsultarPrediccionesPorUsuarioResponse consultarPredicciones(String userId) throws SQLException, ClassNotFoundException {
         createConection();
-        String sql = "SELECT * FROM PREDICCION WHERE userId = ?";
+        DefaultResponse dr = new DefaultResponse("200", "OK");
+
+        String sql = "SELECT P.idPartido, P.idEquipo1, Pr.resultadoEquipo1, E1.nombre, E1.urlBandera, P.idEquipo2, Pr.resultadoEquipo2, E2.nombre, E2.urlBandera from PARTIDO as P join PREDICCION as Pr on Pr.idPartido = P.idPartido join EQUIPO as E1 on E1.idEquipo = P.idEquipo1 join EQUIPO E2 on E2.idEquipo = P.idEquipo2 where Pr.userId = ?";
         PreparedStatement p = con.prepareStatement(sql);
         p.setString(1, userId);
+
         ResultSet rs = p.executeQuery();
-        List<Prediccion> predicciones = new ArrayList<>();
-        while (rs.next()) {
-            predicciones.add(new Prediccion(rs));
+        try {
+         
+
+            return new ConsultarPrediccionesPorUsuarioResponse(dr, new DetallePrediccionUsuario(rs));
+        } catch (Exception e) {
+            return new ConsultarPrediccionesPorUsuarioResponse(dr, null);
         }
-        return predicciones;
     }
 
     public void actualizarPuntajes(int idPartido, int resultadoEquipo1, int resultadoEquipo2)
