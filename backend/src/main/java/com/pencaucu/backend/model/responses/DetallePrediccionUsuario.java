@@ -24,8 +24,8 @@ public class DetallePrediccionUsuario {
 
         this.idEquipo2 = Integer.toString(rs.getInt(6));
         this.resultadoEquipo2 = Integer.toString(rs.getInt(7));
-        this.nombreEquipo1 = rs.getString(8);
-        this.urlBanderaEquipo1 = rs.getString(9);
+        this.nombreEquipo2 = rs.getString(8);
+        this.urlBanderaEquipo2 = rs.getString(9);
 
     }
 

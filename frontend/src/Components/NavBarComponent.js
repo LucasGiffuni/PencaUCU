@@ -15,6 +15,8 @@ import Modal from "react-bootstrap/Modal";
 
 import Dropdown from "react-bootstrap/Dropdown";
 
+import { obtenerPrediccionDadoUsuario } from "../Services/PredicctionService";
+
 function stringToColor(string) {
   let hash = 0;
   let i;
@@ -62,6 +64,8 @@ function NavBarComponent(props) {
 
   let alumno = JSON.parse(localStorage.getItem("alumno"));
 
+  const [predicciones, setPredicciones] = useState([]);
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -80,7 +84,17 @@ function NavBarComponent(props) {
   useEffect(() => {
     let newObject = localStorage.getItem("alumno");
     alumno = newObject;
+    obtenerPrediccionesUsuario();
   }, []);
+
+  const obtenerPrediccionesUsuario = () => {
+    let alumno = JSON.parse(localStorage.getItem("alumno"));
+
+    obtenerPrediccionDadoUsuario(alumno.userId).then((res) => {
+      console.log(res);
+      setPredicciones(res[1]);
+    });
+  };
 
   const showModal = () => {
     setShow(true);
@@ -124,7 +138,37 @@ function NavBarComponent(props) {
         <Modal.Header closeButton>
           <Modal.Title>Mis Predicciones</Modal.Title>
         </Modal.Header>
-        <Modal.Body></Modal.Body>
+        <Modal.Body>
+          {predicciones &&
+            predicciones.map((prediccion, i) => {
+              return (
+                <div className="Prediccions-Component-Body">
+                  <div className="Prediccions-Component-Body-Phase">
+                    {prediccion.idPartido}
+                  </div>
+                  <div className="Prediccions-Component-Body-Nombre-Equipo1">
+                    {prediccion.nombreEquipo1}
+                  </div>
+                  <img
+                    className="className="
+                    Prediccions-Component-Body-Bandera-Equipo1
+                    src={prediccion.urlBanderaEquipo1}
+                  ></img>
+
+                  <div className="Prediccions-Component-Body-Nombre-Equipo2">
+                    {prediccion.nombreEquipo2}
+                  </div>
+
+                  <div className="Prediccions-Component-Body-Bandera-Equipo2">
+                    <img
+                      className="Prediccions-Component-Body-Bandera-Equipo1-Image"
+                      src={prediccion.urlBanderaEquipo2}
+                    ></img>
+                  </div>
+                </div>
+              );
+            })}
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="primary">Save Changes</Button>
         </Modal.Footer>
