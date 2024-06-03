@@ -41,7 +41,7 @@ public class PrediccionController {
         return ResponseEntity.ok(service.modificarPrediccion(userId, idPartido, resultadoEquipo1, resultadoEquipo2));
     }
 
-    @GetMapping("{userId}/consultarPredicciones")
+    @GetMapping("/{userId}/consultarPredicciones")
     public ResponseEntity<ConsultarPrediccionesPorUsuarioResponse> consultarPredicciones(@PathVariable String userId)
             throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.consultarPredicciones(userId));

@@ -69,12 +69,14 @@ public class PrediccionService extends AbstractService {
 
     private CrearPrediccionResponse verificarPartido(int idPartido) throws SQLException, ClassNotFoundException {
         if (verificarJugado(idPartido)) {
-            DefaultResponse dr = new DefaultResponse("405", "No se puede cargar predicción debido a que el partido ya se jugó");
+            DefaultResponse dr = new DefaultResponse("405",
+                    "No se puede cargar predicción debido a que el partido ya se jugó");
             return new CrearPrediccionResponse(dr, null);
         }
 
         if (verificarHora(idPartido)) {
-            DefaultResponse dr = new DefaultResponse("405", "No se puede cargar predicción debido a que falta menos de una hora para el partido");
+            DefaultResponse dr = new DefaultResponse("405",
+                    "No se puede cargar predicción debido a que falta menos de una hora para el partido");
             return new CrearPrediccionResponse(dr, null);
         }
 
@@ -132,7 +134,8 @@ public class PrediccionService extends AbstractService {
 
     }
 
-    public ConsultarPrediccionesPorUsuarioResponse consultarPredicciones(String userId) throws SQLException, ClassNotFoundException {
+    public ConsultarPrediccionesPorUsuarioResponse consultarPredicciones(String userId)
+            throws SQLException, ClassNotFoundException {
         createConection();
         DefaultResponse dr = new DefaultResponse("200", "OK");
 
@@ -142,11 +145,21 @@ public class PrediccionService extends AbstractService {
 
         ResultSet rs = p.executeQuery();
         try {
-         
-
-            return new ConsultarPrediccionesPorUsuarioResponse(dr, new DetallePrediccionUsuario(rs));
+        ArrayList<DetallePrediccionUsuario> predicciones = new ArrayList<>();
+        while (rs.next()) {
+            System.out.println(rs.getInt(1));
+            DetallePrediccionUsuario prediccion = new DetallePrediccionUsuario(rs);
+            predicciones.add(prediccion);
+        }
+        ConsultarPrediccionesPorUsuarioResponse r = new ConsultarPrediccionesPorUsuarioResponse();
+        r.setDefaultResponse(dr);
+        r.setDetallePrediccionUsuario(predicciones);
+        return r;
         } catch (Exception e) {
-            return new ConsultarPrediccionesPorUsuarioResponse(dr, null);
+            DefaultResponse dr2 = new DefaultResponse("404", "Se ha producido un error");
+            ConsultarPrediccionesPorUsuarioResponse r = new ConsultarPrediccionesPorUsuarioResponse();
+            r.setDefaultResponse(dr2);
+            return r;
         }
     }
 
