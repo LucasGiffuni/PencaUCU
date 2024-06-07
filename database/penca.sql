@@ -97,7 +97,7 @@ create Table PREDICCION(
 
 
 -- Usuario ADMIN
-insert into USUARIO (userId, password, rol) values ("admin", "21232f297a57a5a743894a0e4a801fc3", "ADMIN");
+insert into USUARIO (userId, password, rol, nombre,apellido,cedulaIdentidad) values ("admin", "21232f297a57a5a743894a0e4a801fc3", "ADMIN", "admin", "admin", 111111111);
 
 -- Grupos
 insert into GRUPO values ('A', "GRUPO A");

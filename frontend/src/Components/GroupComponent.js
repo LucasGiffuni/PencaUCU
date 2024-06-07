@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from "react";
 import "../Styles/HomeComponent.css";
 import Card from "react-bootstrap/Card";

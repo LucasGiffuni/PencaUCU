@@ -76,3 +76,28 @@ export async function cargarResultadoPartido(teamID, resultadoEquipo1, resultado
   return res;
 
 }
+
+export async function obtenerPartidosEquipo(teamID) {
+  const instance = axios.create({
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+    },
+  });
+  let res = instance.get("http://127.0.0.1:8080/partido/ " + teamID + "/getPartidosByEquipo")
+    .then(response => {
+      let serviceResponse = [];
+      serviceResponse[0] = response.data.defaultResponse;
+      serviceResponse[1] = response.data.Partidos;
+
+      return serviceResponse
+    })
+    .catch(error => {
+      let serviceResponse = [];
+      serviceResponse[0] = error;
+      return serviceResponse
+    });
+  return res;
+
+}

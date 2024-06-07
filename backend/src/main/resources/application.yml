@@ -12,6 +12,18 @@ spring:
     connectionString: "jdbc:mysql://localhost:3306/"
     databaseUsername: "root"
     databasePassword: "1234"
+  mail:
+    host: "smtp.gmail.com"
+    port: "587"
+    username: "lucasgiffuni@gmail.com"
+    password: "wahl lsjq xnyj iepk"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 
 logging:
   level:

@@ -280,6 +280,7 @@ public class UserServiceImpl {
         return alumnos;
     }
 
+
     public ObtenerCarrerasResponse obtenerCarreras() throws SQLException, ClassNotFoundException {
         createConection();
         DefaultResponse defaultResponse = new DefaultResponse("200", "Carreras obtenidas correctamente");

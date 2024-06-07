@@ -92,20 +92,15 @@ function NavBarComponent(props) {
     let newObject = localStorage.getItem("alumno");
     alumno = newObject;
 
-
-
     obtenerPrediccionesUsuario();
   }, []);
 
   const obtenerPrediccionesUsuario = () => {
     let alumno = JSON.parse(localStorage.getItem("alumno"));
 
-
     obtenerPrediccionDadoUsuario(alumno.userId).then((res) => {
       setPredicciones(res[1]);
     });
-
-
   };
   const showModalPerfil = () => {
     setShowPerfil(true);
@@ -119,33 +114,30 @@ function NavBarComponent(props) {
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
         <>
-          {
-            alumno.rol === "ADMIN"
-              ?
-              <Container>
-                <Navbar.Brand href="/home">Penca UCU</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                  <Nav className="me-auto">
-                    <Nav.Link href="/predicciones">Predicciones</Nav.Link>
-                    <Nav.Link href="/ranking">Ranking</Nav.Link>
-                    <Nav.Link href="/partidos">Partidos</Nav.Link>
-                  </Nav>
-                </Navbar.Collapse>
-              </Container>
-              :
-              <Container>
-                <Navbar.Brand href="/home">Penca UCU</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                  <Nav className="me-auto">
-                    <Nav.Link href="/predicciones">Predicciones</Nav.Link>
-                    <Nav.Link href="/ranking">Ranking</Nav.Link>
-                  </Nav>
-                </Navbar.Collapse>
-              </Container>
-          }
-
+          {alumno.rol === "ADMIN" ? (
+            <Container>
+              <Navbar.Brand href="/home">Penca UCU</Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="me-auto">
+                  <Nav.Link href="/predicciones">Predicciones</Nav.Link>
+                  <Nav.Link href="/ranking">Ranking</Nav.Link>
+                  <Nav.Link href="/partidos">Partidos</Nav.Link>
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          ) : (
+            <Container>
+              <Navbar.Brand href="/home">Penca UCU</Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="me-auto">
+                  <Nav.Link href="/predicciones">Predicciones</Nav.Link>
+                  <Nav.Link href="/ranking">Ranking</Nav.Link>
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          )}
         </>
         <Dropdown className="NavBar-Component-Dropdown">
           <Dropdown.Toggle
@@ -157,8 +149,10 @@ function NavBarComponent(props) {
             <Dropdown.Item
               onClick={() => {
                 showModalPerfil();
-              }}>
-              Perfil</Dropdown.Item>
+              }}
+            >
+              Perfil
+            </Dropdown.Item>
             <Dropdown.Item
               onClick={() => {
                 showModalApuestas();
@@ -194,6 +188,7 @@ function NavBarComponent(props) {
                       src={prediccion.urlBanderaEquipo1}
                     ></img>
                   </div>
+                  <div className="Prediction-Component-Body-Versus">VS</div>
 
                   <div className="Prediccions-Component-Body-Nombre-Equipo2">
                     {prediccion.nombreEquipo2}
@@ -205,30 +200,48 @@ function NavBarComponent(props) {
                       src={prediccion.urlBanderaEquipo2}
                     ></img>
                   </div>
+                  <div className="Prediction-Component-Body-ResultadoEquipo1">
+                    {prediccion.resultadoEquipo1}
+                  </div>
+
+                  <div className="Prediction-Component-Body-ResultadoEquipo2">
+                    {prediccion.resultadoEquipo2}
+                  </div>
                 </div>
               );
             })}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary">Save Changes</Button>
+          <Button variant="primary" onClick={handleClose}>
+            Salir
+          </Button>
         </Modal.Footer>
       </Modal>
 
-
-
-
-      <Modal show={showPerfil} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
+      <Modal
+        show={showPerfil}
+        onHide={handleClose}
+        className="UserProfile-Modal"
+      >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">Mis Datos</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Mis Datos
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body >
-          <div className="UserProfile-Component-Body">
-
+        <Modal.Body className="UserProfile-Component-Body">
+          <div className="UserProfile-Component-Container">
+            <CustomToggle
+              name={alumno.nombre + " " + alumno.apellido}
+              className="UserProfile-Component-UserImage"
+            />
+            <h2>{alumno.nombre + " " + alumno.apellido}</h2>
+            <p>{alumno.email}</p>
+            <hr></hr>
+            <br></br>
+            <p>Puntos: {alumno.puntaje} </p>
           </div>
         </Modal.Body>
-        <Modal.Footer>
-
-        </Modal.Footer>
+        <Modal.Footer></Modal.Footer>
       </Modal>
     </>
   );
