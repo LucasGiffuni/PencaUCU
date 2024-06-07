@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import { propTypes } from "react-bootstrap/esm/Image";
 
-import { crearPrediccion, obtenerPrediccion } from '../Services/PredicctionService'
+import { crearPrediccion, obtenerPrediccion, modificarPrediccion } from '../Services/PredicctionService'
 
 
 function MakePrediction(props) {
@@ -18,6 +18,7 @@ function MakePrediction(props) {
     const [resultadoEquipo1, setResultadoEquipo1] = useState("");
     const [resultadoEquipo2, setResultadoEquipo2] = useState("");
     const [resultadoExistente, setResultadoExiste] = useState(false);
+
 
 
 
@@ -38,9 +39,10 @@ function MakePrediction(props) {
     }, [props.clicks]);
 
     const MakePrediction = () => {
-        if (!resultadoExistente) {
+        
+        if (resultadoEquipo1 === "" && resultadoEquipo2 === "") {
             crearPrediccion(props.setMatch.id, JSON.parse(localStorage.getItem("alumno")).userId, resultadoEquipo1, resultadoEquipo2).then((resultado) => {
-                console.log(resultado)
+                console.log("Flujo de alta")
                 if (resultado[0].code === "200") {
                     handleClose();
                     setShow(false);
@@ -50,7 +52,16 @@ function MakePrediction(props) {
 
             });
         }else{
-            //invocar al otro
+            modificarPrediccion(props.setMatch.id, JSON.parse(localStorage.getItem("alumno")).userId, resultadoEquipo1, resultadoEquipo2).then((resultado) => {
+                console.log("Flujo de modificacion")
+                if (resultado[0].code === "200") {
+                    handleClose();
+                    setShow(false);
+                    console.log(props)
+                    props.function()
+                }
+
+            });
             
         }
     };

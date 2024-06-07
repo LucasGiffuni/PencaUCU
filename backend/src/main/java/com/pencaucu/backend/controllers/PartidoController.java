@@ -52,7 +52,7 @@ public class PartidoController {
         return ResponseEntity.ok(service.getProximosPartidos());
     }
 
-    @GetMapping("/getPartidosJugados")
+    @GetMapping("/")
     public ResponseEntity<List<Partido>> getPartidosJugados() throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.getPartidosJugados());
     }

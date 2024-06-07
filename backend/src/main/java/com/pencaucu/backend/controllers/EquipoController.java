@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pencaucu.backend.model.Equipo;
 import com.pencaucu.backend.model.responses.GetEquipoResponse;
 
-import com.pencaucu.backend.model.responses.GetEquiposResponse;
-import com.pencaucu.backend.model.responses.GetGrupoResponse;
 import com.pencaucu.backend.service.impl.EquipoService;
 
 

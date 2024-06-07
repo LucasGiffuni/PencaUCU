@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -146,14 +147,17 @@ function NavBarComponent(props) {
                   <div className="Prediccions-Component-Body-Phase">
                     {prediccion.idPartido}
                   </div>
+                  
                   <div className="Prediccions-Component-Body-Nombre-Equipo1">
                     {prediccion.nombreEquipo1}
                   </div>
-                  <img
-                    className="className="
-                    Prediccions-Component-Body-Bandera-Equipo1
-                    src={prediccion.urlBanderaEquipo1}
-                  ></img>
+
+                  <div className="Prediccions-Component-Body-Bandera-Equipo1">
+                    <img
+                      className="Prediction-Match-Component-TeamImage"
+                      src={prediccion.urlBanderaEquipo1}
+                    ></img>
+                  </div>
 
                   <div className="Prediccions-Component-Body-Nombre-Equipo2">
                     {prediccion.nombreEquipo2}
@@ -161,7 +165,7 @@ function NavBarComponent(props) {
 
                   <div className="Prediccions-Component-Body-Bandera-Equipo2">
                     <img
-                      className="Prediccions-Component-Body-Bandera-Equipo1-Image"
+                      className="Prediction-Match-Component-TeamImage"
                       src={prediccion.urlBanderaEquipo2}
                     ></img>
                   </div>
