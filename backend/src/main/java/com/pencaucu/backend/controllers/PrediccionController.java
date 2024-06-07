@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pencaucu.backend.model.Prediccion;
+import com.pencaucu.backend.model.responses.ConsultarPrediccionesPorUsuarioResponse;
 import com.pencaucu.backend.model.responses.CrearPrediccionResponse;
 import com.pencaucu.backend.service.impl.PrediccionService;
 
@@ -40,8 +41,8 @@ public class PrediccionController {
         return ResponseEntity.ok(service.modificarPrediccion(userId, idPartido, resultadoEquipo1, resultadoEquipo2));
     }
 
-    @GetMapping("{userId}/consultarPredicciones")
-    public ResponseEntity<List<Prediccion>> consultarPredicciones(@PathVariable String userId)
+    @GetMapping("/{userId}/consultarPredicciones")
+    public ResponseEntity<ConsultarPrediccionesPorUsuarioResponse> consultarPredicciones(@PathVariable String userId)
             throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.consultarPredicciones(userId));
     }

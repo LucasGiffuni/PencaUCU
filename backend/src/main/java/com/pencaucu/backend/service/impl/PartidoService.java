@@ -33,6 +33,7 @@ import com.pencaucu.backend.model.responses.CrearPartidoResponse;
 import com.pencaucu.backend.model.responses.DefaultResponse;
 import com.pencaucu.backend.model.responses.GetEquipoResponse;
 import com.pencaucu.backend.model.responses.GetPartidosResponse;
+import com.pencaucu.backend.model.responses.ObtenerPartidosPorEquipoResponse;
 
 @Service
 public class PartidoService extends AbstractService {
@@ -224,11 +225,22 @@ public class PartidoService extends AbstractService {
         return response;
     }
 
-    public List<Partido> getPartidosByEquipo(int idEquipo) throws ClassNotFoundException, SQLException {
-        return getPartidos().stream()
+    public ObtenerPartidosPorEquipoResponse getPartidosByEquipo(int idEquipo)
+            throws ClassNotFoundException, SQLException {
+
+        ObtenerPartidosPorEquipoResponse response = new ObtenerPartidosPorEquipoResponse();
+
+        DefaultResponse df = new DefaultResponse("200", "OK");
+
+        List<Partido> partidos = getPartidos().stream()
                 .filter(p -> Integer.parseInt(p.getIdEquipo1()) == idEquipo
                         || Integer.parseInt(p.getIdEquipo2()) == idEquipo)
                 .collect(Collectors.toList());
+
+        response.setDefaultResponse(df);
+        response.setPartidos(partidos.toArray(new Partido[0]));
+
+        return response;
     }
 
     public CrearPartidoResponse cargarResultadoPartido(int idPartido, int resultadoEquipo1, int resultadoEquipo2)
@@ -321,7 +333,8 @@ public class PartidoService extends AbstractService {
 
         String grupo = rs.getString(1);
 
-        sql = "SELECT * FROM PARTIDO p, EQUIPO e1, EQUIPO e2 WHERE p.idEquipo1 = e1.idEquipo AND p.idEquipo2 = e2.idEquipo " +
+        sql = "SELECT * FROM PARTIDO p, EQUIPO e1, EQUIPO e2 WHERE p.idEquipo1 = e1.idEquipo AND p.idEquipo2 = e2.idEquipo "
+                +
                 "AND p.jugado = false AND e1.idGrupo = ? AND p.etapa = \"FASE DE GRUPOS\"";
         preparedStmt = con.prepareStatement(sql);
         preparedStmt.setString(1, grupo);

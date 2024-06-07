@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import NavBarComponent from "./NavBarComponent";
 
-import { getRankingAlumnos } from "../Services/UserService";
+import NavBarComponent from "../NavBarComponent";
+
+import { getRankingAlumnos } from "../../Services/UserService";
 
 function RankingComponent(props) {
   const [ranking, setRanking] = useState([]);
@@ -30,7 +31,7 @@ function RankingComponent(props) {
     borderRadius: "10px",
     margin: " 0 auto",
     backgroundColor: isActualUser ? "#4BAA7E" : "rgb(99, 99, 99)",
-    color:  "white",
+    color: "white",
     display: "flex",
     justifyContent:
       "space-between" /* Distribuye los elementos al borde izquierdo y derecho */,
@@ -49,7 +50,7 @@ function RankingComponent(props) {
     backgroundColor: isActualUser ? "#4BAA7E" : "rgb(99, 99, 99)",
     color: "white",
     display: "flex",
-    justifyContent:"space-between" /* Distribuye los elementos al borde izquierdo y derecho */,
+    justifyContent: "space-between" /* Distribuye los elementos al borde izquierdo y derecho */,
     alignItems: "center" /* Centra verticalmente los elementos */,
     padding: "10px",
     marginBottom: "15px",
@@ -58,10 +59,8 @@ function RankingComponent(props) {
   useEffect(() => {
     const getRankingResponse = getRankingAlumnos().then((data) => {
       setRanking(data[1]);
-      console.log(ranking);
     });
 
-    console.log(JSON.parse(localStorage.getItem("alumno")));
 
 
   }, []);
@@ -82,14 +81,14 @@ function RankingComponent(props) {
             );
           } else if (i === 1) {
             return (
-                <div style={UserContainerSilverPodium(JSON.parse(localStorage.getItem("alumno")).cedulaIdentidad === alumno.cedulaIdentidad)} key={i}>
+              <div style={UserContainerSilverPodium(JSON.parse(localStorage.getItem("alumno")).cedulaIdentidad === alumno.cedulaIdentidad)} key={i}>
                 <h2>{alumno.nombre} {alumno.apellido}</h2>
                 <h2>{alumno.puntaje} pts.</h2>
               </div>
             );
           } else if (i === 0) {
             return (
-                <div style={UserContainerGoldPodium(JSON.parse(localStorage.getItem("alumno")).cedulaIdentidad === alumno.cedulaIdentidad)} key={i}>
+              <div style={UserContainerGoldPodium(JSON.parse(localStorage.getItem("alumno")).cedulaIdentidad === alumno.cedulaIdentidad)} key={i}>
                 <h2>{alumno.nombre} {alumno.apellido}</h2>
                 <h2>{alumno.puntaje} pts.</h2>
               </div>

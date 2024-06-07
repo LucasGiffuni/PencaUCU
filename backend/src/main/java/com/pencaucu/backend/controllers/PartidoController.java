@@ -6,6 +6,7 @@ import com.pencaucu.backend.model.Equipo;
 import com.pencaucu.backend.model.Partido;
 import com.pencaucu.backend.model.responses.CrearPartidoResponse;
 import com.pencaucu.backend.model.responses.GetPartidosResponse;
+import com.pencaucu.backend.model.responses.ObtenerPartidosPorEquipoResponse;
 import com.pencaucu.backend.service.impl.PartidoService;
 
 import java.sql.SQLException;
@@ -52,10 +53,12 @@ public class PartidoController {
         return ResponseEntity.ok(service.getProximosPartidos());
     }
 
-    @GetMapping("/getPartidosJugados")
+    @GetMapping("/")
     public ResponseEntity<List<Partido>> getPartidosJugados() throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.getPartidosJugados());
     }
+
+   
 
     @GetMapping("/getPartidosNoJugados")
     public ResponseEntity<GetPartidosResponse> getPartidosNoJugados() throws ClassNotFoundException, SQLException {
@@ -63,7 +66,7 @@ public class PartidoController {
     }
 
     @GetMapping("/{idEquipo}/getPartidosByEquipo")
-    public ResponseEntity<List<Partido>> getPartidosByEquipo(@PathVariable int idEquipo) throws ClassNotFoundException, SQLException {
+    public ResponseEntity<ObtenerPartidosPorEquipoResponse> getPartidosByEquipo(@PathVariable int idEquipo) throws ClassNotFoundException, SQLException {
         return ResponseEntity.ok(service.getPartidosByEquipo(idEquipo));
     }
 

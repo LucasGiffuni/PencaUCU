@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pencaucu.backend.model.Prediccion;
+import com.pencaucu.backend.model.responses.ConsultarPrediccionesPorUsuarioResponse;
 import com.pencaucu.backend.model.responses.CrearPrediccionResponse;
 import com.pencaucu.backend.model.responses.DefaultResponse;
+import com.pencaucu.backend.model.responses.DetallePrediccionUsuario;
 
 @Service
 public class PrediccionService extends AbstractService {
@@ -67,12 +69,14 @@ public class PrediccionService extends AbstractService {
 
     private CrearPrediccionResponse verificarPartido(int idPartido) throws SQLException, ClassNotFoundException {
         if (verificarJugado(idPartido)) {
-            DefaultResponse dr = new DefaultResponse("405", "No se puede cargar predicción debido a que el partido ya se jugó");
+            DefaultResponse dr = new DefaultResponse("405",
+                    "No se puede cargar predicción debido a que el partido ya se jugó");
             return new CrearPrediccionResponse(dr, null);
         }
 
         if (verificarHora(idPartido)) {
-            DefaultResponse dr = new DefaultResponse("405", "No se puede cargar predicción debido a que falta menos de una hora para el partido");
+            DefaultResponse dr = new DefaultResponse("405",
+                    "No se puede cargar predicción debido a que falta menos de una hora para el partido");
             return new CrearPrediccionResponse(dr, null);
         }
 
@@ -130,17 +134,33 @@ public class PrediccionService extends AbstractService {
 
     }
 
-    public List<Prediccion> consultarPredicciones(String userId) throws SQLException, ClassNotFoundException {
+    public ConsultarPrediccionesPorUsuarioResponse consultarPredicciones(String userId)
+            throws SQLException, ClassNotFoundException {
         createConection();
-        String sql = "SELECT * FROM PREDICCION WHERE userId = ?";
+        DefaultResponse dr = new DefaultResponse("200", "OK");
+
+        String sql = "SELECT P.idPartido, P.idEquipo1, Pr.resultadoEquipo1, E1.nombre, E1.urlBandera, P.idEquipo2, Pr.resultadoEquipo2, E2.nombre, E2.urlBandera from PARTIDO as P join PREDICCION as Pr on Pr.idPartido = P.idPartido join EQUIPO as E1 on E1.idEquipo = P.idEquipo1 join EQUIPO E2 on E2.idEquipo = P.idEquipo2 where Pr.userId = ?";
         PreparedStatement p = con.prepareStatement(sql);
         p.setString(1, userId);
+
         ResultSet rs = p.executeQuery();
-        List<Prediccion> predicciones = new ArrayList<>();
+        try {
+        ArrayList<DetallePrediccionUsuario> predicciones = new ArrayList<>();
         while (rs.next()) {
-            predicciones.add(new Prediccion(rs));
+            System.out.println(rs.getInt(1));
+            DetallePrediccionUsuario prediccion = new DetallePrediccionUsuario(rs);
+            predicciones.add(prediccion);
         }
-        return predicciones;
+        ConsultarPrediccionesPorUsuarioResponse r = new ConsultarPrediccionesPorUsuarioResponse();
+        r.setDefaultResponse(dr);
+        r.setDetallePrediccionUsuario(predicciones);
+        return r;
+        } catch (Exception e) {
+            DefaultResponse dr2 = new DefaultResponse("404", "Se ha producido un error");
+            ConsultarPrediccionesPorUsuarioResponse r = new ConsultarPrediccionesPorUsuarioResponse();
+            r.setDefaultResponse(dr2);
+            return r;
+        }
     }
 
     public void actualizarPuntajes(int idPartido, int resultadoEquipo1, int resultadoEquipo2)
