@@ -467,12 +467,14 @@ button:hover {
 #carrera {
   color: #080710;
 }
+
 .Prediction-Component-Matchs {
   width: 100%;
   height: 95%;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px; /* Espacio entre los elementos */
+  gap: 10px;
+  /* Espacio entre los elementos */
   overflow: auto;
 }
 
@@ -489,7 +491,8 @@ button:hover {
   border: white solid 1px;
   padding: 10px;
 
-  flex: 1 1 calc(25% - 10px); /* Ajusta el ancho de los elementos */
+  flex: 1 1 calc(25% - 10px);
+  /* Ajusta el ancho de los elementos */
   box-sizing: border-box;
   padding: 20px;
   text-align: center;
@@ -565,8 +568,10 @@ button:hover {
   background-color: rgb(99, 99, 99);
   color: white;
   display: flex;
-  justify-content: space-between; /* Distribuye los elementos al borde izquierdo y derecho */
-  align-items: center; /* Centra verticalmente los elementos */
+  justify-content: space-between;
+  /* Distribuye los elementos al borde izquierdo y derecho */
+  align-items: center;
+  /* Centra verticalmente los elementos */
   padding: 10px;
   margin-bottom: 15px;
 }
@@ -580,8 +585,10 @@ button:hover {
   background-color: rgb(99, 99, 99);
   color: gold;
   display: flex;
-  justify-content: space-between; /* Distribuye los elementos al borde izquierdo y derecho */
-  align-items: center; /* Centra verticalmente los elementos */
+  justify-content: space-between;
+  /* Distribuye los elementos al borde izquierdo y derecho */
+  align-items: center;
+  /* Centra verticalmente los elementos */
   padding: 10px;
   margin-bottom: 15px;
 }
@@ -595,8 +602,10 @@ button:hover {
   background-color: rgb(99, 99, 99);
   color: gold;
   display: flex;
-  justify-content: space-between; /* Distribuye los elementos al borde izquierdo y derecho */
-  align-items: center; /* Centra verticalmente los elementos */
+  justify-content: space-between;
+  /* Distribuye los elementos al borde izquierdo y derecho */
+  align-items: center;
+  /* Centra verticalmente los elementos */
   padding: 10px;
   margin-bottom: 15px;
 }
@@ -610,8 +619,10 @@ button:hover {
   background-color: rgb(99, 99, 99);
   color: gold;
   display: flex;
-  justify-content: space-between; /* Distribuye los elementos al borde izquierdo y derecho */
-  align-items: center; /* Centra verticalmente los elementos */
+  justify-content: space-between;
+  /* Distribuye los elementos al borde izquierdo y derecho */
+  align-items: center;
+  /* Centra verticalmente los elementos */
   padding: 10px;
   margin-bottom: 15px;
 }
@@ -642,16 +653,17 @@ button:hover {
   border: 1px solid #ccc;
 }
 
-.Prediccions-Component-Body-Phase{
+.Prediccions-Component-Body-Phase {
   margin-top: -5%;
   grid-area: 1 / 1 / 2 / 11;
 
 }
 
-.Prediccions-Component-Body-Nombre-Equipo1{
+.Prediccions-Component-Body-Nombre-Equipo1 {
   grid-area: 2 / 1 / 3 / 6;
 }
-.Prediccions-Component-Body-Bandera-Equipo1{
+
+.Prediccions-Component-Body-Bandera-Equipo1 {
 
   grid-area: 3 / 1 / 7 / 6;
 }
@@ -663,11 +675,23 @@ button:hover {
 }
 
 
-.Prediccions-Component-Body-Nombre-Equipo2{
+.Prediccions-Component-Body-Nombre-Equipo2 {
   grid-area: 2 / 6 / 3 / 11;
 }
-.Prediccions-Component-Body-Bandera-Equipo2{
+
+.Prediccions-Component-Body-Bandera-Equipo2 {
   grid-area: 3 / 6 / 7 / 11;
+}
+
+.UserProfile-Component-Body {
+
+  border: 1px solid black;
+  border-radius: 5%;
+  width: 400px;
+  height: 600px;
+}
+
+.UserProfile-Component-Container {
 
 
 }

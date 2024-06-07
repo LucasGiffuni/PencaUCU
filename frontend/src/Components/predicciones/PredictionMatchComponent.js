@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from "react";
 
-import MakePrediction from "./MakePredictionComponent";
-import Alert from "react-bootstrap/Alert";
+import CrearPrediccionModal from "./CrearPrediccionModal";
 
 const PredictionMatchComponent = (props) => {
   const [dayDate, setDayDate] = useState();
@@ -28,7 +27,6 @@ const PredictionMatchComponent = (props) => {
 
   useEffect(() => {
     let newDate = Date(props.match.fecha);
-    console.log(newDate);
 
     const dateaux = getDateFromString(newDate);
 
@@ -54,6 +52,7 @@ const PredictionMatchComponent = (props) => {
         onClick={() => {
           showModal(props.match.id);
         }}
+        key={props.key2}
       >
         <div className="Prediction-Match-Component-Team1">
           <img
@@ -63,7 +62,7 @@ const PredictionMatchComponent = (props) => {
         </div>
 
         <div className="Prediction-Match-Component-Button">
-          <div class="Versus">VS</div>
+          <div className="Versus">VS</div>
         </div>
 
         <div className="Prediction-Match-Component-Team2">
@@ -84,7 +83,7 @@ const PredictionMatchComponent = (props) => {
           
         </div>
       </div>
-      <MakePrediction
+      <CrearPrediccionModal
         setMatch={props.match}
         setShow={modalShow}
         clicks={clicks}

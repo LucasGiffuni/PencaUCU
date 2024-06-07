@@ -95,6 +95,10 @@ create Table PREDICCION(
 
 #/ DDL SECTION
 
+
+-- Usuario ADMIN
+insert into USUARIO (userId, password, rol) values ("admin", "21232f297a57a5a743894a0e4a801fc3", "ADMIN");
+
 -- Grupos
 insert into GRUPO values ('A', "GRUPO A");
 insert into GRUPO values ('B', "GRUPO B");

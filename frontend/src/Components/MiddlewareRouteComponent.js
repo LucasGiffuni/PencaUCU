@@ -11,8 +11,7 @@ import {
 
 import HomeComponent from "./HomeComponent";
 
-import LoginComponent from "./LoginComponent";
-
+import LoginComponent from "./usuarios/LoginComponent";
 const MiddlewareRouteComponent = (props) => {
   const [logged, setLogged] = useState(false);
 
@@ -22,14 +21,11 @@ const MiddlewareRouteComponent = (props) => {
     jwt == null ? setLogged(false) : setLogged(true);
     jwt == "" ? setLogged(false) : setLogged(true);
 
-    console.log(jwt);
   }, []);
 
   if (logged) {
-    console.log("redirecting to home");
     return <HomeComponent />;
   } else {
-    console.log("redirecting to login");
     return <LoginComponent />;
   }
 };

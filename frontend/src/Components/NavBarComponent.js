@@ -68,8 +68,14 @@ function NavBarComponent(props) {
   const [predicciones, setPredicciones] = useState([]);
 
   const [show, setShow] = useState(false);
+  const [showPerfil, setShowPerfil] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setShowPerfil(false);
+  };
+
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
 
   if (alumno === null) {
     alumno = {
@@ -85,36 +91,62 @@ function NavBarComponent(props) {
   useEffect(() => {
     let newObject = localStorage.getItem("alumno");
     alumno = newObject;
+
+
+
     obtenerPrediccionesUsuario();
   }, []);
 
   const obtenerPrediccionesUsuario = () => {
     let alumno = JSON.parse(localStorage.getItem("alumno"));
 
+
     obtenerPrediccionDadoUsuario(alumno.userId).then((res) => {
-      console.log(res);
       setPredicciones(res[1]);
     });
+
+
+  };
+  const showModalPerfil = () => {
+    setShowPerfil(true);
   };
 
-  const showModal = () => {
+  const showModalApuestas = () => {
     setShow(true);
   };
 
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
-        <Container>
-          <Navbar.Brand href="/home">Penca UCU</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="/predicciones">Predicciones</Nav.Link>
-              <Nav.Link href="/ranking">Ranking</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
+        <>
+          {
+            alumno.rol === "ADMIN"
+              ?
+              <Container>
+                <Navbar.Brand href="/home">Penca UCU</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                  <Nav className="me-auto">
+                    <Nav.Link href="/predicciones">Predicciones</Nav.Link>
+                    <Nav.Link href="/ranking">Ranking</Nav.Link>
+                    <Nav.Link href="/partidos">Partidos</Nav.Link>
+                  </Nav>
+                </Navbar.Collapse>
+              </Container>
+              :
+              <Container>
+                <Navbar.Brand href="/home">Penca UCU</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                  <Nav className="me-auto">
+                    <Nav.Link href="/predicciones">Predicciones</Nav.Link>
+                    <Nav.Link href="/ranking">Ranking</Nav.Link>
+                  </Nav>
+                </Navbar.Collapse>
+              </Container>
+          }
 
+        </>
         <Dropdown className="NavBar-Component-Dropdown">
           <Dropdown.Toggle
             as={CustomToggle}
@@ -122,10 +154,14 @@ function NavBarComponent(props) {
             name={alumno.nombre + " " + alumno.apellido}
           />
           <Dropdown.Menu>
-            <Dropdown.Item>Perfil</Dropdown.Item>
             <Dropdown.Item
               onClick={() => {
-                showModal();
+                showModalPerfil();
+              }}>
+              Perfil</Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
+                showModalApuestas();
               }}
             >
               Mis Apuestas
@@ -143,11 +179,11 @@ function NavBarComponent(props) {
           {predicciones &&
             predicciones.map((prediccion, i) => {
               return (
-                <div className="Prediccions-Component-Body">
+                <div className="Prediccions-Component-Body" key={i}>
                   <div className="Prediccions-Component-Body-Phase">
                     {prediccion.idPartido}
                   </div>
-                  
+
                   <div className="Prediccions-Component-Body-Nombre-Equipo1">
                     {prediccion.nombreEquipo1}
                   </div>
@@ -175,6 +211,23 @@ function NavBarComponent(props) {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary">Save Changes</Button>
+        </Modal.Footer>
+      </Modal>
+
+
+
+
+      <Modal show={showPerfil} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">Mis Datos</Modal.Title>
+        </Modal.Header>
+        <Modal.Body >
+          <div className="UserProfile-Component-Body">
+
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+
         </Modal.Footer>
       </Modal>
     </>

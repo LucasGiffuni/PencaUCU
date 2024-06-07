@@ -5,12 +5,12 @@ import {
   createUser,
   createAlumno,
   login,
-} from "../Services/UserService";
+} from "../../Services/UserService";
 
 import { useNavigate } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 
-import { getTeams } from "../Services/TeamService";
+import { getTeams } from "../../Services/TeamService";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -76,7 +76,6 @@ const LoginComponent = (props) => {
   };
 
   const setEquipoCampeon = (equipo) => {
-    console.log("ID EQUIPO CAMPEON: " + equipo.id);
 
     if (idEquipoSubCampeon !== equipo.id) {
       setIdEquipoCampeon(equipo.id);
@@ -95,7 +94,6 @@ const LoginComponent = (props) => {
 
   const setEquipoSubCampeon = (equipo) => {
     if (idEquipoCampeon !== equipo.id) {
-      console.log("ID EQUIPO SUB CAMPEON: " + equipo.id);
       setIdEquipoSubCampeon(equipo.id);
       setNombreEquipoSubCampeon(equipo.nombre);
       handleClose();
@@ -126,7 +124,6 @@ const LoginComponent = (props) => {
 
     const getEquiposResponse = getTeams().then((data) => {
       setEquipos(data[1]);
-      console.log(equipos);
     });
   }, []);
 
@@ -135,6 +132,7 @@ const LoginComponent = (props) => {
       if (loginResponse[1].response.code === "200") {
         localStorage.setItem("jwt", loginResponse[1].jwt);
         localStorage.setItem("alumno", JSON.stringify(loginResponse[1].alumno));
+
         successfullLoginOrRegister();
       } else {
         setFailedLogin(true);
@@ -146,7 +144,6 @@ const LoginComponent = (props) => {
     createUser(username, password).then((createUserResponse) => {
       if (createUserResponse[1].response.code === "200") {
 
-        console.log(createUserResponse)
         createAlumno(
           createUserResponse[1].jwt,
           cedulaIdentidad,
@@ -174,7 +171,7 @@ const LoginComponent = (props) => {
           };
 
           localStorage.setItem("alumno", JSON.stringify(alumno));
-
+         
           successfullLoginOrRegister();
         });
       } else {
@@ -183,13 +180,20 @@ const LoginComponent = (props) => {
     });
   };
 
+  const _handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      loginUser()
+    }
+  }
+
+
   return (
     <>
       <div>
         {loginMode ? (
           <div>
             <div>
-              <form class="Login-Component">
+              <form className="Login-Component">
                 <h2 className="Login-Component-Title">Login</h2>
 
                 <label className="login-label" htmlFor="username">
@@ -201,9 +205,10 @@ const LoginComponent = (props) => {
                   placeholder="Username"
                   id="username"
                   onChange={(event) => setUsername(event.target.value)}
+                  onKeyDown={_handleKeyDown}
                 />
 
-                <label className="login-label" htmlFor="password">
+                <label className="login-label" htmlFor="password" >
                   Password
                 </label>
                 <input
@@ -212,6 +217,7 @@ const LoginComponent = (props) => {
                   placeholder="Password"
                   id="password"
                   onChange={(event) => setPassword(event.target.value)}
+                  onKeyDown={_handleKeyDown}
                 />
 
                 <button
@@ -235,7 +241,7 @@ const LoginComponent = (props) => {
         ) : (
           <div>
             <div>
-              <form class="Register-Component-Form">
+              <form className="Register-Component-Form">
                 <div className="Datos-Basicos-Rgister-Form">
                   <h2 className="Login-Component-Title">Register</h2>
 
@@ -314,21 +320,21 @@ const LoginComponent = (props) => {
                   </select>
 
                   <div className="Buttons-Register-Form">
-                  <button
-                    className="Login-Component-Button"
-                    type="button"
-                    onClick={createUserInDatabase}
-                  >
-                    Register
-                  </button>
-                  <p className="Login-Component-Text">Back to</p>
-                  <p
-                    className="Login-Component-RegisterText"
-                    onClick={changeMode}
-                  >
-                    Login
-                  </p>
-                </div>
+                    <button
+                      className="Login-Component-Button"
+                      type="button"
+                      onClick={createUserInDatabase}
+                    >
+                      Register
+                    </button>
+                    <p className="Login-Component-Text">Back to</p>
+                    <p
+                      className="Login-Component-RegisterText"
+                      onClick={changeMode}
+                    >
+                      Login
+                    </p>
+                  </div>
                 </div>
                 <div className="Prediccion-Rgister-Form">
                   <br />
@@ -348,7 +354,7 @@ const LoginComponent = (props) => {
                   </Button>
                 </div>
 
-                
+
               </form>
             </div>
           </div>
@@ -366,12 +372,12 @@ const LoginComponent = (props) => {
             Seleccionar Equipo Campeon
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <div class="grid-container">
+            <div className="grid-container">
               {equipos &&
                 equipos.map((team) => {
                   return (
                     <div
-                      class="grid-item"
+                      className="grid-item"
                       onClick={() => setEquipoCampeon(team)}
                     >
                       <img
@@ -398,12 +404,12 @@ const LoginComponent = (props) => {
             Seleccionar Equipo Sub Campeon
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <div class="grid-container">
+            <div className="grid-container">
               {equipos &&
                 equipos.map((team) => {
                   return (
                     <div
-                      class="grid-item"
+                      className="grid-item"
                       onClick={() => {
                         setEquipoSubCampeon(team);
                       }}

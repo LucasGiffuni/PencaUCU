@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import { getTeamsByGroup } from "../Services/GroupService";
 
-import TeamDetailsComponent from "./TeamDetailsComponent";
+import TeamDetailsComponent from "./equipos/TeamDetailsComponent";
 
 function GroupComponent(props) {
 
@@ -32,7 +32,6 @@ function GroupComponent(props) {
   };
 
   const showModal = (teamId) => {
-    console.log(teamId)
     setClicks(clicks + 1);
     setSelectedCountry(teamId);
     setModalShow(true);

@@ -2,8 +2,7 @@ import React, { useEffect, useState, } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-import { getTeamDetailByID } from "../Services/TeamService";
-import { propTypes } from "react-bootstrap/esm/Image";
+import { getTeamDetailByID } from "../../Services/TeamService";
 
 
 
@@ -25,9 +24,7 @@ function TeamDetailsComponent(props) {
 
     const fetchDatos = () => {
         getTeamDetailByID(props.teamId).then((response) => {
-            console.log(response)
             setTeam(response[1])
-
         })
     };
 

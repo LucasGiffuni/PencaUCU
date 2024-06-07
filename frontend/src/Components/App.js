@@ -10,11 +10,12 @@ import {
 import HomeComponent from "./HomeComponent";
 
 import { useEffect, useState } from "react";
-import LoginComponent from "./LoginComponent";
+import LoginComponent from "./usuarios/LoginComponent";
 
 import MiddlewareRouteComponent from "./MiddlewareRouteComponent";
-import PredictionComponent from "./PredictionComponent";
-import RankingComponent from "./RankingComponent";
+import PredictionComponent from "./predicciones/PredictionComponent";
+import PartidosComponent from "./partidos/PartidosComponent";
+import RankingComponent from "./usuarios/RankingComponent";
 
 const App = (props) => {
 
@@ -46,7 +47,11 @@ const App = (props) => {
             element={<RankingComponent />}
           />
 
-     
+          <Route
+            className={"App-Component"}
+            path="/partidos"
+            element={<PartidosComponent />}
+          />
 
           <Route
             className={"App-Component"}
