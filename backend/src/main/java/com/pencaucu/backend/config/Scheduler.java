@@ -1,6 +1,7 @@
 package com.pencaucu.backend.config;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.pencaucu.backend.model.Partido;
 import com.pencaucu.backend.service.impl.PartidoService;
+import com.pencaucu.backend.service.impl.UserServiceImpl;
 
 @Component
 public class Scheduler {
@@ -20,6 +22,8 @@ public class Scheduler {
     @Autowired
     PartidoService partidoService;
 
+    @Autowired
+    UserServiceImpl userService;
 
     @Value("${spring.mail.body}")
     private String body;
@@ -28,35 +32,41 @@ public class Scheduler {
     private JavaMailSender mailSender;
 
     @Scheduled(fixedRate = 10000)
-    public void reportCurrentTime() {
-        sendMailToUsers();
+    public void reportCurrentTime() throws ClassNotFoundException, SQLException {
+
+        Partido[] partidos = partidoService.getPartidosDelDia().getPartidos();
+
+        if (partidos != null) {
+            sendMailToUsers(partidos);
+
+        }
     }
 
-    private void sendMailToUsers() {
-        StringBuilder messageBody  = new StringBuilder();
+    private void sendMailToUsers(Partido[] partidos) throws ClassNotFoundException, SQLException {
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        Partido[] partidos = new Partido[0];
-        try {
-            partidos = partidoService.getPartidosDelDia().getPartidos();
+        List<String> mailsToSend = userService.obtenerUsuariosEnvioMail();
 
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        for (String email : mailsToSend) {
+
+            StringBuilder messageBody = new StringBuilder();
+
+            SimpleMailMessage message = new SimpleMailMessage();
+
+            messageBody.append(body);
+            messageBody.append("\n");
+
+            for (Partido partido : partidos) {
+                System.out.println(partido.toString());
+                messageBody.append(partido.getNombreEquipo1() + " VS " + partido.getNombreEquipo2());
+            }
+
+            message.setTo(email);
+            message.setSubject("Penca UCU");
+            message.setText(messageBody.toString());
+            mailSender.send(message);
+            System.out.println("Mail Sent Successfully...");
         }
 
-        messageBody.append(body);
-        messageBody.append("\n");
-
-        for (Partido partido : partidos) {
-            System.out.println(partido.toString());
-            messageBody.append(partido.getNombreEquipo1() + " VS "+ partido.getNombreEquipo2());
-        }
-
-        message.setTo("lucasgiffuni@gmail.com");
-        message.setSubject("Penca UCU");
-        message.setText(messageBody.toString());
-        mailSender.send(message);
-        System.out.println("Mail Sent Successfully...");
     }
 
 }

@@ -97,6 +97,21 @@ public class UserServiceImpl {
         return users;
     }
 
+
+    public List<String> obtenerUsuariosEnvioMail() throws SQLException, ClassNotFoundException {
+
+        createConection();
+        List<String> mails = new ArrayList<>();
+
+        String sql = "select email from USUARIO WHERE rol = \"ALUMNO\"";
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        ResultSet rs = preparedStmt.executeQuery();
+        while (rs.next()) {
+            mails.add(rs.getString(1));
+        }
+        return mails;
+    }
+
     public LoginResponse login(String username, String password) {
         String encryptedpassword = null;
         LoginResponse response = new LoginResponse();
