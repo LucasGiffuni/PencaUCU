@@ -141,4 +141,21 @@ public class Partido {
         this.urlBanderaEquipo2 = urlBanderaEquipo2;
     }
 
+    @Override
+    public String toString() {
+        return "Partido [id=" + id + ", idEquipo1=" + idEquipo1 + ", nombreEquipo1=" + nombreEquipo1
+                + ", urlBanderaEquipo1=" + urlBanderaEquipo1 + ", puntajeEquipo1=" + puntajeEquipo1 + ", idEquipo2="
+                + idEquipo2 + ", nombreEquipo2=" + nombreEquipo2 + ", urlBanderaEquipo2=" + urlBanderaEquipo2
+                + ", puntajeEquipo2=" + puntajeEquipo2 + ", fecha=" + fecha + ", idEstadio=" + idEstadio + ", etapa="
+                + etapa + ", jugado=" + jugado + ", getJugado()=" + getJugado() + ", getId()=" + getId()
+                + ", getPuntajeEquipo1()=" + getPuntajeEquipo1() + ", getPuntajeEquipo2()=" + getPuntajeEquipo2()
+                + ", getEtapa()=" + getEtapa() + ", getIdEquipo1()=" + getIdEquipo1() + ", getIdEquipo2()="
+                + getIdEquipo2() + ", getFecha()=" + getFecha() + ", getIdEstadio()=" + getIdEstadio()
+                + ", getNombreEquipo1()=" + getNombreEquipo1() + ", getUrlBanderaEquipo1()=" + getUrlBanderaEquipo1()
+                + ", getNombreEquipo2()=" + getNombreEquipo2() + ", getUrlBanderaEquipo2()=" + getUrlBanderaEquipo2()
+                + "]";
+    }
+
+    
+
 }

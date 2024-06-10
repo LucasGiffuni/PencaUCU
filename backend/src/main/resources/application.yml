@@ -15,8 +15,11 @@ spring:
   mail:
     host: "smtp.gmail.com"
     port: "587"
-    username: "lucasgiffuni@gmail.com"
-    password: "wahl lsjq xnyj iepk"
+    username: "pencaucuprueba@gmail.com"
+    password: "zdsn vtoo deni xhyb"
+    password2: "PencaUcuPrueba123"
+    body: "Estimado, usted esta recibiendo este mensaje debido a que esta inscripto en la aplicacion PencaUCU.\n
+  Estos son los partidos del dia y que aun está a tiempo de predecir: "
     properties:
       mail:
         smtp:

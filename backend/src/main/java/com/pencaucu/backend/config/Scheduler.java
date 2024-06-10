@@ -1,5 +1,6 @@
 package com.pencaucu.backend.config;
 
+import java.sql.SQLException;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.pencaucu.backend.model.Partido;
 import com.pencaucu.backend.service.impl.PartidoService;
 
 @Component
@@ -18,38 +20,43 @@ public class Scheduler {
     @Autowired
     PartidoService partidoService;
 
-    @Value("spring.mail.host")
-    private String host;
 
-    @Value("spring.mail.port")
-    private String port;
-
-    @Value("spring.mail.username")
-    private String username;
-
-    @Value("spring.mail.password")
-    private String password;
+    @Value("${spring.mail.body}")
+    private String body;
 
     @Autowired
     private JavaMailSender mailSender;
 
-
     @Scheduled(fixedRate = 10000)
     public void reportCurrentTime() {
-        System.out.println("Hola");
         sendMailToUsers();
     }
 
+    private void sendMailToUsers() {
+        StringBuilder messageBody  = new StringBuilder();
 
-    private void sendMailToUsers(){
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("javier.moreno@correo.ucu.edu.uy");
-        message.setSubject("subject");
-        message.setText("body");
+        Partido[] partidos = new Partido[0];
+        try {
+            partidos = partidoService.getPartidosDelDia().getPartidos();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        messageBody.append(body);
+        messageBody.append("\n");
+
+        for (Partido partido : partidos) {
+            System.out.println(partido.toString());
+            messageBody.append(partido.getNombreEquipo1() + " VS "+ partido.getNombreEquipo2());
+        }
+
+        message.setTo("lucasgiffuni@gmail.com");
+        message.setSubject("Penca UCU");
+        message.setText(messageBody.toString());
         mailSender.send(message);
         System.out.println("Mail Sent Successfully...");
     }
-
-
 
 }
