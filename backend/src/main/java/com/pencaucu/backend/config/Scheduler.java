@@ -31,12 +31,13 @@ public class Scheduler {
     @Autowired
     private JavaMailSender mailSender;
 
+    // cron = "0 0 0 * * *" pa que se ejecute una vez al día
     @Scheduled(fixedRate = 10000)
     public void reportCurrentTime() throws ClassNotFoundException, SQLException {
 
         Partido[] partidos = partidoService.getPartidosDelDia().getPartidos();
 
-        if (partidos != null) {
+        if (partidos.length > 0) {
             sendMailToUsers(partidos);
 
         }
