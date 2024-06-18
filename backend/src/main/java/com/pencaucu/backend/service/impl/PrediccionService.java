@@ -41,6 +41,8 @@ public class PrediccionService extends AbstractService {
         Prediccion p = consultarPrediccion(userId, idPartido).getPrediccion();
 
         DefaultResponse dr = new DefaultResponse("200", "Prediccion cargada correctamente");
+        con.close();
+
         return new CrearPrediccionResponse(dr, p);
     }
 
@@ -64,6 +66,8 @@ public class PrediccionService extends AbstractService {
         Prediccion p = consultarPrediccion(userId, idPartido).getPrediccion();
 
         DefaultResponse dr = new DefaultResponse("200", "Prediccion actualizada correctamente");
+        con.close();
+
         return new CrearPrediccionResponse(dr, p);
     }
 
@@ -109,7 +113,11 @@ public class PrediccionService extends AbstractService {
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         ResultSet rs = preparedStmt.executeQuery();
         rs.first();
-        return rs.getBoolean(1);
+        boolean res = rs.getBoolean(1);
+        con.close();
+
+        return res;
+
     }
 
     public CrearPrediccionResponse consultarPrediccion(String userId, int idPartido)
@@ -126,6 +134,9 @@ public class PrediccionService extends AbstractService {
             ResultSet rs = p.executeQuery();
 
             rs.absolute(1);
+
+
+            con.close();
 
             return new CrearPrediccionResponse(dr, new Prediccion(rs));
         } catch (Exception e) {
@@ -154,11 +165,15 @@ public class PrediccionService extends AbstractService {
         ConsultarPrediccionesPorUsuarioResponse r = new ConsultarPrediccionesPorUsuarioResponse();
         r.setDefaultResponse(dr);
         r.setDetallePrediccionUsuario(predicciones);
+        con.close();
+
         return r;
         } catch (Exception e) {
             DefaultResponse dr2 = new DefaultResponse("404", "Se ha producido un error");
             ConsultarPrediccionesPorUsuarioResponse r = new ConsultarPrediccionesPorUsuarioResponse();
             r.setDefaultResponse(dr2);
+            con.close();
+
             return r;
         }
     }
@@ -207,6 +222,8 @@ public class PrediccionService extends AbstractService {
         p = con.prepareStatement(sql);
         p.setString(1, userId);
         p.execute();
+                con.close();
+
     }
 
     public void actualizarPuntosPorCampeones(int idPrimerLugar, int idSegundoLugar) throws SQLException {

@@ -76,7 +76,6 @@ const LoginComponent = (props) => {
   };
 
   const setEquipoCampeon = (equipo) => {
-
     if (idEquipoSubCampeon !== equipo.id) {
       setIdEquipoCampeon(equipo.id);
       setNombreEquipoCampeon(equipo.nombre);
@@ -141,51 +140,61 @@ const LoginComponent = (props) => {
   };
 
   const createUserInDatabase = () => {
-    createUser(username, password).then((createUserResponse) => {
-      if (createUserResponse[1].response.code === "200") {
+    if (
+      (cedulaIdentidad != "" &&
+        name != "" &&
+        suername != "" &&
+        bithDate != "" &&
+        mail != "" &&
+        carrera != "",
+      idEquipoCampeon != "" && idEquipoSubCampeon != "")
+    ) {
+      createUser(username, password).then((createUserResponse) => {
+        if (createUserResponse[1].response.code === "200") {
+          createAlumno(
+            createUserResponse[1].jwt,
+            cedulaIdentidad,
+            name,
+            suername,
+            bithDate,
+            mail,
+            carrera,
+            username,
+            idEquipoCampeon,
+            idEquipoSubCampeon
+          ).then((data) => {
+            localStorage.setItem("jwt", createUserResponse[1].jwt);
 
-        createAlumno(
-          createUserResponse[1].jwt,
-          cedulaIdentidad,
-          name,
-          suername,
-          bithDate,
-          mail,
-          carrera,
-          username,
-          idEquipoCampeon,
-          idEquipoSubCampeon
-        ).then((data) => {
-          localStorage.setItem("jwt", createUserResponse[1].jwt);
+            let alumno = {
+              cedulaIdentidad: cedulaIdentidad,
+              nombre: name,
+              apellido: suername,
+              fechaNacimiento: bithDate,
+              email: mail,
+              idCarrera: carrera,
+              userId: username,
+              idCampeon: idEquipoCampeon,
+              idSubcampeon: idEquipoSubCampeon,
+            };
 
-          let alumno = {
-            cedulaIdentidad: cedulaIdentidad,
-            nombre: name,
-            apellido: suername,
-            fechaNacimiento: bithDate,
-            email: mail,
-            idCarrera: carrera,
-            userId: username,
-            idCampeon: idEquipoCampeon,
-            idSubcampeon: idEquipoSubCampeon,
-          };
+            localStorage.setItem("alumno", JSON.stringify(alumno));
 
-          localStorage.setItem("alumno", JSON.stringify(alumno));
-         
-          successfullLoginOrRegister();
-        });
-      } else {
-        setFailedRegister(true);
-      }
-    });
+            successfullLoginOrRegister();
+          });
+        } else {
+          setFailedRegister(true);
+        }
+      });
+    } else {
+      setFailedRegister(true);
+    }
   };
 
   const _handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      loginUser()
+    if (e.key === "Enter") {
+      loginUser();
     }
-  }
-
+  };
 
   return (
     <>
@@ -208,7 +217,7 @@ const LoginComponent = (props) => {
                   onKeyDown={_handleKeyDown}
                 />
 
-                <label className="login-label" htmlFor="password" >
+                <label className="login-label" htmlFor="password">
                   Password
                 </label>
                 <input
@@ -312,7 +321,11 @@ const LoginComponent = (props) => {
                   >
                     {carreras.map((carrera, i) => {
                       return (
-                        <option className="Carreras-Options" value={carrera.idCarrera} key={i}>
+                        <option
+                          className="Carreras-Options"
+                          value={carrera.idCarrera}
+                          key={i}
+                        >
                           {carrera.nombreCarrera}
                         </option>
                       );
@@ -353,8 +366,6 @@ const LoginComponent = (props) => {
                     Seleccionar Sub-Campeon
                   </Button>
                 </div>
-
-
               </form>
             </div>
           </div>

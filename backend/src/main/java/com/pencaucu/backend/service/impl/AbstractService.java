@@ -28,7 +28,6 @@ public abstract class AbstractService {
     protected void createConection() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         this.con = DriverManager.getConnection(
-
                 connectionString + databaseName, databaseUser, databasePassword);
     }
 }

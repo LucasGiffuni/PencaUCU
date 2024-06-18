@@ -121,6 +121,8 @@ public class PartidoService extends AbstractService {
         equipoService.actualizarEtapa(idEquipo2, etapa);
         Partido p = getPartido(idEquipo1, idEquipo2, etapa);
         DefaultResponse DR = new DefaultResponse("200", "Partido creado correctamente");
+        con.close();
+
         return new CrearPartidoResponse(DR, p);
 
     }
@@ -185,6 +187,7 @@ public class PartidoService extends AbstractService {
         }
 
         response.setPartidos(partidos.toArray(new Partido[0]));
+
         return response;
     }
 
@@ -216,6 +219,7 @@ public class PartidoService extends AbstractService {
         }
 
         response.setPartidos(partidos.toArray(new Partido[0]));
+
         return response;
     }
 
@@ -253,6 +257,7 @@ public class PartidoService extends AbstractService {
         }
 
         response.setPartidos(partidos.toArray(new Partido[0]));
+
         return response;
     }
 
@@ -270,6 +275,7 @@ public class PartidoService extends AbstractService {
 
         response.setDefaultResponse(df);
         response.setPartidos(partidos.toArray(new Partido[0]));
+
 
         return response;
     }
@@ -339,6 +345,7 @@ public class PartidoService extends AbstractService {
         }
 
         DefaultResponse DR = new DefaultResponse("200", "Resultado cargado correctamente");
+
         return new CrearPartidoResponse(DR, p);
     }
 
@@ -429,6 +436,7 @@ public class PartidoService extends AbstractService {
         rs.absolute(1);
         Partido p = armarJSONPartido(rs);
         DefaultResponse DR = new DefaultResponse("200", "Partido obtenido correctamente");
+
         return new CrearPartidoResponse(DR, p);
     }
 
@@ -444,6 +452,7 @@ public class PartidoService extends AbstractService {
         rs.absolute(1);
 
         Partido p = armarJSONPartido(rs);
+
         return p;
     }
 
@@ -484,6 +493,11 @@ public class PartidoService extends AbstractService {
         preparedStmt.setInt(1, idPartido);
         ResultSet rs = preparedStmt.executeQuery();
         rs.absolute(1);
-        return rs.getInt(1);
+
+        int res = rs.getInt(1);
+
+        con.close();
+
+        return res;
     }
 }

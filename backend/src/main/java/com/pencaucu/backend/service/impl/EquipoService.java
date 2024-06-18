@@ -37,7 +37,9 @@ public class EquipoService extends AbstractService {
         preparedStmt.setString(1, newEtapa);
         preparedStmt.execute();
         DefaultResponse dr = new DefaultResponse("200", "Equipo obtenido correctamente");
+        con.close();
         return new GetEquipoResponse(dr, getEquipoById(idEquipo).getEquipo());
+
     }
 
     public void habilitarEquipo(int idEquipo) throws SQLException, ClassNotFoundException {
@@ -46,6 +48,8 @@ public class EquipoService extends AbstractService {
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         preparedStmt.setString(1, "HABILITADO");
         preparedStmt.execute();
+        con.close();
+
     }
 
     public void deshabilitarEquipo(int idEquipo) throws SQLException, ClassNotFoundException {
@@ -54,6 +58,8 @@ public class EquipoService extends AbstractService {
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         preparedStmt.setString(1, "DESCALIFICADO");
         preparedStmt.execute();
+        con.close();
+
     }
 
     public GetEquiposResponse getEquipos() throws ClassNotFoundException, SQLException {
@@ -67,6 +73,7 @@ public class EquipoService extends AbstractService {
         }
 
         DefaultResponse dr = new DefaultResponse("200", "Equipo obtenido correctamente");
+        con.close();
 
         return new GetEquiposResponse(dr, equipos.toArray(new Equipo[equipos.size()]));
     }
