@@ -159,14 +159,14 @@ public class PartidoService extends AbstractService {
         return p;
     }
 
-    public GetPartidosResponse getProximosPartidos() throws ClassNotFoundException, SQLException {
+    public GetPartidosResponse getProximosPartidosParaPrediccion() throws ClassNotFoundException, SQLException {
         createConection();
 
         GetPartidosResponse response = new GetPartidosResponse();
         DefaultResponse DR = new DefaultResponse("200", "OK");
         response.setDefaultResponse(DR);
 
-        String sql = "select * from PARTIDO where fecha > date_sub(now(), INTERVAL 1 HOUR) and jugado = false and etapa = \"FASE DE GRUPOS\"";
+        String sql = "select * from PARTIDO where fecha > date_sub(now(), INTERVAL 1 HOUR) and jugado = false and idEquipo1 is not null and idEquipo2 is not null";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         ResultSet rs = preparedStmt.executeQuery();
 
@@ -190,6 +190,40 @@ public class PartidoService extends AbstractService {
 
         return response;
     }
+
+    public GetPartidosResponse getProximosPartidos() throws ClassNotFoundException, SQLException {
+        createConection();
+
+        GetPartidosResponse response = new GetPartidosResponse();
+        DefaultResponse DR = new DefaultResponse("200", "OK");
+        response.setDefaultResponse(DR);
+
+        String sql = "select * from PARTIDO where jugado = false and idEquipo1 is not null and idEquipo2 is not null";
+        PreparedStatement preparedStmt = con.prepareStatement(sql);
+        ResultSet rs = preparedStmt.executeQuery();
+
+        List<Partido> partidos = new ArrayList<Partido>();
+
+        while (rs.next()) {
+            Partido p = new Partido(rs);
+
+            GetEquipoResponse equipo1 = equipoService.getEquipoById(Integer.parseInt(p.getIdEquipo1()));
+            p.setNombreEquipo1(equipo1.getEquipo().getNombre());
+            p.setUrlBanderaEquipo1(equipo1.getEquipo().getUrlBandera());
+
+            GetEquipoResponse equipo2 = equipoService.getEquipoById(Integer.parseInt(p.getIdEquipo2()));
+            p.setNombreEquipo2(equipo2.getEquipo().getNombre());
+            p.setUrlBanderaEquipo2(equipo2.getEquipo().getUrlBandera());
+
+            partidos.add(p);
+        }
+
+        response.setPartidos(partidos.toArray(new Partido[0]));
+
+        return response;
+    }
+
+    
 
     public GetPartidosResponse getPartidosDelDia() throws ClassNotFoundException, SQLException {
         createConection();

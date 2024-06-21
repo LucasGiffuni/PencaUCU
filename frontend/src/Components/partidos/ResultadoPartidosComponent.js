@@ -4,43 +4,53 @@ import React, { useEffect, useState } from "react";
 import CargarResultadoPartidoModal from "./CargarResultadoPartidoModal";
 
 const ResultadoPartidosComponent = (props) => {
-  const [dayDate, setDayDate] = useState();
-  const [date, setDate] = useState();
 
-  const days = [
-    "Domingo",
-    "Lunes",
-    "Martes",
-    "Miercoles",
-    "Jueves",
-    "Viernes",
-    "Sabado",
-  ];
+  function obtenerNombreDiaYNumeroMes(fecha) {
+    const diasSemana = [
+      "Domingo",
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+    ];
+
+    const meses = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
+    const fechaObjeto = new Date(fecha);
+    const nombreDiaSemana = diasSemana[fechaObjeto.getDay()];
+    const numeroDia = fechaObjeto.getDate(); 
+    const numeroMes = meses[fechaObjeto.getMonth()]; // Sumar 1 porque los meses en JavaScript van de 0 a 11
+
+    return `${nombreDiaSemana} ${numeroDia} de ${numeroMes}`;
+  }
+
   const [modalShow, setModalShow] = useState(false);
 
   const [clicks, setClicks] = useState(0);
   const [resultPrediction, setResultPrediction] = useState(true);
 
   function setResultPredictionParent() {
+    
     setResultPrediction(true);
   }
 
-  useEffect(() => {
-    let newDate = Date(props.match.fecha);
-
-    const dateaux = getDateFromString(newDate);
-
-    setDayDate(days[dateaux.getDay()]);
-    setDate(dateaux.getDate());
-  }, []);
-
-  const getDateFromString = (str) => {
-    const [date, time] = str.split(" ");
-    str = `${date}T${time}.000Z`;
-    return new Date(str);
-  };
 
   const showModal = (id) => {
+    
     setClicks(clicks + 1);
     setModalShow(true);
   };
@@ -74,11 +84,12 @@ const ResultadoPartidosComponent = (props) => {
 
         <div className="Prediction-Match-Component-Information">
           <div className="Prediction-Match-Component-Information-Date">
-            <p>{props.match.fecha}</p>
+          <p>{obtenerNombreDiaYNumeroMes(props.match.fecha)}</p>
+
           </div>
 
           <div className="Prediction-Match-Component-Information-Stage">
-            <p>FASE DE GRUPOS</p>
+            <p>{props.match.etapa}</p>
           </div>
           
         </div>

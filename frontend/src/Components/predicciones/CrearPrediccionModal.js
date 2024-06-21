@@ -104,7 +104,7 @@ function CrearPrediccionModal(props) {
                     <Modal.Footer>
 
                         <Button variant="primary" onClick={MakePrediction}>
-                            Save Changes
+                            Cargar Prediccion
                         </Button>
                     </Modal.Footer>
                 </Modal>

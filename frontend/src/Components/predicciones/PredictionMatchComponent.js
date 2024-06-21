@@ -25,20 +25,42 @@ const PredictionMatchComponent = (props) => {
     setResultPrediction(true);
   }
 
-  useEffect(() => {
-    let newDate = Date(props.match.fecha);
+  function obtenerNombreDiaYNumeroMes(fecha) {
+    const diasSemana = [
+      "Domingo",
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+    ];
 
-    const dateaux = getDateFromString(newDate);
+    const meses = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
+    const fechaObjeto = new Date(fecha);
 
-    setDayDate(days[dateaux.getDay()]);
-    setDate(dateaux.getDate());
-  }, []);
+    const nombreDiaSemana = diasSemana[fechaObjeto.getDay()];
+    const numeroDia = fechaObjeto.getDate(); 
 
-  const getDateFromString = (str) => {
-    const [date, time] = str.split(" ");
-    str = `${date}T${time}.000Z`;
-    return new Date(str);
-  };
+    
+    const numeroMes = meses[fechaObjeto.getMonth()]; // Sumar 1 porque los meses en JavaScript van de 0 a 11
+
+    return `${nombreDiaSemana} ${numeroDia} `;
+  }
+
 
   const showModal = (id) => {
     setClicks(clicks + 1);
@@ -74,13 +96,12 @@ const PredictionMatchComponent = (props) => {
 
         <div className="Prediction-Match-Component-Information">
           <div className="Prediction-Match-Component-Information-Date">
-            <p>{props.match.fecha}</p>
+            <p>{obtenerNombreDiaYNumeroMes(props.match.fecha)}</p>
           </div>
 
           <div className="Prediction-Match-Component-Information-Stage">
             <p>FASE DE GRUPOS</p>
           </div>
-          
         </div>
       </div>
       <CrearPrediccionModal

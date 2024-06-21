@@ -48,7 +48,7 @@ function TeamDetailsComponent(props) {
                 return (
                   <div className="Prediccions-Component-Body" key={i}>
                     <div className="Prediccions-Component-Body-Phase">
-                      Fase de Grupos
+                      {partido.etapa}
                     </div>
 
                     <div className="Prediccions-Component-Body-Nombre-Equipo1">
@@ -73,14 +73,25 @@ function TeamDetailsComponent(props) {
                         src={partido.urlBanderaEquipo2}
                       ></img>
                     </div>
-
-                    <div className="Prediction-Component-Body-ResultadoEquipo1">
-                      {partido.resultadoEquipo1}
-                    </div>
-
-                    <div className="Prediction-Component-Body-ResultadoEquipo2">
-                      {partido.resultadoEquipo2}
-                    </div>
+                    {partido.jugado  === "true" ? (
+                      <>
+                        <div className="Prediction-Component-Body-ResultadoEquipo1">
+                          {partido.puntajeEquipo1}
+                        </div>
+                        <div className="Prediction-Component-Body-ResultadoEquipo2">
+                          {partido.puntajeEquipo2}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="Prediction-Component-Body-ResultadoEquipo1">
+                          {}
+                        </div>
+                        <div className="Prediction-Component-Body-ResultadoEquipo2">
+                          {}
+                        </div>
+                      </>
+                    )}
                   </div>
                 );
               })}

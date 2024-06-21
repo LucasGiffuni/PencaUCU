@@ -10,11 +10,46 @@ const MatchDisplayComponent = (props) => {
   const [partidos, setPartidos] = useState([]);
 
 
+  function obtenerNombreDiaYNumeroMes(fecha) {
+    const diasSemana = [
+      "Domingo",
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+    ];
 
+    const meses = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
+    const fechaObjeto = new Date(fecha);
+
+    const nombreDiaSemana = diasSemana[fechaObjeto.getDay()];
+    const numeroDia = fechaObjeto.getDate(); 
+
+    
+    const numeroMes = meses[fechaObjeto.getMonth()]; // Sumar 1 porque los meses en JavaScript van de 0 a 11
+
+    return `${nombreDiaSemana} ${numeroDia} de ${numeroMes}`;
+  }
 
 
   useEffect(() => {
     const getPartidosResponse = getProximosPartidos().then((data) => {
+      console.log(data[1])
       setPartidos(data[1])
     })
 
@@ -51,8 +86,8 @@ const MatchDisplayComponent = (props) => {
 
 
                 </div>
-                <p>{match.fecha.toString()}</p>
-              </Carousel.Caption>
+                <p>{obtenerNombreDiaYNumeroMes(match.fecha)}</p>
+                </Carousel.Caption>
             </Carousel.Item>
           );
         })}

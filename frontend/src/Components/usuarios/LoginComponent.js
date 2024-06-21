@@ -46,7 +46,19 @@ const LoginComponent = (props) => {
   const [mail, setMail] = useState("");
   const [bithDate, setBirthDate] = useState("");
   const [carrera, setCarrera] = useState("");
-  const [cedulaIdentidad, setCedulaIdentidad] = useState("");
+  const [cedulaIdentidad, setCedulaIdentidad2] = useState("");
+
+  const setCedulaIdentidad = (value) => {
+    const valor = value;
+
+    // Eliminar cualquier cosa que no sea un dígito
+    value = valor.replace(/[^0-9]/g, "");
+    if (value.length > 8) {
+      alert("Ingrese una Cedula Valida");
+      value = value.slice(0, 8);
+    }
+    setCedulaIdentidad2(value);
+  };
 
   const [idEquipoCampeon, setIdEquipoCampeon] = useState("");
   const [nombreEquipoCampeon, setNombreEquipoCampeon] = useState("");
@@ -119,6 +131,7 @@ const LoginComponent = (props) => {
   useEffect(() => {
     const response2 = getCarreras().then((data) => {
       setCarreras(data[1].carreras);
+      setCarrera(data[1].carreras[1])
     });
 
     const getEquiposResponse = getTeams().then((data) => {
@@ -135,6 +148,9 @@ const LoginComponent = (props) => {
         successfullLoginOrRegister();
       } else {
         setFailedLogin(true);
+        setTimeout(() => {
+          setFailedLogin(false);
+        }, 2000);
       }
     });
   };
@@ -183,10 +199,16 @@ const LoginComponent = (props) => {
           });
         } else {
           setFailedRegister(true);
+          setTimeout(() => {
+            setFailedRegister(false);
+          }, 2000);
         }
       });
     } else {
       setFailedRegister(true);
+      setTimeout(() => {
+        setFailedRegister(false);
+      }, 2000);
     }
   };
 
@@ -289,7 +311,12 @@ const LoginComponent = (props) => {
 
                   <label htmlFor="cedulaIdentidad">Cedula Identidad</label>
                   <input
-                    type="Text"
+                    type="number"
+                    min="0:"
+                    max="99999999"
+                    step="0"
+                    required
+                    pattern="\d{8}"
                     placeholder="Cedula Identidad"
                     id="CI"
                     onChange={(event) => setCedulaIdentidad(event.target.value)}
@@ -297,8 +324,8 @@ const LoginComponent = (props) => {
 
                   <label htmlFor="email">Email</label>
                   <input
-                    type="Text"
-                    placeholder="Email"
+                    type="email"
+                    placeholder="prueba@example.com"
                     id="email"
                     onChange={(event) => setMail(event.target.value)}
                   />

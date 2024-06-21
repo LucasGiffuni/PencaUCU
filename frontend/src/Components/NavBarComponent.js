@@ -158,7 +158,7 @@ function NavBarComponent(props) {
                 showModalApuestas();
               }}
             >
-              Mis Apuestas
+              Mis Predicciones
             </Dropdown.Item>
             <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
           </Dropdown.Menu>

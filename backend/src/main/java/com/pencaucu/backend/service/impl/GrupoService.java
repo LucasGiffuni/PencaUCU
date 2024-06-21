@@ -31,7 +31,6 @@ public class GrupoService extends AbstractService {
         }
         g.setEquipos(equipos);
         DefaultResponse defaultResponse = new DefaultResponse("200", "Grupo encontrado correctamente");
-        con.close();
 
         return new GetGrupoResponse(defaultResponse, g);
     }

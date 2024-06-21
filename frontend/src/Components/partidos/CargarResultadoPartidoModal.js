@@ -70,7 +70,7 @@ function CargarResultadoPartidoModal(props) {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="primary" onClick={cargarResultado}>
-                            Save Changes
+                            Cargar Partido
                         </Button>
                     </Modal.Footer>
                 </Modal>
