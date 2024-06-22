@@ -222,7 +222,6 @@ public class PrediccionService extends AbstractService {
         p = con.prepareStatement(sql);
         p.setString(1, userId);
         p.execute();
-                con.close();
 
     }
 
