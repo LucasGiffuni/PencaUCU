@@ -530,8 +530,6 @@ public class PartidoService extends AbstractService {
 
         int res = rs.getInt(1);
 
-        con.close();
-
         return res;
     }
 }
