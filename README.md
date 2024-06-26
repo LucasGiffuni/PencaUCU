@@ -36,4 +36,4 @@ ejecucion:
 
 1- Para lanzar el backend simplemente entramos al main " backend\src\main\java\com\pencaucu\backend\BackendApplication.java " y ejecutamos la aplicación.
 
-2- Para lanzar el frontend, se debe ejecutar el comando "npm start" desde la carpeta /frontend.
+2- Para lanzar el frontend, se debe ejecutar el comando "npm install" y luego "npm start" desde la carpeta /frontend.
