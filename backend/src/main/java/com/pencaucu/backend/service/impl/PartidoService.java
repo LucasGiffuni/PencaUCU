@@ -232,7 +232,7 @@ public class PartidoService extends AbstractService {
         DefaultResponse DR = new DefaultResponse("200", "OK");
         response.setDefaultResponse(DR);
 
-        String sql = "select * from PARTIDO where fecha = curdate() and jugado = false";
+        String sql = "SELECT * FROM PARTIDO WHERE DATE(fecha) = CURDATE() and jugado = false";
         PreparedStatement preparedStmt = con.prepareStatement(sql);
         ResultSet rs = preparedStmt.executeQuery();
 

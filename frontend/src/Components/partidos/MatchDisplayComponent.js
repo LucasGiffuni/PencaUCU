@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PlaceholderExamplePlaceholder from "../PlaceholderImageComponent";
 import Carousel from 'react-bootstrap/Carousel';
 
-import { getProximosPartidos } from '../../Services/MatchService'
+import { getPartidosNoJugadosParaPrediccion } from '../../Services/MatchService'
 
 
 const MatchDisplayComponent = (props) => {
@@ -48,7 +48,7 @@ const MatchDisplayComponent = (props) => {
 
 
   useEffect(() => {
-    const getPartidosResponse = getProximosPartidos().then((data) => {
+    const getPartidosResponse = getPartidosNoJugadosParaPrediccion().then((data) => {
       console.log(data[1])
       setPartidos(data[1])
     })

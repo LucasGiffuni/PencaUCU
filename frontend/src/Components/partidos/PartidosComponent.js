@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import NavBarComponent from "../NavBarComponent";
-import { getPartidosNoJugadosParaPrediccion } from "../../Services/MatchService";
+import { getProximosPartidos } from "../../Services/MatchService";
 import ResultadoPartidosComponent from "./ResultadoPartidosComponent";
 
 const PartidosComponent = (props) => {
   const [partidos, setPartidos] = useState([]);
 
   useEffect(() => {
-    const getPartidosResponse = getPartidosNoJugadosParaPrediccion().then((data) => {
+    const getPartidosResponse = getProximosPartidos().then((data) => {
       setPartidos(data[1]);
     });
   }, []);

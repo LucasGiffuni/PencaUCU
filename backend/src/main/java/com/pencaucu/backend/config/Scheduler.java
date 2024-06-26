@@ -32,10 +32,13 @@ public class Scheduler {
     private JavaMailSender mailSender;
 
     // cron = "0 0 0 * * *" pa que se ejecute una vez al día
-    @Scheduled(fixedRate = 10000)
+    // fixedRate = 1000 para la prueba
+    @Scheduled(cron = "0 0 0 * * *")
     public void reportCurrentTime() throws ClassNotFoundException, SQLException {
 
         Partido[] partidos = partidoService.getPartidosDelDia().getPartidos();
+
+        System.out.println(partidos[0]);
 
         if (partidos.length > 0) {
             sendMailToUsers(partidos);
@@ -59,6 +62,7 @@ public class Scheduler {
             for (Partido partido : partidos) {
                 System.out.println(partido.toString());
                 messageBody.append(partido.getNombreEquipo1() + " VS " + partido.getNombreEquipo2());
+                messageBody.append("\n");
             }
 
             message.setTo(email);

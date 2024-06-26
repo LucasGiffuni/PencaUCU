@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import NavBarComponent from "../NavBarComponent";
 import PredictionMatchComponent from "./PredictionMatchComponent";
-import { getPartidosNoJugados } from "../../Services/MatchService";
+import { getPartidosNoJugadosParaPrediccion } from "../../Services/MatchService";
 
 const PredictionComponent = (props) => {
   const [partidos, setPartidos] = useState([]);
 
   useEffect(() => {
-    const getPartidosResponse = getPartidosNoJugados().then((data) => {
+    const getPartidosResponse = getPartidosNoJugadosParaPrediccion().then((data) => {
       setPartidos(data[1]);
     });
   }, []);
